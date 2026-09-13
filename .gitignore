@@ -1,0 +1,20 @@
+# Basura de Windows / macOS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*~
+
+# Archivos temporales de Office (por si subís algún doc)
+~$*
+
+# Originales pesados de fotos: guardá acá las versiones sin comprimir
+# para que no se suban al repo. Las optimizadas van en img/
+img/originales/

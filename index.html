@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ════════════════════════════════════════════════════════════
+     ✏️  EDITAR: título de la pestaña y descripción para WhatsApp
+     ════════════════════════════════════════════════════════════ -->
+<title>Ana & Martín · 14 de noviembre de 2026</title>
+<meta name="description" content="Nos casamos. Toda la información del evento, el cronograma y la confirmación de asistencia.">
+<meta property="og:title" content="Ana & Martín se casan">
+<meta property="og:description" content="14 de noviembre de 2026 · Toda la info y confirmación de asistencia.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#3d5140">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   PALETA — cambiá estos valores para ajustar todos los colores
+   ═══════════════════════════════════════════════════════════════ */
+:root{
+  --crema:        #faf7f1;
+  --crema-hondo:  #f2ede2;
+  --verde:        #3d5140;
+  --verde-medio:  #6b8269;
+  --verde-claro:  #a8bda4;
+  --tinta:        #2c3229;
+  --tinta-suave:  #5d655a;
+  --linea:        #ddd5c5;
+  --blanco:       #fffefb;
+
+  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans:  "Jost", "Helvetica Neue", Arial, sans-serif;
+
+  --ancho: 1100px;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; scroll-padding-top:64px; }
+
+body{
+  margin:0;
+  background:var(--crema);
+  color:var(--tinta);
+  font-family:var(--sans);
+  font-weight:300;
+  font-size:17px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+img{ max-width:100%; height:auto; display:block; }
+
+h1,h2,h3{ font-family:var(--serif); font-weight:400; line-height:1.15; margin:0; }
+
+a{ color:var(--verde); }
+
+.envoltorio{
+  width:100%;
+  max-width:var(--ancho);
+  margin-inline:auto;
+  padding-inline:24px;
+}
+
+/* ── Secciones ───────────────────────────────────────────────── */
+section{ padding-block:clamp(64px,10vw,110px); position:relative; }
+.seccion-alterna{ background:var(--crema-hondo); }
+
+.encabezado-seccion{ text-align:center; margin-bottom:clamp(40px,6vw,64px); }
+
+.sobretitulo{
+  font-family:var(--sans);
+  font-size:12px;
+  font-weight:400;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--verde-medio);
+  margin:0 0 14px;
+}
+
+.encabezado-seccion h2{
+  font-size:clamp(34px,6vw,50px);
+  color:var(--verde);
+  font-style:italic;
+  font-weight:300;
+}
+
+.filete{
+  width:64px; height:1px;
+  background:var(--verde-claro);
+  margin:22px auto 0;
+  position:relative;
+}
+.filete::before,.filete::after{
+  content:""; position:absolute; top:-2px;
+  width:5px; height:5px; border-radius:50%;
+  background:var(--verde-claro);
+}
+.filete::before{ left:-9px; }
+.filete::after{ right:-9px; }
+
+/* ── Navegación ──────────────────────────────────────────────── */
+.barra{
+  position:sticky; top:0; z-index:50;
+  background:rgba(250,247,241,.93);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s ease, box-shadow .3s ease;
+}
+.barra.pegada{ border-bottom-color:var(--linea); box-shadow:0 2px 20px rgba(61,81,64,.05); }
+
+.barra nav{
+  display:flex; justify-content:center; gap:clamp(14px,3.5vw,38px);
+  padding:16px 20px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.barra nav::-webkit-scrollbar{ display:none; }
+
+.barra a{
+  font-size:11.5px;
+  letter-spacing:.19em;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:var(--tinta-suave);
+  white-space:nowrap;
+  padding-bottom:3px;
+  border-bottom:1px solid transparent;
+  transition:color .2s, border-color .2s;
+}
+.barra a:hover,.barra a:focus-visible{ color:var(--verde); border-bottom-color:var(--verde-claro); }
+
+/* ── Portada ─────────────────────────────────────────────────── */
+.portada{
+  min-height:clamp(560px,92vh,860px);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center;
+  padding:clamp(60px,12vh,100px) 24px;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 0%,  rgba(168,189,164,.24), transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(168,189,164,.16), transparent 70%),
+    var(--crema);
+  position:relative;
+  overflow:hidden;
+}
+
+/* ramitas decorativas de fondo */
+.rama-deco{ position:absolute; opacity:.2; pointer-events:none; color:var(--verde-medio); }
+.rama-deco.izq{ left:-46px;  top:6%;   width:210px; transform:rotate(-12deg); }
+.rama-deco.der{ right:-46px; bottom:4%; width:210px; transform:rotate(168deg); }
+@media (max-width:760px){ .rama-deco{ width:130px; opacity:.13; } }
+
+.portada__contenido{ position:relative; z-index:1; max-width:720px; }
+
+.portada__intro{
+  font-size:12px; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--verde-medio); margin:0 0 28px;
+}
+
+.portada h1{
+  font-size:clamp(52px,13vw,104px);
+  color:var(--verde);
+  font-weight:300;
+  letter-spacing:-.01em;
+}
+.portada h1 .amp{
+  display:block;
+  font-style:italic;
+  font-size:.46em;
+  color:var(--verde-medio);
+  margin-block:6px;
+}
+
+.portada__fecha{
+  margin-top:30px;
+  font-size:13px; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--tinta-suave);
+}
+.portada__fecha strong{ font-weight:400; color:var(--tinta); }
+
+.hojita{ display:block; width:38px; margin:34px auto 0; color:var(--verde-claro); }
+
+/* ── Cuenta regresiva ────────────────────────────────────────── */
+.regresiva{
+  display:flex; justify-content:center; gap:clamp(12px,4vw,34px);
+  margin-top:40px; flex-wrap:wrap;
+}
+.regresiva div{ min-width:64px; }
+.regresiva .num{
+  display:block;
+  font-family:var(--serif);
+  font-size:clamp(32px,7vw,46px);
+  line-height:1;
+  color:var(--verde);
+}
+.regresiva .rot{
+  display:block; margin-top:8px;
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--tinta-suave);
+}
+
+/* ── Tarjetas de lugar ───────────────────────────────────────── */
+.grilla-lugares{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:28px;
+}
+
+.tarjeta{
+  background:var(--blanco);
+  border:1px solid var(--linea);
+  border-radius:3px;
+  padding:clamp(30px,4.5vw,44px) clamp(24px,4vw,36px);
+  text-align:center;
+}
+
+.tarjeta .icono{ width:34px; margin:0 auto 18px; color:var(--verde-medio); }
+
+.tarjeta h3{
+  font-size:27px; color:var(--verde); font-style:italic;
+  margin-bottom:6px;
+}
+.tarjeta .hora{
+  font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--verde-medio); margin:0 0 18px;
+}
+.tarjeta p{ margin:0 0 6px; color:var(--tinta-suave); }
+.tarjeta .lugar{ color:var(--tinta); font-weight:400; }
+
+.boton-mapa{
+  display:inline-block; margin-top:20px;
+  font-size:11px; letter-spacing:.19em; text-transform:uppercase;
+  text-decoration:none; color:var(--verde);
+  border:1px solid var(--verde-claro);
+  border-radius:2px;
+  padding:11px 22px;
+  transition:background .25s, color .25s;
+}
+.boton-mapa:hover,.boton-mapa:focus-visible{ background:var(--verde); color:var(--crema); border-color:var(--verde); }
+
+/* ── Cronograma ──────────────────────────────────────────────── */
+.linea-tiempo{ max-width:620px; margin-inline:auto; position:relative; padding-left:0; }
+.linea-tiempo::before{
+  content:""; position:absolute;
+  left:57px; top:12px; bottom:12px;
+  width:1px; background:var(--linea);
+}
+@media (max-width:560px){ .linea-tiempo::before{ left:43px; } }
+
+.hito{ display:flex; gap:26px; align-items:flex-start; padding-block:19px; position:relative; }
+@media (max-width:560px){ .hito{ gap:18px; } }
+
+.hito__hora{
+  flex:0 0 46px;
+  text-align:right;
+  font-family:var(--serif);
+  font-size:20px;
+  color:var(--verde);
+  padding-top:2px;
+}
+@media (max-width:560px){ .hito__hora{ flex-basis:34px; font-size:17px; } }
+
+.hito__punto{
+  flex:0 0 11px; height:11px; margin-top:9px;
+  border-radius:50%;
+  background:var(--crema);
+  border:1.5px solid var(--verde-claro);
+  position:relative; z-index:1;
+}
+.seccion-alterna .hito__punto{ background:var(--crema-hondo); }
+.hito:first-child .hito__punto,
+.hito:last-child  .hito__punto{ background:var(--verde-medio); border-color:var(--verde-medio); }
+
+.hito__texto h3{ font-size:22px; color:var(--tinta); margin-bottom:2px; }
+.hito__texto p{ margin:0; font-size:15.5px; color:var(--tinta-suave); }
+
+/* ── Regalos ─────────────────────────────────────────────────── */
+.bloque-regalo{
+  max-width:560px; margin-inline:auto; text-align:center;
+}
+.bloque-regalo > p{ color:var(--tinta-suave); margin:0 0 34px; }
+
+.caja-alias{
+  background:var(--blanco);
+  border:1px solid var(--linea);
+  border-radius:3px;
+  padding:clamp(28px,4.5vw,40px) 24px;
+}
+.caja-alias .rot{
+  font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--verde-medio); margin:0 0 12px;
+}
+.caja-alias .valor{
+  font-family:var(--serif);
+  font-size:clamp(26px,6vw,36px);
+  color:var(--verde);
+  word-break:break-all;
+  margin:0;
+}
+.caja-alias .titular{
+  font-size:14px; color:var(--tinta-suave); margin:10px 0 0;
+}
+.caja-alias + .caja-alias{ margin-top:18px; }
+
+.boton-copiar{
+  margin-top:22px;
+  font-family:var(--sans); font-size:11px; font-weight:400;
+  letter-spacing:.19em; text-transform:uppercase;
+  color:var(--crema); background:var(--verde);
+  border:1px solid var(--verde); border-radius:2px;
+  padding:13px 30px; cursor:pointer;
+  transition:background .25s, color .25s;
+}
+.boton-copiar:hover,.boton-copiar:focus-visible{ background:var(--verde-medio); border-color:var(--verde-medio); }
+.boton-copiar.listo{ background:var(--verde-claro); border-color:var(--verde-claro); color:var(--verde); }
+
+.nota-chica{ font-size:14px; color:var(--tinta-suave); margin-top:28px; font-style:italic; }
+
+/* ── Confirmación ────────────────────────────────────────────── */
+.caja-form{
+  max-width:720px; margin-inline:auto;
+  background:var(--blanco);
+  border:1px solid var(--linea);
+  border-radius:3px;
+  padding:clamp(20px,3vw,28px);
+}
+.caja-form iframe{ width:100%; border:0; display:block; min-height:640px; }
+
+.marcador{
+  border:1.5px dashed var(--verde-claro);
+  border-radius:3px;
+  padding:44px 28px;
+  text-align:center;
+  color:var(--tinta-suave);
+}
+.marcador strong{ display:block; color:var(--verde); font-weight:400; font-size:19px; font-family:var(--serif); margin-bottom:10px; }
+.marcador code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:13px; background:var(--crema-hondo);
+  padding:2px 6px; border-radius:2px; color:var(--verde);
+}
+
+.limite{ text-align:center; margin-top:30px; font-size:14px; color:var(--tinta-suave); }
+.limite strong{ font-weight:400; color:var(--tinta); }
+
+/* ── Preguntas ───────────────────────────────────────────────── */
+.preguntas{ max-width:680px; margin-inline:auto; }
+.pregunta{ border-bottom:1px solid var(--linea); }
+.pregunta summary{
+  cursor:pointer; list-style:none;
+  padding:22px 34px 22px 0;
+  font-family:var(--serif); font-size:21px; color:var(--verde);
+  position:relative;
+}
+.pregunta summary::-webkit-details-marker{ display:none; }
+.pregunta summary::after{
+  content:"+"; position:absolute; right:4px; top:50%;
+  transform:translateY(-50%);
+  font-family:var(--sans); font-weight:300; font-size:22px;
+  color:var(--verde-claro);
+  transition:transform .25s;
+}
+.pregunta[open] summary::after{ transform:translateY(-50%) rotate(45deg); }
+.pregunta p{ margin:0 0 22px; color:var(--tinta-suave); font-size:15.5px; }
+
+/* ── Pie ─────────────────────────────────────────────────────── */
+footer{
+  background:var(--verde);
+  color:var(--crema);
+  text-align:center;
+  padding:clamp(56px,8vw,80px) 24px;
+}
+footer .hojita{ color:rgba(250,247,241,.42); margin-top:0; margin-bottom:24px; }
+footer h2{ font-size:clamp(30px,6vw,42px); font-style:italic; font-weight:300; }
+footer p{ margin:16px 0 0; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:rgba(250,247,241,.62); }
+
+/* ── Aparición suave al hacer scroll ─────────────────────────── */
+.revelar{ opacity:0; transform:translateY(20px); transition:opacity .8s ease, transform .8s ease; }
+.revelar.visible{ opacity:1; transform:none; }
+
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  .revelar{ opacity:1; transform:none; transition:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ NAVEGACIÓN ═══════════════ -->
+<header class="barra" id="barra">
+  <nav aria-label="Secciones del sitio">
+    <a href="#evento">El evento</a>
+    <a href="#cronograma">Cronograma</a>
+    <a href="#regalos">Regalos</a>
+    <a href="#confirmar">Confirmar</a>
+    <a href="#preguntas">Preguntas</a>
+  </nav>
+</header>
+
+<!-- ═══════════════ PORTADA ═══════════════ -->
+<div class="portada">
+
+  <svg class="rama-deco izq" viewBox="0 0 120 300" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+    <path d="M60 300 C58 220 56 140 60 10" stroke-linecap="round"/>
+    <path d="M60 250 C34 244 20 226 18 204 C42 206 56 222 60 250Z"/>
+    <path d="M60 250 C86 244 100 226 102 204 C78 206 64 222 60 250Z"/>
+    <path d="M60 190 C34 184 20 166 18 144 C42 146 56 162 60 190Z"/>
+    <path d="M60 190 C86 184 100 166 102 144 C78 146 64 162 60 190Z"/>
+    <path d="M60 130 C34 124 20 106 18 84 C42 86 56 102 60 130Z"/>
+    <path d="M60 130 C86 124 100 106 102 84 C78 86 64 102 60 130Z"/>
+    <path d="M60 72 C42 66 32 52 31 36 C48 38 58 52 60 72Z"/>
+    <path d="M60 72 C78 66 88 52 89 36 C72 38 62 52 60 72Z"/>
+  </svg>
+
+  <svg class="rama-deco der" viewBox="0 0 120 300" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+    <path d="M60 300 C58 220 56 140 60 10" stroke-linecap="round"/>
+    <path d="M60 250 C34 244 20 226 18 204 C42 206 56 222 60 250Z"/>
+    <path d="M60 250 C86 244 100 226 102 204 C78 206 64 222 60 250Z"/>
+    <path d="M60 190 C34 184 20 166 18 144 C42 146 56 162 60 190Z"/>
+    <path d="M60 190 C86 184 100 166 102 144 C78 146 64 162 60 190Z"/>
+    <path d="M60 130 C34 124 20 106 18 84 C42 86 56 102 60 130Z"/>
+    <path d="M60 130 C86 124 100 106 102 84 C78 86 64 102 60 130Z"/>
+    <path d="M60 72 C42 66 32 52 31 36 C48 38 58 52 60 72Z"/>
+    <path d="M60 72 C78 66 88 52 89 36 C72 38 62 52 60 72Z"/>
+  </svg>
+
+  <div class="portada__contenido">
+    <!-- ✏️ EDITAR: frase de apertura -->
+    <p class="portada__intro">Nos casamos</p>
+
+    <!-- ✏️ EDITAR: los nombres -->
+    <h1>Ana<span class="amp">&amp;</span>Martín</h1>
+
+    <!-- ✏️ EDITAR: fecha y ciudad -->
+    <p class="portada__fecha"><strong>Sábado 14 de noviembre de 2026</strong><br>Buenos Aires, Argentina</p>
+
+    <div class="regresiva" id="regresiva" aria-live="polite">
+      <div><span class="num" id="cr-dias">—</span><span class="rot">días</span></div>
+      <div><span class="num" id="cr-horas">—</span><span class="rot">horas</span></div>
+      <div><span class="num" id="cr-min">—</span><span class="rot">minutos</span></div>
+      <div><span class="num" id="cr-seg">—</span><span class="rot">segundos</span></div>
+    </div>
+
+    <svg class="hojita" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+      <path d="M2 12h11M27 12h11" stroke-linecap="round"/>
+      <path d="M20 4c3.6 2.6 5 5.3 5 8s-1.4 5.4-5 8c-3.6-2.6-5-5.3-5-8s1.4-5.4 5-8Z"/>
+      <path d="M20 4v16" stroke-linecap="round"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════════ EL EVENTO ═══════════════ -->
+<section id="evento">
+  <div class="envoltorio">
+    <div class="encabezado-seccion revelar">
+      <p class="sobretitulo">Cuándo y dónde</p>
+      <h2>El evento</h2>
+      <div class="filete"></div>
+    </div>
+
+    <div class="grilla-lugares">
+
+      <!-- ✏️ EDITAR: ceremonia -->
+      <article class="tarjeta revelar">
+        <svg class="icono" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <path d="M20 4v9M16 7.5h8" stroke-linecap="round"/>
+          <path d="M8 36V20c0-4 5.4-7 12-7s12 3 12 7v16" stroke-linejoin="round"/>
+          <path d="M4 36h32M20 36v-9M15 24h10" stroke-linecap="round"/>
+        </svg>
+        <h3>Ceremonia</h3>
+        <p class="hora">Sábado · 17:30 h</p>
+        <p class="lugar">Parroquia Nuestra Señora del Valle</p>
+        <p>Av. Siempreviva 1234, San Isidro</p>
+        <a class="boton-mapa" href="https://maps.google.com/?q=Parroquia+Nuestra+Se%C3%B1ora+del+Valle+San+Isidro" target="_blank" rel="noopener">Cómo llegar</a>
+      </article>
+
+      <!-- ✏️ EDITAR: fiesta -->
+      <article class="tarjeta revelar">
+        <svg class="icono" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <path d="M11 5h18l-2.5 12a6.8 6.8 0 0 1-13 0L11 5Z" stroke-linejoin="round"/>
+          <path d="M20 29v7M13 36h14" stroke-linecap="round"/>
+          <path d="M12.4 11h15.2" stroke-linecap="round"/>
+        </svg>
+        <h3>Fiesta</h3>
+        <p class="hora">Sábado · 20:00 h</p>
+        <p class="lugar">Quinta Los Álamos</p>
+        <p>Ruta 27 km 8, Ingeniero Maschwitz</p>
+        <a class="boton-mapa" href="https://maps.google.com/?q=Quinta+Los+Alamos+Ingeniero+Maschwitz" target="_blank" rel="noopener">Cómo llegar</a>
+      </article>
+
+      <!-- ✏️ EDITAR: dress code (o borrá esta tarjeta entera) -->
+      <article class="tarjeta revelar">
+        <svg class="icono" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+          <path d="M16 5h8l6 4-3.5 4.5V35H13.5V13.5L10 9l6-4Z" stroke-linejoin="round"/>
+          <path d="M16 5c0 2.2 1.8 4 4 4s4-1.8 4-4" stroke-linecap="round"/>
+        </svg>
+        <h3>Dress code</h3>
+        <p class="hora">Elegante</p>
+        <p>La fiesta es en un parque con césped: cuidado con los tacos finos.</p>
+        <p>Por favor, evitá el blanco.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CRONOGRAMA ═══════════════ -->
+<section id="cronograma" class="seccion-alterna">
+  <div class="envoltorio">
+    <div class="encabezado-seccion revelar">
+      <p class="sobretitulo">Cómo viene la mano</p>
+      <h2>Cronograma</h2>
+      <div class="filete"></div>
+    </div>
+
+    <!-- ✏️ EDITAR: agregá o sacá bloques .hito según tu programa -->
+    <div class="linea-tiempo revelar">
+
+      <div class="hito">
+        <span class="hito__hora">17:30</span>
+        <span class="hito__punto"></span>
+        <div class="hito__texto">
+          <h3>Ceremonia</h3>
+          <p>Te pedimos llegar 20 minutos antes.</p>
+        </div>
+      </div>
+
+      <div class="hito">
+        <span class="hito__hora">18:30</span>
+        <span class="hito__punto"></span>
+        <div class="hito__texto">
+          <h3>Fotos y traslado</h3>
+          <p>Habrá micros desde la parroquia hasta la quinta.</p>
+        </div>
+      </div>
+
+      <div class="hito">
+        <span class="hito__hora">20:00</span>
+        <span class="hito__punto"></span>
+        <div class="hito__texto">
+          <h3>Recepción</h3>
+          <p>Cóctel de bienvenida en el jardín.</p>
+        </div>
+      </div>
+
+      <div class="hito">
+        <span class="hito__hora">21:30</span>
+        <span class="hito__punto"></span>
+        <div class="hito__texto">
+          <h3>Cena</h3>
+          <p>Servicio en el salón principal.</p>
+        </div>
+      </div>
+
+      <div class="hito">
+        <span class="hito__hora">23:30</span>
+        <span class="hito__punto"></span>
+        <div class="hito__texto">
+          <h3>Baile</h3>
+          <p>Abrimos la pista con el vals.</p>
+        </div>
+      </div>
+
+      <div class="hito">
+        <span class="hito__hora">04:00</span>
+        <span class="hito__punto"></span>
+        <div class="hito__texto">
+          <h3>Cierre</h3>
+          <p>Los micros vuelven a San Isidro.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ REGALOS ═══════════════ -->
+<section id="regalos">
+  <div class="envoltorio">
+    <div class="encabezado-seccion revelar">
+      <p class="sobretitulo">Si querés hacernos un regalo</p>
+      <h2>Regalos</h2>
+      <div class="filete"></div>
+    </div>
+
+    <div class="bloque-regalo revelar">
+      <!-- ✏️ EDITAR: el texto de esta introducción -->
+      <p>El mejor regalo es que nos acompañes ese día. Pero si además querés colaborar con nuestra luna de miel, te dejamos los datos acá abajo.</p>
+
+      <div class="caja-alias">
+        <!-- ✏️ EDITAR: alias y titular -->
+        <p class="rot">Alias</p>
+        <p class="valor" id="alias">ana.martin.boda</p>
+        <p class="titular">Ana Pérez · Banco Ejemplo</p>
+        <button class="boton-copiar" id="btn-copiar" type="button" data-copiar="alias">Copiar alias</button>
+      </div>
+
+      <!--
+        ✏️ OPCIONAL: si además querés mostrar el CBU, descomentá este bloque
+        y cambiá el número.
+
+      <div class="caja-alias">
+        <p class="rot">CBU</p>
+        <p class="valor" id="cbu">0000000000000000000000</p>
+        <button class="boton-copiar" type="button" data-copiar="cbu">Copiar CBU</button>
+      </div>
+      -->
+
+      <p class="nota-chica">Si preferís otra forma, escribinos y lo vemos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CONFIRMACIÓN ═══════════════ -->
+<section id="confirmar" class="seccion-alterna">
+  <div class="envoltorio">
+    <div class="encabezado-seccion revelar">
+      <p class="sobretitulo">Contanos si venís</p>
+      <h2>Confirmar asistencia</h2>
+      <div class="filete"></div>
+    </div>
+
+    <div class="caja-form revelar">
+      <!-- ════════════════════════════════════════════════════════
+           ✏️ EDITAR: pegá acá el <iframe> que te da Google Forms
+           (Enviar → pestaña < > → Copiar) y borrá el div.marcador
+           de abajo. Dejá el atributo style="min-height:640px".
+           ════════════════════════════════════════════════════════ -->
+      <div class="marcador">
+        <strong>Acá va el formulario de Google</strong>
+        En el README está el paso a paso: creás el formulario, tocás
+        <code>Enviar</code>, la pestaña <code>&lt; &gt;</code>, copiás el
+        <code>&lt;iframe&gt;</code> y lo pegás reemplazando este recuadro.
+      </div>
+    </div>
+
+    <!-- ✏️ EDITAR: fecha límite para confirmar -->
+    <p class="limite">Te pedimos confirmar antes del <strong>14 de octubre</strong>.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ PREGUNTAS ═══════════════ -->
+<section id="preguntas">
+  <div class="envoltorio">
+    <div class="encabezado-seccion revelar">
+      <p class="sobretitulo">Por las dudas</p>
+      <h2>Preguntas frecuentes</h2>
+      <div class="filete"></div>
+    </div>
+
+    <!-- ✏️ EDITAR: cambiá, agregá o borrá preguntas -->
+    <div class="preguntas revelar">
+
+      <details class="pregunta">
+        <summary>¿Puedo llevar chicos?</summary>
+        <p>Sí. Avisanos en el formulario cuántos son y sus edades para preparar el menú infantil.</p>
+      </details>
+
+      <details class="pregunta">
+        <summary>¿Hay estacionamiento?</summary>
+        <p>La quinta tiene estacionamiento propio sin costo dentro del predio.</p>
+      </details>
+
+      <details class="pregunta">
+        <summary>¿Hay micro desde la ceremonia?</summary>
+        <p>Sí, salen de la puerta de la parroquia a las 19:00 y vuelven a las 04:00.</p>
+      </details>
+
+      <details class="pregunta">
+        <summary>Tengo una restricción alimentaria, ¿qué hago?</summary>
+        <p>Indicala en el formulario de confirmación y la cocina la tiene en cuenta.</p>
+      </details>
+
+      <details class="pregunta">
+        <summary>¿Hasta cuándo puedo confirmar?</summary>
+        <p>Hasta el 14 de octubre. Después de esa fecha ya cerramos el número con el salón.</p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PIE ═══════════════ -->
+<footer>
+  <svg class="hojita" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+    <path d="M2 12h11M27 12h11" stroke-linecap="round"/>
+    <path d="M20 4c3.6 2.6 5 5.3 5 8s-1.4 5.4-5 8c-3.6-2.6-5-5.3-5-8s1.4-5.4 5-8Z"/>
+    <path d="M20 4v16" stroke-linecap="round"/>
+  </svg>
+  <!-- ✏️ EDITAR -->
+  <h2>Te esperamos</h2>
+  <p>Ana &amp; Martín · 14.11.2026</p>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   ✏️ EDITAR: fecha y hora del evento para la cuenta regresiva.
+   Formato: año, mes-1, día, hora, minuto.
+   OJO con el mes: enero es 0, febrero 1 ... noviembre 10, diciembre 11.
+   El ejemplo es 14 de noviembre de 2026 a las 17:30.
+   ═══════════════════════════════════════════════════════════════ */
+var FECHA_EVENTO = new Date(2026, 10, 14, 17, 30, 0);
+
+
+/* ── Cuenta regresiva ─────────────────────────────────────────── */
+(function(){
+  var dias  = document.getElementById('cr-dias');
+  var horas = document.getElementById('cr-horas');
+  var mins  = document.getElementById('cr-min');
+  var segs  = document.getElementById('cr-seg');
+  if(!dias) return;
+
+  function dosDigitos(n){ return n < 10 ? '0' + n : String(n); }
+
+  function actualizar(){
+    var falta = FECHA_EVENTO.getTime() - Date.now();
+
+    if(falta <= 0){
+      document.getElementById('regresiva').innerHTML =
+        '<div><span class="num">¡Hoy!</span><span class="rot">nos casamos</span></div>';
+      return;
+    }
+
+    var s = Math.floor(falta / 1000);
+    dias.textContent  = Math.floor(s / 86400);
+    horas.textContent = dosDigitos(Math.floor(s % 86400 / 3600));
+    mins.textContent  = dosDigitos(Math.floor(s % 3600 / 60));
+    segs.textContent  = dosDigitos(s % 60);
+
+    setTimeout(actualizar, 1000);
+  }
+  actualizar();
+})();
+
+
+/* ── Copiar alias / CBU ───────────────────────────────────────── */
+(function(){
+  function copiar(texto){
+    if(navigator.clipboard && window.isSecureContext){
+      return navigator.clipboard.writeText(texto);
+    }
+    // respaldo para navegadores viejos
+    return new Promise(function(ok, falla){
+      var caja = document.createElement('textarea');
+      caja.value = texto;
+      caja.setAttribute('readonly', '');
+      caja.style.position = 'fixed';
+      caja.style.opacity = '0';
+      document.body.appendChild(caja);
+      caja.select();
+      try{ document.execCommand('copy') ? ok() : falla(); }
+      catch(e){ falla(e); }
+      finally{ document.body.removeChild(caja); }
+    });
+  }
+
+  document.querySelectorAll('[data-copiar]').forEach(function(boton){
+    var original = boton.textContent;
+
+    boton.addEventListener('click', function(){
+      var destino = document.getElementById(boton.dataset.copiar);
+      if(!destino) return;
+
+      copiar(destino.textContent.trim()).then(function(){
+        boton.textContent = '¡Copiado!';
+        boton.classList.add('listo');
+      }).catch(function(){
+        boton.textContent = 'Copialo a mano';
+      }).finally(function(){
+        setTimeout(function(){
+          boton.textContent = original;
+          boton.classList.remove('listo');
+        }, 2200);
+      });
+    });
+  });
+})();
+
+
+/* ── Sombra de la barra al hacer scroll ───────────────────────── */
+(function(){
+  var barra = document.getElementById('barra');
+  function alScrollear(){ barra.classList.toggle('pegada', window.scrollY > 12); }
+  window.addEventListener('scroll', alScrollear, { passive:true });
+  alScrollear();
+})();
+
+
+/* ── Aparición suave de las secciones ─────────────────────────── */
+(function(){
+  var elementos = document.querySelectorAll('.revelar');
+
+  if(!('IntersectionObserver' in window)){
+    elementos.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+
+  var observador = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(entrada){
+      if(entrada.isIntersecting){
+        entrada.target.classList.add('visible');
+        observador.unobserve(entrada.target);
+      }
+    });
+  }, { rootMargin:'0px 0px -60px 0px', threshold:0.05 });
+
+  elementos.forEach(function(el){ observador.observe(el); });
+})();
+</script>
+
+</body>
+</html>
