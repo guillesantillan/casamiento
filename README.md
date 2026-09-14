@@ -99,6 +99,34 @@ las alturas del `<iframe>` están escritas a mano en `data-alturas-celular` y
 `data-alturas-desktop` (píxeles por pantalla: 1.ª, 2.ª, 3.ª…). Si cambiás
 preguntas o secciones, medí de nuevo y ajustalas.
 
+## Escena ilustrada de la portada (`escena/`)
+
+Detrás de la portada hay un collage de grabados y láminas botánicas de
+dominio público (todas anteriores a 1900), recoloreados y recortados, en
+WebP (unos 635 KB en total). Se cargan mientras la invitación está cerrada;
+al abrirse, la cámara "se aleja" desde el ombú y las capas van entrando
+(casa, pasto, cortaderas, flores), después las mariposas, el viento y los
+pétalos (vectoriales), y al final la foto y los textos. Si las imágenes no
+llegaron a tiempo, la escena aparece suave más tarde; sin WebP (iPhones muy
+viejos) no se muestra y el sitio queda igual que antes.
+
+| Archivo | Origen |
+|---|---|
+| `ombu-izq.webp`, `ombu-der.webp` | fotograbados de ombúes, *El Jardín Botánico de Buenos Aires* (1898), vía Wikimedia Commons / BHL |
+| `casa.webp` | *Crotta House*, dibujo de John Preston Neale (1823), *Views of the Seats of Noblemen and Gentlemen* |
+| `pampa.webp` | Emeric Essex Vidal, *Estancia on the River San Pedro*, *Picturesque Illustrations of Buenos Ayres* (1820) |
+| `ceibo.webp` | *Erythrina crista-galli*, *Favourite Flowers of Garden and Greenhouse* (1896) |
+| `jacaranda.webp` | *Jacaranda mimosifolia*, *Curtis's Botanical Magazine* t. 2327 (1822) |
+| `pasionaria.webp` | *Passiflora caerulea*, *The Botanical Magazine* pl. 28 (1787) |
+| `rosas.webp` | Pierre-Joseph Redouté, *Choix des plus belles fleurs* (1827) |
+| `cortadera.webp` | *Cortaderia selloana*, dibujo a línea (dominio público) |
+| `pasto.webp` | *Trisetum flavescens*, *Flora Londinensis* (1777) |
+
+Para cambiar una capa: reemplazá el archivo con el mismo nombre (WebP con
+transparencia, salvo `pampa.webp`), ~500–800 px de ancho. Las posiciones
+de cada capa están en el CSS (`.escena__…`), en porcentajes de la portada,
+con valores distintos para celular y desktop.
+
 ## Tarjeta de WhatsApp (`og.jpg`)
 
 Imagen de 1200×630 px, menos de 300 KB, referenciada desde `og:image`.

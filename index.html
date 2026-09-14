@@ -217,6 +217,118 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   overflow:hidden;
 }
 
+/* ── Escena ilustrada de fondo ──────────────────────────────────── */
+.escena{
+  position:absolute; top:0; left:0; right:0; bottom:0; overflow:hidden;
+  pointer-events:none; z-index:0;
+  transform-origin:24% 10%;
+}
+.escena__cielo{
+  position:absolute; top:0; left:0; right:0; height:62%;
+  background:linear-gradient(180deg, #e3e9dc 0%, #eef0e6 40%, rgba(250,247,241,0) 100%);
+}
+.escena__capa{ position:absolute; display:block; height:auto; opacity:0; transition:opacity 1.2s ease; }
+.escena__capa.cargada{ opacity:1; }
+.escena__pasto{
+  left:0; right:0; bottom:-6px; height:78px;
+  background:url("escena/pasto.webp") repeat-x center bottom / auto 100%;
+}
+.escena__cortadera--der, .escena__ombu--der{ transform:scaleX(-1); }
+.escena__vida{ position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; transition:opacity 1.5s ease; }
+.escena.viva .escena__vida{ opacity:1; }
+.escena__velo{
+  position:absolute; top:0; left:0; right:0; bottom:0; opacity:0; transition:opacity 1.6s ease;
+  background:linear-gradient(180deg, rgba(250,247,241,0) 0%, rgba(250,247,241,.30) 28%, rgba(250,247,241,.78) 52%, rgba(250,247,241,.94) 100%);
+}
+.escena.viva .escena__velo{ opacity:1; }
+
+/* posiciones en celular (porcentajes de la portada) */
+.escena__ombu--izq{ left:-44%; top:-5%; width:108%; }
+.escena__ombu--der{ right:-28%; top:-3%; width:82%; }
+.escena__pampa{ left:12%; top:27%; width:125%; opacity:0; }
+.escena__pampa.cargada{ opacity:.85; }
+.escena__casa{ left:-6%; top:19%; width:112%; }
+.escena__cortadera--izq{ left:-16%; bottom:5%; width:54%; }
+.escena__cortadera--der{ right:-16%; bottom:5%; width:54%; }
+.escena__ceibo{ left:-5%; bottom:7%; width:50%; }
+.escena__pasionaria{ left:33%; bottom:2%; width:34%; }
+.escena__jacaranda{ right:-5%; bottom:6%; width:54%; }
+.escena__rosas{ right:28%; bottom:1%; width:38%; }
+@media (min-width:860px){
+  .escena{ transform-origin:14% 8%; }
+  .escena__ombu--izq{ left:-16%; top:-24%; width:50%; }
+  .escena__ombu--der{ right:-12%; top:-16%; width:46%; }
+  .escena__pampa{ left:40%; top:34%; width:60%; }
+  .escena__casa{ left:5%; top:24%; width:42%; }
+  .escena__cortadera--izq{ left:-5%; bottom:0; width:19%; }
+  .escena__cortadera--der{ right:-5%; bottom:0; width:19%; }
+  .escena__ceibo{ left:-2%; bottom:1%; width:19%; }
+  .escena__pasionaria{ left:15%; bottom:-3%; width:12%; }
+  .escena__jacaranda{ right:0; bottom:0; width:20%; }
+  .escena__rosas{ right:17%; bottom:-3%; width:13%; }
+  .escena__pasto{ height:100px; }
+  .escena__velo{
+    background:
+      radial-gradient(ellipse 60% 88% at 72% 46%, rgba(250,247,241,.95) 0%, rgba(250,247,241,.75) 45%, rgba(250,247,241,0) 72%),
+      linear-gradient(180deg, rgba(250,247,241,0) 0%, rgba(250,247,241,.2) 55%, rgba(250,247,241,.8) 100%);
+  }
+}
+
+/* la vida de la escena: alas, vuelo, viento y pétalos (solo con animación) */
+html.animar .ala{ transform-box:fill-box; animation:aletear .55s ease-in-out infinite alternate; }
+html.animar .ala--izq{ transform-origin:100% 50%; }
+html.animar .ala--der{ transform-origin:0% 50%; animation-delay:.05s; }
+html.animar .vuelo{ animation:volar 26s ease-in-out infinite alternate; }
+html.animar .vuelo--2{ animation-duration:31s; animation-delay:-9s; }
+html.animar .vuelo--3{ animation-duration:23s; animation-delay:-15s; }
+html.animar .racha{ stroke-dasharray:.32 .68; stroke-dashoffset:1.32; opacity:0; animation:soplar 7s ease-in-out infinite; }
+html.animar .racha--2{ animation-delay:3.4s; }
+html.animar .petalo{ opacity:0; animation:caer 13s linear infinite; }
+html.animar .petalo--2{ animation-delay:-3s; animation-duration:15s; }
+html.animar .petalo--3{ animation-delay:-6s; }
+html.animar .petalo--4{ animation-delay:-9s; animation-duration:17s; }
+html.animar .petalo--5{ animation-delay:-11s; animation-duration:14s; }
+@keyframes aletear{ to{ transform:scaleX(.22); } }
+@keyframes volar{
+  0%{ transform:translate(0,0); } 20%{ transform:translate(70px,-40px); } 45%{ transform:translate(160px,10px); }
+  65%{ transform:translate(90px,60px); } 85%{ transform:translate(-40px,30px); } 100%{ transform:translate(-90px,-20px); }
+}
+@keyframes soplar{ 0%{ stroke-dashoffset:1.32; opacity:0; } 15%{ opacity:.75; } 50%{ opacity:.6; } 70%{ stroke-dashoffset:-.32; opacity:0; } 100%{ stroke-dashoffset:-.32; opacity:0; } }
+@keyframes caer{ 0%{ transform:translate(0,0) rotate(0); opacity:0; } 8%{ opacity:.9; } 90%{ opacity:.8; } 100%{ transform:translate(-70px,460px) rotate(260deg); opacity:0; } }
+
+/* ── La intro de la escena (al abrirse la invitación) ─────────────
+   La cámara arranca dentro del ombú y se aleja; las capas entran en
+   orden. Con esto, la portada espera --retraso (ver más abajo). */
+html.sobre.escena-intro{ --retraso:6.8s; }   /* la portada espera a la escena */
+html.escena-intro .escena{ animation:alejar-escena 7s cubic-bezier(.2,.65,.2,1) both; }
+html.escena-intro .escena__cielo{ opacity:0; animation:aparecer 1.6s ease-out .5s both; }
+html.escena-intro .escena__ombu{ opacity:1; animation:deriva 7s cubic-bezier(.2,.65,.2,1) both; }
+html.escena-intro .escena__pampa{ opacity:0; animation:aparecer-pampa 1.8s ease-out 1.6s both; }
+html.escena-intro .escena__casa{ opacity:0; animation:llegar 2s var(--suave) 2.2s both; }
+html.escena-intro .escena__pasto{ opacity:1; animation:subir-pasto 1.6s var(--suave) 3.1s both; }
+html.escena-intro .escena__cortadera--izq{ opacity:1; animation:brotar-izq 1.8s var(--suave) 3.3s both; }
+html.escena-intro .escena__cortadera--der{ opacity:1; animation:brotar-der 1.8s var(--suave) 3.5s both; }
+html.escena-intro .escena__flor{ opacity:0; animation:brotar-flor 1.5s var(--suave) both; }
+html.escena-intro .escena__ceibo{ animation-delay:3.8s; }
+html.escena-intro .escena__pasionaria{ animation-delay:4.15s; }
+html.escena-intro .escena__jacaranda{ animation-delay:4.4s; }
+html.escena-intro .escena__rosas{ animation-delay:4.7s; }
+html.escena-intro .escena__vida{ opacity:0; animation:aparecer 1.6s ease-out 5.2s both; }
+html.escena-intro .escena__velo{ opacity:0; animation:aparecer 1.8s ease-out 5.9s both; }
+@keyframes alejar-escena{ from{ transform:scale(2.7); } to{ transform:none; } }
+@keyframes deriva{ from{ transform:translateY(-2.5%); } to{ transform:none; } }
+@keyframes aparecer-pampa{ to{ opacity:.85; } }
+@keyframes llegar{ from{ opacity:0; transform:translateY(7%); } to{ opacity:1; transform:none; } }
+@keyframes subir-pasto{ from{ transform:translateY(100%); } to{ transform:none; } }
+@keyframes brotar-izq{ from{ transform:translateY(35%) scaleY(.4); } to{ transform:none; } }
+@keyframes brotar-der{ from{ transform:scaleX(-1) translateY(35%) scaleY(.4); } to{ transform:scaleX(-1); } }
+@keyframes brotar-flor{ 0%{ opacity:0; transform:translateY(22%) scale(.9); } 65%{ opacity:1; transform:translateY(-2%) scale(1.03); } 100%{ opacity:1; transform:none; } }
+.escena__cortadera{ transform-origin:50% 100%; }
+.escena__flor{ transform-origin:50% 100%; }
+/* el ombú derecho está espejado: su animación conserva el espejo */
+html.escena-intro .escena__ombu--der{ animation-name:deriva-der; }
+@keyframes deriva-der{ from{ transform:scaleX(-1) translateY(-2.5%); } to{ transform:scaleX(-1); } }
+
 /* foto en arco, con la corona de hojas detrás */
 .portada__foto{
   position:relative;
@@ -264,7 +376,7 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   color:var(--verde);
 }
 .portada__contenido{
-  position:relative; z-index:1; width:100%; max-width:1000px;
+  position:relative; z-index:2; width:100%; max-width:1000px;
   display:grid; grid-template-columns:1fr; gap:36px; align-items:center;
 }
 .portada__texto{ max-width:560px; margin-inline:auto; }
@@ -987,6 +1099,40 @@ footer :focus-visible{ outline-color:var(--crema); }
 <!-- ═══════════════ PORTADA ═══════════════ -->
 <div class="portada">
 
+  <!-- ══════════ ESCENA ILUSTRADA (fondo vivo de la portada) ══════════
+       Grabados y láminas de dominio público, en escena/ (WebP). Se cargan
+       mientras la invitación está cerrada; al abrirse, la cámara se aleja
+       desde el ombú y las capas van entrando. Si no llegaron a tiempo, la
+       escena aparece suave cuando terminan de bajar. Los navegadores sin
+       WebP (iPhone muy viejos) no la ven y el sitio sigue igual. -->
+  <div class="escena" id="escena" aria-hidden="true">
+    <div class="escena__cielo"></div>
+    <img class="escena__capa escena__pampa" data-src="escena/pampa.webp" alt="" decoding="async">
+    <img class="escena__capa escena__casa" data-src="escena/casa.webp" alt="" decoding="async">
+    <img class="escena__capa escena__ombu escena__ombu--izq" data-src="escena/ombu-izq.webp" alt="" decoding="async">
+    <img class="escena__capa escena__ombu escena__ombu--der" data-src="escena/ombu-der.webp" alt="" decoding="async">
+    <div class="escena__capa escena__pasto"></div>
+    <img class="escena__capa escena__cortadera escena__cortadera--izq" data-src="escena/cortadera.webp" alt="" decoding="async">
+    <img class="escena__capa escena__cortadera escena__cortadera--der" data-src="escena/cortadera.webp" alt="" decoding="async">
+    <img class="escena__capa escena__flor escena__ceibo" data-src="escena/ceibo.webp" alt="" decoding="async">
+    <img class="escena__capa escena__flor escena__pasionaria" data-src="escena/pasionaria.webp" alt="" decoding="async">
+    <img class="escena__capa escena__flor escena__jacaranda" data-src="escena/jacaranda.webp" alt="" decoding="async">
+    <img class="escena__capa escena__flor escena__rosas" data-src="escena/rosas.webp" alt="" decoding="async">
+    <svg class="escena__vida" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <g class="viento">
+          <path class="racha" pathLength="1" d="M160 300 C300 275 400 330 540 295 S780 250 930 285" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+          <path class="racha racha--2" pathLength="1" d="M300 420 C420 395 540 440 660 410 S860 370 1020 405" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/>
+        </g>
+        <g class="petalos">
+          <ellipse class="petalo petalo--1" cx="260" cy="120" rx="5" ry="3.2" fill="#d9b7b3" transform="rotate(20 260 120)"/><ellipse class="petalo petalo--2" cx="520" cy="60" rx="5" ry="3.2" fill="#d9b7b3" transform="rotate(-30 520 60)"/><ellipse class="petalo petalo--3" cx="880" cy="140" rx="5" ry="3.2" fill="#d9b7b3" transform="rotate(40 880 140)"/><ellipse class="petalo petalo--4" cx="1040" cy="80" rx="5" ry="3.2" fill="#d9b7b3" transform="rotate(-15 1040 80)"/><ellipse class="petalo petalo--5" cx="700" cy="40" rx="5" ry="3.2" fill="#d9b7b3" transform="rotate(10 700 40)"/>
+        </g>
+        <g transform="translate(330 360)"><g class="vuelo vuelo--1"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-10.8 -10.8 -16.8 -2.4 -10.8 1.8 C-14.4 6.6 -6 8.4 0 1.8Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8"/><path d="M-7.2 -3 a2.2 2.2 0 1 0 .1 0" fill="#c79a98" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-10.8 -10.8 -16.8 -2.4 -10.8 1.8 C-14.4 6.6 -6 8.4 0 1.8Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-7.2 -3 a2.2 2.2 0 1 0 .1 0" fill="#c79a98" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -4.2 v8.4" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></g>
+        <g transform="translate(860 430)"><g class="vuelo vuelo--2"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-9 -9 -14 -2 -9 1.5 C-12 5.5 -5 7 0 1.5Z" fill="#d9b7b3" stroke="#9c7a45" stroke-width=".8"/><path d="M-6 -2.5 a1.8 1.8 0 1 0 .1 0" fill="#c9a46a" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-9 -9 -14 -2 -9 1.5 C-12 5.5 -5 7 0 1.5Z" fill="#d9b7b3" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-6 -2.5 a1.8 1.8 0 1 0 .1 0" fill="#c9a46a" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -3.5 v7" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></g>
+        <g transform="translate(600 520)"><g class="vuelo vuelo--3"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-7.2 -7.2 -11.2 -1.6 -7.2 1.2 C-9.6 4.4 -4 5.6 0 1.2Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8"/><path d="M-4.8 -2 a1.4 1.4 0 1 0 .1 0" fill="#c79a98" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-7.2 -7.2 -11.2 -1.6 -7.2 1.2 C-9.6 4.4 -4 5.6 0 1.2Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-4.8 -2 a1.4 1.4 0 1 0 .1 0" fill="#c79a98" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -2.8 v5.6" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></g>
+      </svg>
+    <div class="escena__velo"></div>
+  </div>
+
   <div class="portada__contenido">
 
     <!-- Foto de la portada: foto-portada.webp (y .jpg de respaldo), al lado
@@ -1388,6 +1534,38 @@ var FECHA_EVENTO = (function(){
 })();
 
 
+/* ── Escena ilustrada: carga de las capas ─────────────────────── */
+var ESCENA = (function(){
+  var caja = document.getElementById('escena');
+  var estado = { lista:false, caja:caja, clave:[] };
+  if(!caja) return estado;
+
+  function arrancar(){
+    var imgs = caja.querySelectorAll('img[data-src]');
+    var pendientes = 0;
+    imgs.forEach(function(img){
+      pendientes++;
+      img.addEventListener('load', function(){ img.classList.add('cargada'); listo(); });
+      img.addEventListener('error', listo);
+      img.src = img.getAttribute('data-src');
+      if(/ombu-izq|casa\.webp/.test(img.src)) estado.clave.push(img);
+    });
+    var pasto = new Image(); pasto.onload = function(){ caja.querySelector('.escena__pasto').classList.add('cargada'); }; pasto.src = 'escena/pasto.webp';
+    function listo(){ if(--pendientes <= 0){ estado.lista = true; } }
+  }
+  /* WebP: los navegadores que no lo decodifican no ven la escena (el sitio sigue igual) */
+  var prueba = new Image();
+  prueba.onload = function(){ if(prueba.width === 1){ document.documentElement.className += ' con-escena'; arrancar(); } };
+  prueba.onerror = function(){};
+  prueba.src = 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA';
+
+  estado.claveLista = function(){
+    return estado.clave.length >= 2 && estado.clave.every(function(i){ return i.complete && i.naturalWidth > 0; });
+  };
+  return estado;
+})();
+
+
 /* ── La invitación cerrada: se abre con cualquier gesto (o sola) ──── */
 (function(){
   var raiz = document.documentElement;
@@ -1399,6 +1577,13 @@ var FECHA_EVENTO = (function(){
 
   function abrir(){
     if(abierto) return; abierto = true;
+    /* si la escena ya bajó, va la intro completa; si no, la escena aparece suave después */
+    if(ESCENA.caja && /\bcon-escena\b/.test(raiz.className) && ESCENA.claveLista()){
+      raiz.className += ' escena-intro';
+      ESCENA.caja.classList.add('viva');
+    }else if(ESCENA.caja){
+      setTimeout(function(){ ESCENA.caja.classList.add('viva'); }, 1500);
+    }
     raiz.className += ' abierto lista';
     window.scrollTo(0, 0);
     var der = sobre.querySelector('.sobre__hoja--der');
@@ -1440,6 +1625,14 @@ var FECHA_EVENTO = (function(){
     sobre.removeEventListener('click', onClick);
     soltarSello();
   }
+})();
+
+
+/* ── Escena sin intro (segunda visita, o sin sobre): aparece suave ── */
+(function(){
+  var raiz = document.documentElement;
+  if(!ESCENA.caja || /\bsobre\b/.test(raiz.className)) return;
+  setTimeout(function(){ ESCENA.caja.classList.add('viva'); }, 800);
 })();
 
 
