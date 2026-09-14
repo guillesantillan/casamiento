@@ -315,12 +315,12 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
 }
 
 /* marco interior de tarjetón, con puntitos dorados en las esquinas */
-.tarjeta,.caja-alias{ position:relative; }
-.tarjeta::before,.caja-alias::before{
+.tarjeta,.caja-alias,.caja-form{ position:relative; }
+.tarjeta::before,.caja-alias::before,.caja-form::before{
   content:""; position:absolute; top:7px; left:7px; right:7px; bottom:7px;
   border:1px solid var(--verde-claro); border-radius:2px; pointer-events:none; opacity:.7;
 }
-.tarjeta::after,.caja-alias::after{
+.tarjeta::after,.caja-alias::after,.caja-form::after{
   content:""; position:absolute; top:7px; left:7px; right:7px; bottom:7px; pointer-events:none;
   background-image:
     radial-gradient(circle, var(--dorado) 1.7px, transparent 2.4px),
@@ -330,6 +330,7 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   background-size:10px 10px; background-repeat:no-repeat;
   background-position:-5px -5px, calc(100% + 5px) -5px, -5px calc(100% + 5px), calc(100% + 5px) calc(100% + 5px);
 }
+.caja-form::before,.caja-form::after{ z-index:2; }
 
 .tarjeta .icono{ width:34px; margin:0 auto 18px; color:var(--verde-medio); }
 
@@ -489,8 +490,8 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   border-radius:3px;
   padding:clamp(20px,3vw,28px);
 }
-.caja-form iframe{ width:100%; border:0; display:block; height:610px; position:relative; z-index:1; transition:height .35s ease; }
-@media (max-width:560px){ .caja-form iframe{ height:720px; } }
+.caja-form iframe{ width:100%; border:0; display:block; height:680px; position:relative; z-index:1; transition:height .35s ease; }
+@media (max-width:560px){ .caja-form iframe{ height:780px; } }
 @media (prefers-reduced-motion:reduce){ .caja-form iframe{ transition:none; } }
 
 /* Mientras Google tarda en cargar el formulario, se ve esto detrás del
@@ -510,8 +511,8 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
 .caja-form.cargado .cargando-form{ display:none; }
 /* en celular la caja se abre casi al borde: Google Forms necesita ancho */
 @media (max-width:560px){
-  .caja-form{ padding:4px; margin-inline:-16px; }
-  .cargando-form{ top:4px; right:4px; bottom:4px; left:4px; }
+  .caja-form{ padding:14px 12px; margin-inline:-16px; }
+  .cargando-form{ top:14px; right:12px; bottom:14px; left:12px; }
 }
 @keyframes latido{ 0%,100%{ opacity:.45; } 50%{ opacity:1; } }
 @media (prefers-reduced-motion:reduce){ .cargando-form .hojita{ animation:none; } }
@@ -770,16 +771,17 @@ footer :focus-visible{ outline-color:var(--crema); }
       <!-- ✏️ ALTURAS: cuánto mide el iframe en cada pantalla del formulario,
            en píxeles, separadas por coma: 1.ª pantalla, 2.ª, 3.ª… (la última
            se repite). Medidas para este formulario: "¿Vas a venir?" → rama
-           "Sí" (la más larga) → pantalla final. Si cambiás el formulario,
-           ajustá estos números. -->
+           "Sí" (la más larga) → pantalla final, con unos 60 px de margen para
+           que nunca aparezca la barra de scroll interna. Si cambiás el
+           formulario, ajustá estos números. -->
       <iframe
         id="iframe-form"
         src="https://docs.google.com/forms/d/e/1FAIpQLSfxuow3PamYp5UG-qH-qAlO76OdIuo0nG3qOszzrj6l-1Vn4g/viewform?embedded=true"
         title="Formulario de confirmación de asistencia"
         loading="lazy"
         width="100%"
-        data-alturas-celular="720,1320,560"
-        data-alturas-desktop="610,1050,560">Cargando el formulario…</iframe>
+        data-alturas-celular="780,1400,600"
+        data-alturas-desktop="680,1120,600">Cargando el formulario…</iframe>
     </div>
 
     <p class="alternativa">
@@ -1197,6 +1199,13 @@ var FECHA_EVENTO = (function(){
     var alto = lista[Math.min(n, lista.length) - 1];
     iframe.style.height = alto + 'px';
   }
+
+  /* si cambia el ancho (rotar el teléfono), se recalcula con la misma pantalla */
+  var esperaResize;
+  window.addEventListener('resize', function(){
+    clearTimeout(esperaResize);
+    esperaResize = setTimeout(function(){ if(cargas) ajustarAlto(cargas); }, 200);
+  });
 
   iframe.addEventListener('load', function(){
     cargas++;
