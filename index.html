@@ -728,10 +728,25 @@ html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-o
   .lamina-caja--der{ right:-2%; width:220px; }
   .lamina-caja--arriba-izq{ left:-6%; top:-10%; width:380px; }
 }
-/* los horneros de "Nosotros" van dentro del contenido, arriba del texto */
-.nosotros__hornero{ display:none; width:min(52vw,200px); height:auto; margin:0 auto 18px; transform-origin:50% 100%; }
-html.con-escena .nosotros__hornero{ display:block; }
-html.animar .nosotros__hornero{ animation:mecer 9s ease-in-out infinite; }
+/* "Nosotros": flores, ombú y pasto a los costados, con el texto en el medio */
+.seccion-nosotros{ position:relative; overflow:hidden; }
+.nosotros{ position:relative; z-index:1; }
+.nosotros__pasto{
+  position:absolute; left:0; right:0; bottom:-4px; height:56px; display:none; pointer-events:none; opacity:.8;
+  background:url("escena/pasto.webp") repeat-x center bottom / auto 100%;
+}
+html.con-escena .nosotros__pasto{ display:block; }
+.lamina-caja--arriba-der{ right:-16%; top:-8%; width:min(60vw,360px); opacity:.3; }
+html.animar .lamina-caja--arriba-der .lamina{ animation:susurrar-der 13s ease-in-out -4s infinite; transform-origin:70% 0; }
+.lamina--ombu-der{ transform:scaleX(-1); }
+@media (min-width:860px){ .lamina-caja--arriba-der{ right:-6%; top:-14%; width:380px; } }
+@media (max-width:859px){
+  /* en celular, las flores de "Nosotros" van debajo del texto, no encima */
+  section.seccion-nosotros{ padding-bottom:170px; }
+  .seccion-nosotros .lamina-caja--izq{ width:34vw; left:-4%; bottom:-2%; }
+  .seccion-nosotros .lamina-caja--der{ width:30vw; right:-3%; bottom:-2%; }
+  .seccion-nosotros .lamina-caja--arriba-der{ opacity:.16; }
+}
 /* mariposa que cruza la sección de vez en cuando */
 .cruce{ position:absolute; top:22%; left:0; width:34px; height:34px; pointer-events:none; opacity:0; }
 html.animar .cruce{ animation:cruzar 34s linear infinite; }
@@ -1277,10 +1292,12 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ NOSOTROS ═══════════════ -->
 <section id="nosotros" class="seccion-nosotros">
+  <span class="lamina-caja lamina-caja--izq"><img class="lamina lamina--ceibo" src="escena/ceibo.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--der"><img class="lamina lamina--pasionaria" src="escena/pasionaria.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--arriba-der"><img class="lamina lamina--ombu-der" src="escena/ombu-der.webp" alt="" loading="lazy" decoding="async"></span>
+  <div class="nosotros__pasto"></div>
   <div class="envoltorio">
     <div class="nosotros revelar">
-      <!-- dos horneros sobre su nido (Hudson, Birds of La Plata, 1920) -->
-      <img class="nosotros__hornero" src="escena/hornero.webp" alt="" loading="lazy" decoding="async">
       <svg class="divisor" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
       <!-- ✏️ EDITAR: escriban acá su historia, en primera persona, 3 o 4 líneas.
            Cómo se conocieron, cuánto hace, por qué quieren a esta gente ahí. -->

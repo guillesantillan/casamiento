@@ -121,7 +121,6 @@ viejos) no se muestra y el sitio queda igual que antes.
 | `rosas.webp` | Pierre-Joseph Redouté, *Choix des plus belles fleurs* (1827) |
 | `cortadera.webp` | *Cortaderia selloana*, dibujo a línea (dominio público) |
 | `pasto.webp` | *Trisetum flavescens*, *Flora Londinensis* (1777) |
-| `hornero.webp` | horneros y su nido, W. H. Hudson, *Birds of La Plata* (1920), lámina de H. Grönvold |
 
 Las mismas láminas reaparecen, tenues y meciéndose, en las demás secciones
 (`.lamina-caja` en el HTML de cada sección; no pesan más porque ya están
