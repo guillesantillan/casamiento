@@ -489,7 +489,9 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   border-radius:3px;
   padding:clamp(20px,3vw,28px);
 }
-.caja-form iframe{ width:100%; border:0; display:block; min-height:640px; position:relative; z-index:1; }
+.caja-form iframe{ width:100%; border:0; display:block; height:610px; position:relative; z-index:1; transition:height .35s ease; }
+@media (max-width:560px){ .caja-form iframe{ height:720px; } }
+@media (prefers-reduced-motion:reduce){ .caja-form iframe{ transition:none; } }
 
 /* Mientras Google tarda en cargar el formulario, se ve esto detrás del
    iframe (el iframe es transparente hasta que carga). */
@@ -765,13 +767,19 @@ footer :focus-visible{ outline-color:var(--crema); }
               el progreso" (es lo que muestra el "Acceder a Google"
               arriba del formulario y confunde).
            ════════════════════════════════════════════════════════ -->
+      <!-- ✏️ ALTURAS: cuánto mide el iframe en cada pantalla del formulario,
+           en píxeles, separadas por coma: 1.ª pantalla, 2.ª, 3.ª… (la última
+           se repite). Medidas para este formulario: "¿Vas a venir?" → rama
+           "Sí" (la más larga) → pantalla final. Si cambiás el formulario,
+           ajustá estos números. -->
       <iframe
         id="iframe-form"
         src="https://docs.google.com/forms/d/e/1FAIpQLSfxuow3PamYp5UG-qH-qAlO76OdIuo0nG3qOszzrj6l-1Vn4g/viewform?embedded=true"
         title="Formulario de confirmación de asistencia"
         loading="lazy"
         width="100%"
-        style="min-height:820px">Cargando el formulario…</iframe>
+        data-alturas-celular="720,1320,560"
+        data-alturas-desktop="610,1050,560">Cargando el formulario…</iframe>
     </div>
 
     <p class="alternativa">
@@ -811,7 +819,7 @@ footer :focus-visible{ outline-color:var(--crema); }
              (es el nombre real de la cuenta, no "Jess y Guille"). -->
         <p class="rot">Alias</p>
         <p class="valor" id="alias">jess.guille.boda</p>
-        <p class="titular">Nombre Apellido · Mercado Pago</p>
+        <p class="titular">Guillermo Eduardo Santillan · Mercado Pago</p>
         <div class="caja-alias__acciones">
           <button class="boton-copiar" id="btn-copiar" type="button" data-copiar="alias">Copiar alias</button>
           <!-- "Enviar por WhatsApp": abre WhatsApp para mandarse el alias
@@ -1179,9 +1187,21 @@ var FECHA_EVENTO = (function(){
 
   var cargas = 0;
 
+  /* altura del iframe según la pantalla del formulario (ver data-alturas-*
+     en el HTML): la 1.ª es corta, la 2.ª larga, la final corta */
+  function ajustarAlto(n){
+    var esCelular = window.matchMedia && window.matchMedia('(max-width:560px)').matches;
+    var lista = (iframe.getAttribute(esCelular ? 'data-alturas-celular' : 'data-alturas-desktop') || '')
+      .split(',').map(function(x){ return parseInt(x, 10); }).filter(function(x){ return x > 0; });
+    if(!lista.length) return;
+    var alto = lista[Math.min(n, lista.length) - 1];
+    iframe.style.height = alto + 'px';
+  }
+
   iframe.addEventListener('load', function(){
     cargas++;
     caja.classList.add('cargado');
+    ajustarAlto(cargas);
 
     /* Google Forms recarga el iframe en cada "Siguiente", "Atrás" y
        "Enviar". Después de la primera carga, llevamos la página al
