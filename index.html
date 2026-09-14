@@ -109,9 +109,9 @@ body::after{
    Con reduced-motion aparecen ya dibujadas. */
 .dibuja path{ fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; }
 @media (prefers-reduced-motion:no-preference){
-  .dibuja path{ stroke-dasharray:1; stroke-dashoffset:1; animation:dibujar 1.6s ease-out forwards; }
-  .dibuja .hoja{ animation-duration:1.1s; animation-delay:.7s; }
-  .dibuja .flor{ animation-duration:1s; animation-delay:1.3s; }
+  .dibuja path{ stroke-dasharray:1; stroke-dashoffset:1; animation:dibujar 2.4s ease-out forwards; }
+  .dibuja .hoja{ animation-duration:1.6s; animation-delay:1s; }
+  .dibuja .flor{ animation-duration:1.4s; animation-delay:2s; }
   @keyframes dibujar{ to{ stroke-dashoffset:0; } }
 }
 .corona .flor{ stroke:var(--dorado); }
@@ -354,7 +354,7 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
    Las animaciones arrancan pausadas y se sueltan con la clase "lista"
    (fuentes cargadas, o 400 ms como máximo), así el texto no cambia de
    fuente a mitad de camino. ─────────────────────────────────────── */
-:root{ --suave: cubic-bezier(.16,1,.3,1); --ritmo:1.3; }   /* --ritmo: 1 = rápido, 1.3 = pausado */   /* arranca rápido, frena suave */
+:root{ --suave: cubic-bezier(.16,1,.3,1); --ritmo:1.8; }   /* --ritmo: 1 = rápido, 1.8 = muy pausado */   /* arranca rápido, frena suave */
 
 html.animar .arco,
 html.animar .portada__saludo,
@@ -367,7 +367,7 @@ html.animar .regresiva__celda,
 html.animar .portada__faltan,
 html.animar .portada__acciones,
 html.animar .portada .hojita{
-  animation-duration:1.1s; animation-timing-function:var(--suave);
+  animation-duration:1.4s; animation-timing-function:var(--suave);
   animation-fill-mode:both; animation-play-state:paused;
 }
 html.animar.lista .arco, html.animar.lista .portada__saludo, html.animar.lista .portada__intro,
@@ -375,10 +375,10 @@ html.animar.lista .portada h1, html.animar.lista .portada h1 .amp, html.animar.l
 html.animar.lista .regresiva__intro, html.animar.lista .regresiva__celda, html.animar.lista .portada__faltan,
 html.animar.lista .portada__acciones, html.animar.lista .portada .hojita{ animation-play-state:running; }
 
-html.animar .arco{ animation-name:posar; animation-duration:1s; animation-delay:calc(var(--retraso,0s) + 0s * var(--ritmo,1)); }
+html.animar .arco{ animation-name:posar; animation-duration:1.5s; animation-delay:calc(var(--retraso,0s) + 0s * var(--ritmo,1)); }
 html.animar .portada__saludo{ animation-name:subir; animation-delay:calc(var(--retraso,0s) + .45s * var(--ritmo,1)); }
 html.animar .portada__intro{ animation-name:aparecer; animation-delay:calc(var(--retraso,0s) + .5s * var(--ritmo,1)); animation-duration:.7s; }
-html.animar .portada h1{ animation-name:barrer; animation-delay:calc(var(--retraso,0s) + .6s * var(--ritmo,1)); animation-duration:1s; }
+html.animar .portada h1{ animation-name:barrer; animation-delay:calc(var(--retraso,0s) + .6s * var(--ritmo,1)); animation-duration:1.5s; }
 html.animar .portada h1 .amp{ display:inline-block; animation-name:caer; animation-delay:calc(var(--retraso,0s) + 1s * var(--ritmo,1)); animation-duration:.7s; }
 html.animar .portada__fecha{ animation-name:subir; animation-delay:calc(var(--retraso,0s) + .85s * var(--ritmo,1)); }
 html.animar .regresiva__intro{ animation-name:subir; animation-delay:calc(var(--retraso,0s) + .95s * var(--ritmo,1)); }
@@ -425,7 +425,7 @@ html.animar .corona .flor{ animation-delay:calc(var(--retraso,0s) + 1.55s * var(
    arrastre, tap, tecla); si nadie hace nada, se abre sola a los 8 s.
    Estados: html.sobre → cerrada; .sobre-visible → contenido a la vista;
    .abierto → abriéndose; después el overlay se saca. ─────────────── */
-html.sobre{ --retraso:.45s; }
+html.sobre{ --retraso:.8s; }
 html.sobre:not(.abierto), html.sobre:not(.abierto) body{ overflow:hidden; }
 #sobre{ display:none; }
 html.sobre #sobre{
@@ -516,26 +516,26 @@ html.sobre #sobre{
 
 /* ── al cargar: la invitación "llega" ── */
 html.sobre-visible .sobre__rama{ animation:aparecer .9s var(--suave) .1s both; }
-html.sobre-visible .sobre__rama path{ stroke-dasharray:1; stroke-dashoffset:1; animation:dibujar 2.2s ease-out .2s forwards; }
-html.sobre-visible .sobre__rama .hoja{ animation-duration:1.6s; animation-delay:1s; }
-html.sobre-visible .sobre__rama .flor{ animation-duration:1.2s; animation-delay:2s; }
-html.sobre-visible .sobre__sello-caja{ animation:sellar .8s var(--suave) .7s both; }
+html.sobre-visible .sobre__rama path{ stroke-dasharray:1; stroke-dashoffset:1; animation:dibujar 3s ease-out .2s forwards; }
+html.sobre-visible .sobre__rama .hoja{ animation-duration:2.2s; animation-delay:1.3s; }
+html.sobre-visible .sobre__rama .flor{ animation-duration:1.6s; animation-delay:2.6s; }
+html.sobre-visible .sobre__sello-caja{ animation:sellar 1.1s var(--suave) .9s both; }
 html.sobre-visible .sobre__sello{ animation:respirar 3.6s ease-in-out 1.6s infinite; }
-html.sobre-visible .sobre__nombres{ animation:subir 1s var(--suave) 1.3s both; }
-html.sobre-visible .sobre__fecha{ animation:subir 1s var(--suave) 1.45s both; }
-html.sobre-visible .sobre__pista{ animation:aparecer 1s var(--suave) 2.2s both; }
-html.sobre-visible .sobre__pista svg{ animation:flotar 2.2s ease-in-out 2.2s infinite; }
+html.sobre-visible .sobre__nombres{ animation:subir 1.4s var(--suave) 1.7s both; }
+html.sobre-visible .sobre__fecha{ animation:subir 1.4s var(--suave) 1.9s both; }
+html.sobre-visible .sobre__pista{ animation:aparecer 1.2s var(--suave) 2.9s both; }
+html.sobre-visible .sobre__pista svg{ animation:flotar 2.6s ease-in-out 2.9s infinite; }
 /* al tocar/agarrar, el sello se hunde apenas */
 html.sobre-visible.agarrado .sobre__sello{ animation:none; transform:scale(.96); transition:transform .18s; }
 
 /* ── al abrir ── */
 html.abierto #sobre{ pointer-events:none; }
 html.abierto .sobre__pista{ animation:none; opacity:0; transition:opacity .25s; }
-html.abierto .sobre__centro{ animation:levantar .6s ease-in both; }
+html.abierto .sobre__centro{ animation:levantar .9s ease-in both; }
 html.abierto .sobre__velo{ animation:aparecer .9s ease-out .3s both reverse; }
-html.abierto .sobre__hoja--izq{ animation:abrir-izq 1.6s var(--suave) .4s both; }
-html.abierto .sobre__hoja--der{ animation:abrir-der 1.6s var(--suave) .4s both; }
-html.abierto.animar .portada__contenido{ animation:alejar 2.4s var(--suave) .3s both; transform-origin:50% 40%; }
+html.abierto .sobre__hoja--izq{ animation:abrir-izq 2.4s var(--suave) .6s both; }
+html.abierto .sobre__hoja--der{ animation:abrir-der 2.4s var(--suave) .6s both; }
+html.abierto.animar .portada__contenido{ animation:alejar 3.4s var(--suave) .4s both; transform-origin:50% 40%; }
 /* mientras está cerrada, la portada espera un poco más cerca */
 html.sobre:not(.abierto).animar .portada__contenido{ transform:scale(1.06); transform-origin:50% 40%; }
 
@@ -1404,7 +1404,7 @@ var FECHA_EVENTO = (function(){
     var der = sobre.querySelector('.sobre__hoja--der');
     function sacar(){ sobre.hidden = true; }
     if(der) der.addEventListener('animationend', sacar);
-    setTimeout(sacar, 3000);   /* red de seguridad */
+    setTimeout(sacar, 4500);   /* red de seguridad */
     quitar();
   }
   function agarrar(){ if(!abierto) raiz.className += ' agarrado'; }
