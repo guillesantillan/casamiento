@@ -63,6 +63,7 @@
   --tinta-suave:  #5d655a;
   --linea:        #ddd5c5;
   --blanco:       #fffefb;
+  --dorado:       #9c7a45;   /* acento cálido: solo adornos y texto grande (3,7:1) */
 
   --serif: "Cormorant Garamond", "Cormorant respaldo Times", "Cormorant respaldo Georgia", Georgia, "Times New Roman", serif;
   --sans:  "Jost", "Jost respaldo", "Helvetica Neue", Arial, sans-serif;
@@ -88,7 +89,33 @@ body{
 
 img{ max-width:100%; height:auto; display:block; }
 
-h1,h2,h3{ font-family:var(--serif); font-weight:400; line-height:1.15; margin:0; }
+/* grano de papel, muy sutil, sobre toda la página (para sacarlo: borrá este bloque) */
+body::after{
+  content:""; position:fixed; top:0; left:0; right:0; bottom:0;
+  pointer-events:none; z-index:9999; opacity:.055;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23g)'/%3E%3C/svg%3E") repeat;
+  background-size:240px 240px;
+}
+
+/* ── Adornos botánicos (los dibujos viven en el <svg> de símbolos al
+      principio del <body>; acá solo se estilizan) ──────────────── */
+/* Las ramas se "dibujan" al cargar (el estilo va sobre los símbolos
+   originales porque el CSS no alcanza a las copias que hace <use>).
+   Con reduced-motion aparecen ya dibujadas. */
+@media (prefers-reduced-motion:no-preference){
+  #rama-arco path,#ramita path{ stroke-dasharray:1; stroke-dashoffset:1; animation:dibujar 1.6s ease-out forwards; }
+  #rama-arco .hoja,#ramita .hoja{ animation-duration:1.1s; animation-delay:.7s; }
+  @keyframes dibujar{ to{ stroke-dashoffset:0; } }
+}
+.divisor{ display:block; width:46px; height:auto; margin:20px auto 0; color:var(--dorado); }
+.rama-fondo{
+  position:absolute; bottom:-30px; width:min(300px,44vw); height:auto;
+  color:var(--verde-medio); opacity:.3; pointer-events:none;
+}
+.rama-fondo.der{ right:-50px; }
+.rama-fondo.izq{ left:-50px; transform:scaleX(-1); }
+
+h1,h2,h3{ font-family:var(--serif); font-weight:400; line-height:1.15; margin:0; text-wrap:balance; }
 
 a{ color:var(--verde); }
 
@@ -103,10 +130,10 @@ a{ color:var(--verde); }
 }
 
 /* ── Secciones ───────────────────────────────────────────────── */
-section{ padding-block:clamp(64px,10vw,110px); position:relative; }
+section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden; }
 .seccion-alterna{ background:var(--crema-hondo); }
 
-.encabezado-seccion{ text-align:center; margin-bottom:clamp(40px,6vw,64px); }
+.encabezado-seccion{ text-align:center; margin-bottom:clamp(32px,5vw,48px); }
 
 .sobretitulo{
   font-family:var(--sans);
@@ -122,22 +149,8 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
   font-size:clamp(34px,6vw,50px);
   color:var(--verde);
   font-style:italic;
-  font-weight:300;
+  font-weight:400;
 }
-
-.filete{
-  width:64px; height:1px;
-  background:var(--verde-claro);
-  margin:22px auto 0;
-  position:relative;
-}
-.filete::before,.filete::after{
-  content:""; position:absolute; top:-2px;
-  width:5px; height:5px; border-radius:50%;
-  background:var(--verde-claro);
-}
-.filete::before{ left:-9px; }
-.filete::after{ right:-9px; }
 
 /* ── Navegación ──────────────────────────────────────────────── */
 .barra{
@@ -149,6 +162,12 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
   transition:border-color .3s ease, box-shadow .3s ease;
 }
 .barra.pegada{ border-bottom-color:var(--linea); box-shadow:0 2px 20px rgba(61,81,64,.05); }
+.barra__logo{
+  position:absolute; left:24px; top:50%; transform:translateY(-50%);
+  width:40px; height:40px; color:var(--verde); display:none;
+}
+.barra__logo svg{ width:100%; height:100%; }
+@media (min-width:760px){ .barra__logo{ display:block; } }
 
 .barra nav{
   display:flex; gap:clamp(14px,3.5vw,38px);
@@ -190,18 +209,27 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
   overflow:hidden;
 }
 
-/* ramitas decorativas de fondo */
-.rama-deco{ position:absolute; opacity:.2; pointer-events:none; color:var(--verde-medio); }
-.rama-deco.izq{ left:-46px;  top:6%;   width:210px; transform:rotate(-12deg); }
-.rama-deco.der{ right:-46px; bottom:4%; width:210px; transform:rotate(168deg); }
-@media (max-width:760px){ .rama-deco{ width:130px; opacity:.13; } }
+/* corona: dos arcos de hojas que abrazan los nombres (solo desktop) */
+.corona{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:min(920px,100vw); height:auto; color:var(--verde-medio); opacity:.55;
+  pointer-events:none; display:none;
+}
+@media (min-width:700px){ .corona{ display:block; } }
+/* en celular: dos ramitas horizontales, arriba y abajo del bloque */
+.ramita-par{ display:block; width:min(250px,70vw); height:auto; margin-inline:auto; color:var(--verde-medio); opacity:.7; }
+.ramita-par.arriba{ margin-bottom:26px; }
+.ramita-par.abajo{ margin-top:34px; }
+@media (min-width:700px){ .ramita-par{ display:none; } }
 
 .portada__contenido{ position:relative; z-index:1; max-width:720px; }
 
 .portada__intro{
   font-size:13px; letter-spacing:.3em; text-transform:uppercase;
   color:var(--verde-medio); margin:0 0 28px;
+  display:flex; align-items:center; justify-content:center; gap:16px;
 }
+.portada__intro::before,.portada__intro::after{ content:""; width:34px; height:1px; background:var(--verde-claro); }
 
 .portada h1{
   font-size:clamp(52px,13vw,104px);
@@ -213,8 +241,12 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
   display:block;
   font-style:italic;
   font-size:.46em;
-  color:var(--verde-medio);
+  color:var(--dorado);
   margin-block:6px;
+}
+/* en desktop los nombres van en una sola línea, como en la tarjeta de WhatsApp */
+@media (min-width:700px){
+  .portada h1 .amp{ display:inline; margin:0 .12em; }
 }
 
 .portada__fecha{
@@ -224,7 +256,9 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
 }
 .portada__fecha strong{ font-weight:400; color:var(--tinta); }
 
-.hojita{ display:block; width:38px; margin:34px auto 0; color:var(--verde-medio); }
+.hojita{ display:block; width:38px; height:auto; margin:34px auto 0; color:var(--dorado); }
+.hojita--desktop{ display:none; }
+@media (min-width:700px){ .hojita--desktop{ display:block; } }
 
 /* "Faltan N días" (lo completa el JS; si no hay JS, no se muestra nada) */
 .portada__faltan{
@@ -268,7 +302,7 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
 /* nota debajo de las tarjetas (dress code, etc.) */
 .nota-evento{
   max-width:560px; margin:32px auto 0;
-  text-align:center; color:var(--tinta-suave);
+  text-align:center; color:var(--tinta-suave); text-wrap:balance;
 }
 .nota-evento strong{ font-weight:400; color:var(--tinta); }
 
@@ -278,6 +312,23 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
   border-radius:3px;
   padding:clamp(30px,4.5vw,44px) clamp(24px,4vw,36px);
   text-align:center;
+}
+
+/* marco interior de tarjetón, con puntitos dorados en las esquinas */
+.tarjeta,.caja-alias{ position:relative; }
+.tarjeta::before,.caja-alias::before{
+  content:""; position:absolute; top:7px; left:7px; right:7px; bottom:7px;
+  border:1px solid var(--verde-claro); border-radius:2px; pointer-events:none; opacity:.7;
+}
+.tarjeta::after,.caja-alias::after{
+  content:""; position:absolute; top:7px; left:7px; right:7px; bottom:7px; pointer-events:none;
+  background-image:
+    radial-gradient(circle, var(--dorado) 1.7px, transparent 2.4px),
+    radial-gradient(circle, var(--dorado) 1.7px, transparent 2.4px),
+    radial-gradient(circle, var(--dorado) 1.7px, transparent 2.4px),
+    radial-gradient(circle, var(--dorado) 1.7px, transparent 2.4px);
+  background-size:10px 10px; background-repeat:no-repeat;
+  background-position:-5px -5px, calc(100% + 5px) -5px, -5px calc(100% + 5px), calc(100% + 5px) calc(100% + 5px);
 }
 
 .tarjeta .icono{ width:34px; margin:0 auto 18px; color:var(--verde-medio); }
@@ -290,7 +341,7 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
 .tarjeta .hora{
   font-family:var(--serif);
   font-size:clamp(34px,7vw,42px); line-height:1.1;
-  color:var(--verde); margin:0 0 4px;
+  color:var(--dorado); margin:0 0 4px;
 }
 .tarjeta .dia{
   font-size:13px; letter-spacing:.2em; text-transform:uppercase;
@@ -320,10 +371,10 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
 .linea-tiempo{ max-width:620px; margin-inline:auto; position:relative; padding-left:0; }
 .linea-tiempo::before{
   content:""; position:absolute;
-  left:57px; top:12px; bottom:12px;
+  left:89px; top:20px; bottom:20px;
   width:1px; background:var(--linea);
 }
-@media (max-width:560px){ .linea-tiempo::before{ left:43px; } }
+@media (max-width:560px){ .linea-tiempo::before{ left:69px; } }
 
 .hito{ display:flex; gap:26px; align-items:flex-start; padding-block:19px; position:relative; }
 @media (max-width:560px){ .hito{ gap:18px; } }
@@ -334,21 +385,26 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
   font-family:var(--serif);
   font-size:20px;
   color:var(--verde);
-  padding-top:2px;
+  padding-top:5px;
 }
 @media (max-width:560px){ .hito__hora{ flex-basis:34px; font-size:17px; } }
 
+/* ícono de cada momento, en un circulito sobre la línea */
 .hito__punto{
-  flex:0 0 11px; height:11px; margin-top:9px;
+  flex:0 0 34px; width:34px; height:34px;
+  display:flex; align-items:center; justify-content:center;
   border-radius:50%;
   background:var(--crema);
-  border:1.5px solid var(--verde-claro);
+  border:1px solid var(--verde-claro);
+  color:var(--verde-medio);
   position:relative; z-index:1;
 }
+.hito__punto svg{ width:18px; height:18px; }
 .seccion-alterna .hito__punto{ background:var(--crema-hondo); }
 .hito:first-child .hito__punto,
-.hito:last-child  .hito__punto{ background:var(--verde-medio); border-color:var(--verde-medio); }
+.hito:last-child  .hito__punto{ background:var(--verde-medio); border-color:var(--verde-medio); color:var(--crema); }
 
+.hito__texto{ padding-top:3px; }
 .hito__texto h3{ font-size:22px; color:var(--tinta); margin-bottom:2px; }
 .hito__texto p{ margin:0; font-size:16px; color:var(--tinta-suave); }
 
@@ -356,7 +412,7 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
 .bloque-regalo{
   max-width:560px; margin-inline:auto; text-align:center;
 }
-.bloque-regalo > p{ color:var(--tinta-suave); margin:0 0 34px; }
+.bloque-regalo > p{ color:var(--tinta-suave); margin:0 0 34px; text-wrap:balance; }
 
 .caja-alias{
   background:var(--blanco);
@@ -440,7 +496,7 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
   border-top:1px solid var(--linea);
   padding-top:32px;
 }
-.despues p{ margin:0 0 18px; color:var(--tinta-suave); }
+.despues p{ margin:0 0 18px; color:var(--tinta-suave); text-wrap:balance; }
 .despues p strong{ font-weight:400; color:var(--tinta); }
 .despues__enlaces{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; }
 .despues__enlaces .boton-mapa{ margin-top:0; }
@@ -448,7 +504,7 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
 /* fecha límite: va ARRIBA del formulario, para que se lea antes de confirmar */
 .limite{
   max-width:520px; margin:-16px auto 30px;
-  text-align:center; font-size:17px; color:var(--tinta-suave);
+  text-align:center; font-size:17px; color:var(--tinta-suave); text-wrap:balance;
 }
 .limite strong{ font-weight:400; color:var(--tinta); }
 
@@ -478,9 +534,16 @@ footer{
   color:var(--crema);
   text-align:center;
   padding:clamp(56px,8vw,80px) 24px;
+  position:relative; overflow:hidden;
 }
-footer .hojita{ color:rgba(250,247,241,.55); margin-top:0; margin-bottom:24px; }
-footer h2{ font-size:clamp(30px,6vw,42px); font-style:italic; font-weight:300; }
+footer > *{ position:relative; }
+footer .rama-fondo{ position:absolute; bottom:auto; top:-6%; right:-70px; height:112%; width:auto; color:var(--crema); opacity:.2; }
+footer .monograma{ display:block; width:68px; height:68px; margin:0 auto 22px; color:rgba(250,247,241,.9); }
+footer h2{ font-size:clamp(30px,6vw,42px); font-style:italic; font-weight:400; }
+footer .pie__firma{
+  margin:14px 0 0; font-family:var(--serif); font-style:italic; font-size:22px;
+  letter-spacing:0; text-transform:none; color:rgba(250,247,241,.85);
+}
 footer p{ margin:16px 0 0; font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:rgba(250,247,241,.8); }
 footer :focus-visible{ outline-color:var(--crema); }
 
@@ -496,8 +559,44 @@ footer :focus-visible{ outline-color:var(--crema); }
 </head>
 <body>
 
+<!-- ═══════════════ DIBUJOS REUTILIZABLES ═══════════════
+     Símbolos SVG que se usan en varios lados con <use href="#nombre">.
+     No hace falta tocarlos. Íconos disponibles para el cronograma:
+     ic-copa, ic-anillos, ic-bandeja, ic-camara, ic-nota, ic-cubiertos,
+     ic-brillos, ic-torta. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="hojita" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 40 24">
+    <path d="M2 12h11M27 12h11"/>
+    <path d="M20 4c3.6 2.6 5 5.3 5 8s-1.4 5.4-5 8c-3.6-2.6-5-5.3-5-8s1.4-5.4 5-8Z"/>
+    <path d="M20 4v16"/>
+  </symbol>
+  <symbol id="rama-arco" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 300 620">
+    <path class="tallo" pathLength="1" vector-effect="non-scaling-stroke" d="M250 600C40 520 20 140 230 20"/>
+    <path class="hoja" pathLength="1" vector-effect="non-scaling-stroke" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/>
+  </symbol>
+  <symbol id="ramita" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 220 70">
+    <path class="tallo" pathLength="1" vector-effect="non-scaling-stroke" d="M6 60C70 20 150 8 214 26"/>
+    <path class="hoja" pathLength="1" vector-effect="non-scaling-stroke" d="M25.6 48.8Q35.1 61.3 53.3 60.5Q41.1 46.9 25.6 48.8ZM46.6 39.2Q57.5 29.2 55.2 12Q43.4 24.7 46.6 39.2ZM68.1 31.3Q74.7 43.7 91 45.7Q82.1 31.8 68.1 31.3ZM90 25.2Q101.1 17.9 101.5 2.4Q89.3 12 90 25.2ZM112.2 20.9Q116.1 32.7 130.2 36.8Q124.4 23.4 112.2 20.9ZM134.3 18.5Q144.9 13.7 147.5 0.3Q135.5 6.8 134.3 18.5ZM156.1 17.9Q157.9 28.6 169.4 34.2Q166.3 21.8 156.1 17.9ZM177.6 19.1Q187.4 16.7 191.6 5.6Q180.3 9.4 177.6 19.1ZM198.3 22.3Q198.1 31.6 207 38Q206.3 27.1 198.3 22.3Z"/>
+  </symbol>
+  <symbol id="monograma" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="30.5" fill="none" stroke="currentColor" stroke-width="1"/>
+    <circle cx="32" cy="32" r="27" fill="none" stroke="currentColor" stroke-width=".6" opacity=".6"/>
+    <!-- ✏️ EDITAR: iniciales del monograma -->
+    <text x="32" y="41" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="27" fill="currentColor">J<tspan font-style="italic" font-size="15" dy="-3">&amp;</tspan><tspan dy="3">G</tspan></text>
+  </symbol>
+  <symbol id="ic-copa" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M7 3h10l-1.2 7.5a3.8 3.8 0 0 1-7.6 0L7 3Z"/><path d="M12 15v5M9 20h6"/><path d="M8 7h8"/></symbol>
+  <symbol id="ic-anillos" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="9" cy="14.5" r="5.5"/><circle cx="15" cy="14.5" r="5.5"/><path d="M12 3.5l2 2.5-2 2.5-2-2.5 2-2.5Z"/></symbol>
+  <symbol id="ic-bandeja" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3.5 17h17"/><path d="M5 17a7 7 0 0 1 14 0"/><path d="M12 8V6.5M10.5 6.5h3"/></symbol>
+  <symbol id="ic-camara" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="7.5" width="18" height="12.5" rx="2"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8.5 7.5 10 4.5h4l1.5 3"/></symbol>
+  <symbol id="ic-nota" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 18V6l10-2.5V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></symbol>
+  <symbol id="ic-cubiertos" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6.5 3v18M4.5 3v5a2 2 0 0 0 4 0V3"/><path d="M16.5 3c-2.5 3-2.5 8 0 10.5V21"/><path d="M16.5 3c2.2 3 2.2 8 0 10.5"/></symbol>
+  <symbol id="ic-brillos" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M10.5 3.5 12 8.5l5 1.5-5 1.5-1.5 5-1.5-5-5-1.5 5-1.5 1.5-5Z"/><path d="M18 14l.9 2.6 2.6.9-2.6.9L18 21l-.9-2.6-2.6-.9 2.6-.9L18 14Z"/></symbol>
+  <symbol id="ic-torta" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 20.5h16M5 20.5v-7.5h14v7.5"/><path d="M5 13c1.5 0 1.5-1.6 3-1.6s1.5 1.6 3 1.6 1.5-1.6 3-1.6 1.5 1.6 3 1.6"/><path d="M12 11.4V8.5"/><path d="M12 4c1 1.1 1 2.4 0 3.2-1-.8-1-2.1 0-3.2Z"/></symbol>
+</svg>
+
 <!-- ═══════════════ NAVEGACIÓN ═══════════════ -->
 <header class="barra" id="barra">
+  <a class="barra__logo" href="#" aria-label="Volver arriba"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="#monograma"/></svg></a>
   <nav aria-label="Secciones del sitio">
     <a href="#evento">El evento</a>
     <a href="#confirmar">Confirmar</a>
@@ -510,31 +609,11 @@ footer :focus-visible{ outline-color:var(--crema); }
 <!-- ═══════════════ PORTADA ═══════════════ -->
 <div class="portada">
 
-  <svg class="rama-deco izq" viewBox="0 0 120 300" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
-    <path d="M60 300 C58 220 56 140 60 10" stroke-linecap="round"/>
-    <path d="M60 250 C34 244 20 226 18 204 C42 206 56 222 60 250Z"/>
-    <path d="M60 250 C86 244 100 226 102 204 C78 206 64 222 60 250Z"/>
-    <path d="M60 190 C34 184 20 166 18 144 C42 146 56 162 60 190Z"/>
-    <path d="M60 190 C86 184 100 166 102 144 C78 146 64 162 60 190Z"/>
-    <path d="M60 130 C34 124 20 106 18 84 C42 86 56 102 60 130Z"/>
-    <path d="M60 130 C86 124 100 106 102 84 C78 86 64 102 60 130Z"/>
-    <path d="M60 72 C42 66 32 52 31 36 C48 38 58 52 60 72Z"/>
-    <path d="M60 72 C78 66 88 52 89 36 C72 38 62 52 60 72Z"/>
-  </svg>
-
-  <svg class="rama-deco der" viewBox="0 0 120 300" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
-    <path d="M60 300 C58 220 56 140 60 10" stroke-linecap="round"/>
-    <path d="M60 250 C34 244 20 226 18 204 C42 206 56 222 60 250Z"/>
-    <path d="M60 250 C86 244 100 226 102 204 C78 206 64 222 60 250Z"/>
-    <path d="M60 190 C34 184 20 166 18 144 C42 146 56 162 60 190Z"/>
-    <path d="M60 190 C86 184 100 166 102 144 C78 146 64 162 60 190Z"/>
-    <path d="M60 130 C34 124 20 106 18 84 C42 86 56 102 60 130Z"/>
-    <path d="M60 130 C86 124 100 106 102 84 C78 86 64 102 60 130Z"/>
-    <path d="M60 72 C42 66 32 52 31 36 C48 38 58 52 60 72Z"/>
-    <path d="M60 72 C78 66 88 52 89 36 C72 38 62 52 60 72Z"/>
-  </svg>
+  <svg class="corona" aria-hidden="true" viewBox="0 0 920 620"><use href="#rama-arco" width="300" height="620"/><use href="#rama-arco" width="300" height="620" transform="translate(920 0) scale(-1 1)"/></svg>
 
   <div class="portada__contenido">
+    <svg class="ramita-par arriba" aria-hidden="true" viewBox="0 0 450 70"><use href="#ramita" width="220" height="70"/><use href="#ramita" width="220" height="70" transform="translate(450 0) scale(-1 1)"/></svg>
+
     <!-- ✏️ EDITAR: frase de apertura -->
     <p class="portada__intro">Nos casamos</p>
 
@@ -562,11 +641,8 @@ footer :focus-visible{ outline-color:var(--crema); }
       <a class="enlace-suave" href="#evento">Ver dónde y cuándo</a>
     </div>
 
-    <svg class="hojita" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
-      <path d="M2 12h11M27 12h11" stroke-linecap="round"/>
-      <path d="M20 4c3.6 2.6 5 5.3 5 8s-1.4 5.4-5 8c-3.6-2.6-5-5.3-5-8s1.4-5.4 5-8Z"/>
-      <path d="M20 4v16" stroke-linecap="round"/>
-    </svg>
+    <svg class="hojita hojita--desktop" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
+    <svg class="ramita-par abajo" aria-hidden="true" viewBox="0 0 450 70"><use href="#ramita" width="220" height="70"/><use href="#ramita" width="220" height="70" transform="translate(450 0) scale(-1 1)"/></svg>
   </div>
 </div>
 
@@ -576,7 +652,7 @@ footer :focus-visible{ outline-color:var(--crema); }
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Cuándo y dónde</p>
       <h2>El evento</h2>
-      <div class="filete"></div>
+      <svg class="divisor" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
     </div>
 
     <div class="grilla-lugares grilla-lugares--una">
@@ -610,11 +686,12 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ CONFIRMACIÓN ═══════════════ -->
 <section id="confirmar" class="seccion-alterna">
+  <svg class="rama-fondo der" aria-hidden="true" viewBox="0 0 300 620"><use href="#rama-arco"/></svg>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Contanos si venís</p>
       <h2>Confirmar asistencia</h2>
-      <div class="filete"></div>
+      <svg class="divisor" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
     </div>
 
     <!-- ✏️ EDITAR: fecha límite para confirmar (provisoria) -->
@@ -624,11 +701,7 @@ footer :focus-visible{ outline-color:var(--crema); }
       <!-- Esto se ve mientras Google carga el formulario. Si a los 6 s no
            cargó, aparece el botón para abrirlo aparte. -->
       <div class="cargando-form" id="cargando-form" aria-live="polite">
-        <svg class="hojita" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
-          <path d="M2 12h11M27 12h11" stroke-linecap="round"/>
-          <path d="M20 4c3.6 2.6 5 5.3 5 8s-1.4 5.4-5 8c-3.6-2.6-5-5.3-5-8s1.4-5.4 5-8Z"/>
-          <path d="M20 4v16" stroke-linecap="round"/>
-        </svg>
+        <svg class="hojita" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
         <p>Cargando el formulario…</p>
         <!-- ✏️ EDITAR: mismo link del formulario que abajo -->
         <a class="boton-mapa" href="https://docs.google.com/forms/d/e/1FAIpQLSfxuow3PamYp5UG-qH-qAlO76OdIuo0nG3qOszzrj6l-1Vn4g/viewform" target="_blank" rel="noopener">¿Tarda mucho? Abrilo aparte</a>
@@ -678,7 +751,7 @@ footer :focus-visible{ outline-color:var(--crema); }
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Si querés hacernos un regalo</p>
       <h2>Regalos</h2>
-      <div class="filete"></div>
+      <svg class="divisor" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
     </div>
 
     <div class="bloque-regalo revelar">
@@ -714,19 +787,22 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ CRONOGRAMA ═══════════════ -->
 <section id="cronograma" class="seccion-alterna">
+  <svg class="rama-fondo izq" aria-hidden="true" viewBox="0 0 300 620"><use href="#rama-arco"/></svg>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Cómo viene la mano</p>
       <h2>Cronograma</h2>
-      <div class="filete"></div>
+      <svg class="divisor" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
     </div>
 
-    <!-- ✏️ EDITAR: agregá o sacá bloques .hito según tu programa -->
+    <!-- ✏️ EDITAR: agregá o sacá bloques .hito según tu programa.
+         El ícono de cada hito se elige con href="#ic-..." (la lista de
+         íconos está en el <svg> de símbolos, arriba de todo). -->
     <div class="linea-tiempo revelar">
 
       <div class="hito">
         <span class="hito__hora">18:00</span>
-        <span class="hito__punto"></span>
+        <span class="hito__punto"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-copa"/></svg></span>
         <div class="hito__texto">
           <h3>Bienvenida</h3>
           <p>Recepción de los invitados en el jardín.</p>
@@ -735,7 +811,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
       <div class="hito">
         <span class="hito__hora">18:30</span>
-        <span class="hito__punto"></span>
+        <span class="hito__punto"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-anillos"/></svg></span>
         <div class="hito__texto">
           <h3>Ceremonia</h3>
           <p>En el jardín del salón.</p>
@@ -744,7 +820,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
       <div class="hito">
         <span class="hito__hora">19:00</span>
-        <span class="hito__punto"></span>
+        <span class="hito__punto"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-bandeja"/></svg></span>
         <div class="hito__texto">
           <h3>Recepción</h3>
           <p>Cóctel con comida, hasta las 20:30.</p>
@@ -753,7 +829,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
       <div class="hito">
         <span class="hito__hora">20:30</span>
-        <span class="hito__punto"></span>
+        <span class="hito__punto"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-camara"/></svg></span>
         <div class="hito__texto">
           <h3>Pasamos al salón</h3>
           <p>Mientras tanto, los novios se sacan fotos en el parque.</p>
@@ -762,7 +838,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
       <div class="hito">
         <span class="hito__hora">20:45</span>
-        <span class="hito__punto"></span>
+        <span class="hito__punto"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-nota"/></svg></span>
         <div class="hito__texto">
           <h3>Entrada de los novios</h3>
           <p>Vals y a bailar.</p>
@@ -771,7 +847,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
       <div class="hito">
         <span class="hito__hora">21:30</span>
-        <span class="hito__punto"></span>
+        <span class="hito__punto"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-cubiertos"/></svg></span>
         <div class="hito__texto">
           <h3>Cena</h3>
           <p>Plato principal, y a las 22:00 el postre.</p>
@@ -780,7 +856,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
       <div class="hito">
         <span class="hito__hora">22:15</span>
-        <span class="hito__punto"></span>
+        <span class="hito__punto"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-brillos"/></svg></span>
         <div class="hito__texto">
           <h3>Tanda carioca</h3>
           <p>A bailar hasta las 23:00.</p>
@@ -789,7 +865,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
       <div class="hito">
         <span class="hito__hora">23:00</span>
-        <span class="hito__punto"></span>
+        <span class="hito__punto"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-torta"/></svg></span>
         <div class="hito__texto">
           <h3>Torta y brindis</h3>
           <p>Corte de torta, brindis y mesa dulce.</p>
@@ -806,7 +882,7 @@ footer :focus-visible{ outline-color:var(--crema); }
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Por las dudas</p>
       <h2>Preguntas frecuentes</h2>
-      <div class="filete"></div>
+      <svg class="divisor" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
     </div>
 
     <!-- ✏️ EDITAR: cambiá, agregá o borrá preguntas -->
@@ -819,8 +895,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
       <details class="pregunta">
         <summary>¿Hay estacionamiento?</summary>
-        <!-- ✏️ CONFIRMAR con el salón -->
-        <p>Sí, el salón tiene estacionamiento propio.</p>
+        <p>El salón no tiene estacionamiento para invitados. Si venís en auto, hay que buscar lugar en la calle; si podés, vení en taxi, remís o auto de aplicación.</p>
       </details>
 
       <details class="pregunta">
@@ -844,14 +919,12 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ PIE ═══════════════ -->
 <footer>
-  <svg class="hojita" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
-    <path d="M2 12h11M27 12h11" stroke-linecap="round"/>
-    <path d="M20 4c3.6 2.6 5 5.3 5 8s-1.4 5.4-5 8c-3.6-2.6-5-5.3-5-8s1.4-5.4 5-8Z"/>
-    <path d="M20 4v16" stroke-linecap="round"/>
-  </svg>
+  <svg class="rama-fondo der" aria-hidden="true" viewBox="0 0 300 620"><use href="#rama-arco"/></svg>
+  <svg class="monograma" aria-hidden="true" viewBox="0 0 64 64"><use href="#monograma"/></svg>
   <!-- ✏️ EDITAR -->
   <h2>Te esperamos</h2>
-  <p>Jess &amp; Guille · 09.01.2027</p>
+  <p class="pie__firma">Con amor, Jess &amp; Guille</p>
+  <p>Sábado 9 de enero de 2027 · Estilo Coghlan</p>
 </footer>
 
 <script>
