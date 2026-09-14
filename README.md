@@ -1,126 +1,111 @@
-# Sitio del casamiento — guía de armado
+# Sitio del casamiento
 
-Todo el sitio es **un solo archivo**: `index.html`. No hay que instalar nada
-ni compilar nada. Lo abrís con cualquier editor de texto, cambiás lo que
-tenga el cartelito `✏️ EDITAR` al lado, lo guardás y listo.
+Sitio estático de una sola página, publicado gratis en GitHub Pages:
+**https://guillesantillan.github.io/casamiento/**
 
----
+Todo el sitio es **un archivo**: `index.html` (HTML + CSS + JS, sin
+dependencias, sin build). Lo acompaña `og.jpg`, la imagen que muestra WhatsApp
+al pegar el link.
 
-## 1. Publicarlo gratis en GitHub Pages
-
-1. Entrá a [github.com/new](https://github.com/new) y creá un repositorio
-   **público** llamado, por ejemplo, `casamiento`.
-2. En la página del repo vacío, tocá **uploading an existing file** y arrastrá
-   `index.html`. Escribí un mensaje cualquiera y tocá **Commit changes**.
-3. Andá a **Settings** → menú izquierdo **Pages**.
-4. En *Source* elegí **Deploy from a branch**. En *Branch* elegí `main` y la
-   carpeta `/ (root)`. Tocá **Save**.
-5. Esperá 1-2 minutos y recargá esa misma pantalla: te va a mostrar la
-   dirección, algo como
-
-   ```
-   https://TU-USUARIO.github.io/casamiento/
-   ```
-
-Cada vez que subas una versión nueva del archivo, el sitio se actualiza solo
-en menos de un minuto.
-
-### Si querés un dominio propio (opcional, ~USD 10-15 al año)
-
-Comprás el dominio (Namecheap, Nic.ar, Cloudflare) y en **Settings → Pages →
-Custom domain** lo cargás. GitHub te dice qué registros DNS apuntar. El
-certificado HTTPS lo genera GitHub gratis.
+> Este repositorio es público. Todo lo que está acá lo puede ver cualquiera.
+> No guardes acá claves, contraseñas ni datos que no quieras que se vean en el
+> sitio mismo.
 
 ---
 
-## 2. Armar el formulario de confirmación
+## Cómo editar textos y datos
 
-El sitio es estático, así que las respuestas las junta Google Forms. Es gratis,
-sin límite de respuestas, y te quedan todas ordenadas en una planilla.
+Abrí `index.html` con cualquier editor de texto y buscá `✏️ EDITAR`. Cada
+marca explica qué se puede cambiar ahí al lado. Las principales:
 
-1. Entrá a [forms.new](https://forms.new) — se te crea un formulario en blanco.
-2. Ponele de título **Confirmación de asistencia** y armá estas preguntas:
-
-   | Pregunta | Tipo | Obligatoria |
-   |---|---|---|
-   | ¿Vas a venir? | Opción múltiple: *Sí, ahí estoy* / *No voy a poder* | Sí |
-   | Nombre y apellido de cada persona que asiste (uno por línea) | Párrafo | Sí |
-   | ¿Alguien tiene restricciones alimentarias? Contanos cuál y de quién | Párrafo | No |
-
-   > Tip: en la primera pregunta, con el menú de los tres puntos podés activar
-   > **Ir a la sección según la respuesta**, para que quien elija *No voy a poder*
-   > salte directo al final sin completar el resto.
-
-3. Tocá el engranaje ⚙️ → pestaña **Respuestas** → activá
-   **Recibir correos de respuestas nuevas**, así te llega un mail con cada
-   confirmación.
-4. En la pestaña **Respuestas** del formulario, tocá el ícono verde de Sheets
-   para volcar todo a una planilla. Ahí contás los invitados con `=CONTARA(...)`.
-
-### Pegarlo en el sitio
-
-5. Arriba a la derecha, tocá **Enviar** → la pestaña **`< >`** (insertar HTML).
-6. Copiá el `<iframe ...>` completo que te muestra.
-7. Abrí `index.html`, buscá el bloque que dice
-   `✏️ EDITAR: pegá acá el <iframe> que te da Google Forms`
-   y reemplazá el `<div class="marcador">…</div>` entero por tu iframe.
-8. En el iframe que pegaste, agregale este atributo para que se vea bien en
-   celulares:
-
-   ```html
-   <iframe src="https://docs.google.com/forms/..." style="min-height:640px" width="100%" frameborder="0">Cargando…</iframe>
-   ```
-
-> ⚠️ Antes de mandar el link a nadie, abrí el formulario desde el sitio y
-> mandá una respuesta de prueba. Después borrala de la planilla.
-
----
-
-## 3. Qué editar en `index.html`
-
-Abrí el archivo y buscá `✏️ EDITAR` (con Ctrl+F). Cada marca te dice qué cambiar:
-
-| Dónde | Qué cambiar |
+| Qué | Dónde está |
 |---|---|
-| `<title>` y los `<meta og:...>` | Título de la pestaña y el texto que aparece al compartir por WhatsApp |
-| Portada | Los nombres, la fecha y la ciudad |
-| `var FECHA_EVENTO` (al final, en el `<script>`) | La fecha para la cuenta regresiva. **El mes va menos uno**: noviembre es `10` |
-| Sección *El evento* | Horarios, nombre de los lugares, direcciones y los links de Google Maps |
-| Sección *Cronograma* | Cada bloque `<div class="hito">` es una fila. Copiá o borrá los que necesites |
-| Sección *Regalos* | El alias y el titular de la cuenta |
-| Sección *Confirmar* | El iframe del formulario y la fecha límite |
-| Sección *Preguntas* | Cada `<details class="pregunta">` es una pregunta |
-| `:root` (arriba de todo, en el `<style>`) | Los colores de toda la página |
+| Título de la pestaña y texto de la tarjeta de WhatsApp | `<head>`, arriba de todo |
+| Fecha y hora del evento | el `<time id="fecha-evento">` de la portada. El atributo `datetime` es **la única fuente** para la cuenta de días y para "Agendar"; `data-fin`, `data-titulo` y `data-lugar` son lo que se guarda en el calendario |
+| Nombres, frase de apertura, botones de la portada | portada |
+| Lugar, dirección y link de Google Maps | tarjeta "Ceremonia y fiesta" (la dirección y el botón llevan el mismo link: cambiá los dos) |
+| Dress code | párrafo debajo de la tarjeta |
+| Fecha límite para confirmar | sección Confirmar, arriba del formulario |
+| Alias y titular de la cuenta | sección Regalos. El titular tiene que ser el nombre exacto que muestra el banco al transferir |
+| CBU (opcional) | bloque comentado en Regalos, listo para descomentar |
+| Número de WhatsApp de contacto | dos links `wa.me/...` (Regalos y final de Preguntas) |
+| Cronograma | bloques `.hito`; el ícono de cada uno se elige con `href="#ic-..."` (la lista está en el bloque de símbolos al principio del `<body>`) |
+| Preguntas frecuentes | bloques `<details>` |
+| Iniciales del monograma y firma del pie | símbolo `#monograma` y `<footer>` |
+| Colores | variables al principio del `<style>` (`--verde`, `--crema`, `--dorado`…) |
 
-### Para el link de Google Maps
+Si cambia la **dirección del sitio** (nombre del repo o dominio propio), hay
+que actualizar a mano las dos URLs absolutas del `<head>` (`og:url` y
+`og:image`): WhatsApp las lee sin ejecutar JavaScript.
 
-Buscá el lugar en Google Maps, tocá **Compartir → Copiar vínculo**, y pegá ese
-link reemplazando el que está en `href="..."` del botón *Cómo llegar*.
+## Cómo publicar un cambio
 
----
+Cualquier commit en `main` se publica solo en 1–2 minutos.
 
-## 4. Cosas para no olvidarse
+- Desde la web: abrí `index.html` en GitHub, lápiz ✏️, editá, **Commit changes**.
+- Desde la compu: `git pull`, editás, `git commit -am "…"`, `git push`.
 
-- **El alias**: revisá el que pusiste, letra por letra. Es el error más caro.
-- **Probalo del celular** antes de mandarlo: la mayoría de los invitados lo van
-  a abrir desde ahí.
-- **El repo es público**, así que no pongas el CBU si preferís que no quede
-  indexado — el alias solo ya alcanza para transferir.
-- **Acortá el link** con [tinyurl.com](https://tinyurl.com) si lo vas a poner en
-  una tarjeta impresa o un QR.
-- **QR para la invitación**: podés generarlo gratis en
-  [qr.io](https://qr.io) o con la app de tu celular apuntando a la URL del sitio.
+Para comprobar que ya está: abrí la URL del sitio con `?x=1` al final (evita
+la caché del navegador).
 
----
+## Formulario de confirmación (Google Forms)
 
-## 5. Si después querés agregar fotos
+El RSVP es un Google Form embebido en un `<iframe>`. El sitio no recibe ni
+guarda respuestas: quedan en el formulario y en su planilla de Drive.
 
-Creá una carpeta `img/` en el repo, subí las fotos ahí y referencialas así:
+Configuración recomendada del formulario (⚙️ Configuración):
 
-```html
-<img src="img/nosotros.jpg" alt="Ana y Martín">
-```
+- **Presentación → Mensaje de confirmación**: un cierre propio (por ejemplo
+  "¡Listo! Te esperamos el 9 de enero. Si querés hacernos un regalo, el alias
+  está más abajo").
+- **Respuestas → Guardar el progreso**: apagado (si no, aparece un "Acceder a
+  Google" que confunde).
+- **Respuestas → Mostrar resumen de respuestas a los encuestados**: **apagado**
+  (si no, quien responde ve los nombres de todos los invitados).
+- **Respuestas → Permitir editar la respuesta**: apagado.
+- **Recibir correos de respuestas nuevas**: prendido.
+- En la pregunta "¿Vas a venir?", la opción "No" puede ir directo a **Enviar
+  formulario** en vez de a una sección vacía.
+- Tipografía (Personalizar tema → Estilo de texto → Más fuentes): encabezado
+  **Cormorant Garamond**, pregunta y texto **Jost**, tamaños grandes; color
+  `#3d5140`.
 
-Antes de subirlas, achicalas a 1600 px de ancho como mucho y pasalas por
-[squoosh.app](https://squoosh.app) — una foto de 5 MB tarda una eternidad en
-cargar desde un celular con señal mala.
+Como no se puede saber desde afuera cuánto mide cada pantalla del formulario,
+las alturas del `<iframe>` están escritas a mano en `data-alturas-celular` y
+`data-alturas-desktop` (píxeles por pantalla: 1.ª, 2.ª, 3.ª…). Si cambiás
+preguntas o secciones, medí de nuevo y ajustalas.
+
+## Tarjeta de WhatsApp (`og.jpg`)
+
+Imagen de 1200×630 px, menos de 300 KB, referenciada desde `og:image`.
+WhatsApp cachea la vista previa por URL: si cambiás la imagen, mandá el link
+con `?v=2` al final para que la vuelva a leer.
+
+## Cómo funciona por dentro (por si hay que tocar código)
+
+- **Fuentes**: Cormorant Garamond y Jost desde Google Fonts, cargadas sin
+  bloquear el render. Mientras llegan se ven fuentes locales escaladas con
+  `size-adjust` para que el texto no salte.
+- **Adornos**: todos los dibujos (hojita, ramas, monograma, íconos) son
+  `<symbol>` SVG en un bloque al principio del `<body>` y se usan con
+  `<use href="#…">`. Los estilos de trazo van como atributos en los símbolos
+  porque el CSS del documento no alcanza a las copias que genera `<use>`.
+- **Formulario**: cartel de "Cargando…" detrás del iframe, aviso a los 6 s si
+  no cargó, scroll al tope del formulario en cada recarga (Siguiente/Enviar),
+  y altura por pantalla según el número de carga.
+- **Agendar**: genera un `.ics` en iPhone/Mac y abre Google Calendar en el
+  resto, a partir del `<time>` de la portada.
+- **Copiar alias**: `navigator.clipboard` con respaldo `execCommand` para
+  navegadores viejos. "Enviar por WhatsApp" arma el mensaje con el alias y el
+  titular que estén en la página.
+- Sin `localStorage`, sin cookies, sin scripts de terceros. Los únicos pedidos
+  externos son las fuentes de Google y el iframe de Forms.
+- `<meta name="robots" content="noindex">`: el sitio no aparece en buscadores;
+  los invitados llegan por el link.
+
+## Seguridad
+
+No hay servidor ni secretos: lo único que "protege" el sitio es la cuenta de
+GitHub (activá la verificación en dos pasos) y la cuenta de Google donde vive
+el formulario. Cualquiera con el link puede responder el formulario; las
+respuestas se revisan a mano.
