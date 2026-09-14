@@ -262,6 +262,9 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
   max-width:800px; margin-inline:auto;
 }
 
+.grilla-lugares--una{ max-width:580px; }
+.tarjeta__nota{ font-size:16px; margin-top:14px !important; }
+
 /* nota debajo de las tarjetas (dress code, etc.) */
 .nota-evento{
   max-width:560px; margin:32px auto 0;
@@ -543,12 +546,11 @@ footer :focus-visible{ outline-color:var(--crema); }
          El atributo datetime es LA ÚNICA fuente de la fecha para el
          código (cuenta de días, etc.). Formato: AAAA-MM-DDTHH:MM:SS-03:00
          (el -03:00 es la hora argentina, dejalo así). Cambiá el
-         datetime Y el texto visible.
-         ⚠️ La HORA es provisoria — cambiala cuando la tengas.
+         datetime Y el texto visible. La hora es la de llegada (18:00).
          ════════════════════════════════════════════════════════ -->
     <p class="portada__fecha">
-      <strong><time id="fecha-evento" datetime="2027-01-09T17:30:00-03:00">Sábado 9 de enero de 2027</time></strong><br>
-      Buenos Aires, Argentina
+      <strong><time id="fecha-evento" datetime="2027-01-09T18:00:00-03:00">Sábado 9 de enero de 2027</time></strong><br>
+      Estilo Coghlan · Buenos Aires
     </p>
 
     <!-- "Faltan N días": lo completa el código, no hace falta tocarlo -->
@@ -577,45 +579,30 @@ footer :focus-visible{ outline-color:var(--crema); }
       <div class="filete"></div>
     </div>
 
-    <div class="grilla-lugares">
+    <div class="grilla-lugares grilla-lugares--una">
 
-      <!-- ✏️ EDITAR: ceremonia -->
+      <!-- ✏️ EDITAR: el lugar (ceremonia y fiesta en el mismo salón) -->
       <article class="tarjeta revelar">
         <svg class="icono" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
           <path d="M20 4v9M16 7.5h8" stroke-linecap="round"/>
           <path d="M8 36V20c0-4 5.4-7 12-7s12 3 12 7v16" stroke-linejoin="round"/>
           <path d="M4 36h32M20 36v-9M15 24h10" stroke-linecap="round"/>
         </svg>
-        <h3>Ceremonia</h3>
-        <p class="hora">17:30 h</p>
+        <h3>Ceremonia y fiesta</h3>
+        <p class="hora">18:00 h</p>
         <p class="dia">Sábado 9 de enero</p>
-        <p class="lugar">Parroquia Nuestra Señora del Valle</p>
+        <p class="lugar">Estilo Coghlan</p>
         <!-- la dirección y el botón llevan al MISMO link de Maps: cambiá los dos -->
-        <p class="direccion"><a href="https://maps.google.com/?q=Parroquia+Nuestra+Se%C3%B1ora+del+Valle+San+Isidro" target="_blank" rel="noopener">Av. Siempreviva 1234, San Isidro</a></p>
-        <a class="boton-mapa" href="https://maps.google.com/?q=Parroquia+Nuestra+Se%C3%B1ora+del+Valle+San+Isidro" target="_blank" rel="noopener">Cómo llegar</a>
-      </article>
-
-      <!-- ✏️ EDITAR: fiesta -->
-      <article class="tarjeta revelar">
-        <svg class="icono" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-          <path d="M11 5h18l-2.5 12a6.8 6.8 0 0 1-13 0L11 5Z" stroke-linejoin="round"/>
-          <path d="M20 29v7M13 36h14" stroke-linecap="round"/>
-          <path d="M12.4 11h15.2" stroke-linecap="round"/>
-        </svg>
-        <h3>Fiesta</h3>
-        <p class="hora">20:00 h</p>
-        <p class="dia">Sábado 9 de enero</p>
-        <p class="lugar">Quinta Los Álamos</p>
-        <!-- la dirección y el botón llevan al MISMO link de Maps: cambiá los dos -->
-        <p class="direccion"><a href="https://maps.google.com/?q=Quinta+Los+Alamos+Ingeniero+Maschwitz" target="_blank" rel="noopener">Ruta 27 km 8, Ingeniero Maschwitz</a></p>
-        <a class="boton-mapa" href="https://maps.google.com/?q=Quinta+Los+Alamos+Ingeniero+Maschwitz" target="_blank" rel="noopener">Cómo llegar</a>
+        <p class="direccion"><a href="https://maps.google.com/?q=Estilo+Coghlan+Dr.+Pedro+Ignacio+Rivera+3804+Coghlan+CABA" target="_blank" rel="noopener">Dr. Pedro Ignacio Rivera 3804, Coghlan, CABA</a></p>
+        <p class="tarjeta__nota">Todo en el mismo lugar. Te esperamos a las 18:00; la ceremonia empieza a las 18:30.</p>
+        <a class="boton-mapa" href="https://maps.google.com/?q=Estilo+Coghlan+Dr.+Pedro+Ignacio+Rivera+3804+Coghlan+CABA" target="_blank" rel="noopener">Cómo llegar</a>
       </article>
 
     </div>
 
     <!-- ✏️ EDITAR: dress code (o borrá este párrafo) -->
     <p class="nota-evento revelar">
-      <strong>Dress code: elegante.</strong> La fiesta es en un parque con césped,
+      <strong>Dress code: elegante.</strong> La ceremonia y la recepción son en el jardín,
       cuidado con los tacos finos. Por favor, evitá el blanco.
     </p>
   </div>
@@ -738,11 +725,11 @@ footer :focus-visible{ outline-color:var(--crema); }
     <div class="linea-tiempo revelar">
 
       <div class="hito">
-        <span class="hito__hora">17:30</span>
+        <span class="hito__hora">18:00</span>
         <span class="hito__punto"></span>
         <div class="hito__texto">
-          <h3>Ceremonia</h3>
-          <p>Te pedimos llegar 20 minutos antes.</p>
+          <h3>Bienvenida</h3>
+          <p>Recepción de los invitados en el jardín.</p>
         </div>
       </div>
 
@@ -750,17 +737,35 @@ footer :focus-visible{ outline-color:var(--crema); }
         <span class="hito__hora">18:30</span>
         <span class="hito__punto"></span>
         <div class="hito__texto">
-          <h3>Fotos y traslado</h3>
-          <p>Habrá micros desde la parroquia hasta la quinta.</p>
+          <h3>Ceremonia</h3>
+          <p>En el jardín del salón.</p>
         </div>
       </div>
 
       <div class="hito">
-        <span class="hito__hora">20:00</span>
+        <span class="hito__hora">19:00</span>
         <span class="hito__punto"></span>
         <div class="hito__texto">
           <h3>Recepción</h3>
-          <p>Cóctel de bienvenida en el jardín.</p>
+          <p>Cóctel con comida, hasta las 20:30.</p>
+        </div>
+      </div>
+
+      <div class="hito">
+        <span class="hito__hora">20:30</span>
+        <span class="hito__punto"></span>
+        <div class="hito__texto">
+          <h3>Pasamos al salón</h3>
+          <p>Mientras tanto, los novios se sacan fotos en el parque.</p>
+        </div>
+      </div>
+
+      <div class="hito">
+        <span class="hito__hora">20:45</span>
+        <span class="hito__punto"></span>
+        <div class="hito__texto">
+          <h3>Entrada de los novios</h3>
+          <p>Vals y a bailar.</p>
         </div>
       </div>
 
@@ -769,25 +774,25 @@ footer :focus-visible{ outline-color:var(--crema); }
         <span class="hito__punto"></span>
         <div class="hito__texto">
           <h3>Cena</h3>
-          <p>Servicio en el salón principal.</p>
+          <p>Plato principal, y a las 22:00 el postre.</p>
         </div>
       </div>
 
       <div class="hito">
-        <span class="hito__hora">23:30</span>
+        <span class="hito__hora">22:15</span>
         <span class="hito__punto"></span>
         <div class="hito__texto">
-          <h3>Baile</h3>
-          <p>Abrimos la pista con el vals.</p>
+          <h3>Tanda carioca</h3>
+          <p>A bailar hasta las 23:00.</p>
         </div>
       </div>
 
       <div class="hito">
-        <span class="hito__hora">04:00</span>
+        <span class="hito__hora">23:00</span>
         <span class="hito__punto"></span>
         <div class="hito__texto">
-          <h3>Cierre</h3>
-          <p>Los micros vuelven a San Isidro.</p>
+          <h3>Torta y brindis</h3>
+          <p>Corte de torta, brindis y mesa dulce.</p>
         </div>
       </div>
 
@@ -814,12 +819,13 @@ footer :focus-visible{ outline-color:var(--crema); }
 
       <details class="pregunta">
         <summary>¿Hay estacionamiento?</summary>
-        <p>La quinta tiene estacionamiento propio sin costo dentro del predio.</p>
+        <!-- ✏️ CONFIRMAR con el salón -->
+        <p>Sí, el salón tiene estacionamiento propio.</p>
       </details>
 
       <details class="pregunta">
-        <summary>¿Hay micro desde la ceremonia?</summary>
-        <p>Sí, salen de la puerta de la parroquia a las 19:00 y vuelven a las 04:00.</p>
+        <summary>¿La ceremonia es en otro lado?</summary>
+        <p>No: ceremonia y fiesta son en Estilo Coghlan. Llegás a las 18:00 y no te movés más.</p>
       </details>
 
       <details class="pregunta">
