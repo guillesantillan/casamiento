@@ -346,6 +346,74 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
 }
 .regresiva__intro + .regresiva{ margin-top:12px; }
 
+/* ── Entrada de la portada ───────────────────────────────────────
+   Solo corre si el <html> tiene la clase "animar" (la pone un script al
+   principio del <body> cuando el navegador NO pide "reducir movimiento").
+   Sin JS o con reduced-motion, la portada aparece lista, sin animación.
+   Las animaciones arrancan pausadas y se sueltan con la clase "lista"
+   (fuentes cargadas, o 400 ms como máximo), así el texto no cambia de
+   fuente a mitad de camino. ─────────────────────────────────────── */
+:root{ --suave: cubic-bezier(.16,1,.3,1); }   /* arranca rápido, frena suave */
+
+html.animar .arco,
+html.animar .portada__saludo,
+html.animar .portada__intro,
+html.animar .portada h1,
+html.animar .portada h1 .amp,
+html.animar .portada__fecha,
+html.animar .regresiva__intro,
+html.animar .regresiva__celda,
+html.animar .portada__faltan,
+html.animar .portada__acciones,
+html.animar .portada .hojita{
+  animation-duration:.9s; animation-timing-function:var(--suave);
+  animation-fill-mode:both; animation-play-state:paused;
+}
+html.animar.lista .arco, html.animar.lista .portada__saludo, html.animar.lista .portada__intro,
+html.animar.lista .portada h1, html.animar.lista .portada h1 .amp, html.animar.lista .portada__fecha,
+html.animar.lista .regresiva__intro, html.animar.lista .regresiva__celda, html.animar.lista .portada__faltan,
+html.animar.lista .portada__acciones, html.animar.lista .portada .hojita{ animation-play-state:running; }
+
+html.animar .arco{ animation-name:posar; animation-duration:1s; }
+html.animar .portada__saludo{ animation-name:subir; animation-delay:.45s; }
+html.animar .portada__intro{ animation-name:aparecer; animation-delay:.5s; animation-duration:.7s; }
+html.animar .portada h1{ animation-name:barrer; animation-delay:.6s; animation-duration:1s; }
+html.animar .portada h1 .amp{ display:inline-block; animation-name:caer; animation-delay:1s; animation-duration:.7s; }
+html.animar .portada__fecha{ animation-name:subir; animation-delay:.85s; }
+html.animar .regresiva__intro{ animation-name:subir; animation-delay:.95s; }
+html.animar .regresiva__celda{ animation-name:subir; animation-delay:1s; }
+html.animar .regresiva__celda:nth-child(2){ animation-delay:1.06s; }
+html.animar .regresiva__celda:nth-child(3){ animation-delay:1.12s; }
+html.animar .regresiva__celda:nth-child(4){ animation-delay:1.18s; }
+html.animar .portada__faltan{ animation-name:subir; animation-delay:1s; }
+html.animar .portada__acciones{ animation-name:subir; animation-delay:1.2s; }
+html.animar .portada .hojita{ animation-name:aparecer; animation-delay:1.4s; }
+
+/* las líneas de "Nos casamos" se extienden desde el centro hacia afuera */
+html.animar .portada__intro::before,
+html.animar .portada__intro::after{
+  transform:scaleX(0); animation:extender .8s var(--suave) .55s both paused;
+}
+html.animar .portada__intro::before{ transform-origin:right center; }
+html.animar .portada__intro::after{ transform-origin:left center; }
+html.animar.lista .portada__intro::before, html.animar.lista .portada__intro::after{ animation-play-state:running; }
+
+/* la corona espera a que la foto se pose */
+html.animar .corona path{ animation-delay:.25s; }
+html.animar .corona .hoja{ animation-delay:.95s; }
+html.animar .corona .flor{ animation-delay:1.55s; }
+
+@keyframes posar{ from{ opacity:0; transform:translateY(10px) scale(.965); } to{ opacity:1; transform:none; } }
+@keyframes subir{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
+@keyframes aparecer{ from{ opacity:0; } to{ opacity:1; } }
+@keyframes extender{ from{ transform:scaleX(0); } to{ transform:scaleX(1); } }
+@keyframes caer{ from{ opacity:0; transform:translateY(-8px); } to{ opacity:1; transform:none; } }
+/* los nombres se revelan con un barrido de izquierda a derecha, como tinta */
+@keyframes barrer{
+  from{ opacity:1; clip-path:inset(-10% 100% -10% 0); -webkit-clip-path:inset(-10% 100% -10% 0); }
+  to{   opacity:1; clip-path:inset(-10% -6% -10% -2%); -webkit-clip-path:inset(-10% -6% -10% -2%); }
+}
+
 /* ── Botón principal de la portada ───────────────────────────── */
 .portada__acciones{
   display:flex; flex-direction:column; align-items:center; gap:14px;
@@ -691,6 +759,22 @@ footer :focus-visible{ outline-color:var(--crema); }
 </style>
 </head>
 <body>
+
+<script>
+/* Entrada animada de la portada: solo si el navegador no pide "reducir
+   movimiento". Se decide acá, antes de pintar, para que no haya parpadeo. */
+(function(){
+  try{
+    if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var raiz = document.documentElement;
+    raiz.className += ' animar';
+    var listo = false;
+    function soltar(){ if(!listo){ listo = true; raiz.className += ' lista'; } }
+    if(document.fonts && document.fonts.ready){ document.fonts.ready.then(soltar, soltar); }
+    setTimeout(soltar, 400);   /* tope: no esperamos a las fuentes más que esto */
+  }catch(e){}
+})();
+</script>
 
 <!-- ═══════════════ DIBUJOS REUTILIZABLES ═══════════════
      Símbolos SVG que se usan en varios lados con <use href="#nombre">.
