@@ -18,3 +18,5 @@ $RECYCLE.BIN/
 # Originales pesados de fotos: guardá acá las versiones sin comprimir
 # para que no se suban al repo. Las optimizadas van en img/
 img/originales/
+portada.jpeg
+.claude/

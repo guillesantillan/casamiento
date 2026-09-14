@@ -4,8 +4,9 @@ Sitio estático de una sola página, publicado gratis en GitHub Pages:
 **https://guillesantillan.github.io/casamiento/**
 
 Todo el sitio es **un archivo**: `index.html` (HTML + CSS + JS, sin
-dependencias, sin build). Lo acompaña `og.jpg`, la imagen que muestra WhatsApp
-al pegar el link.
+dependencias, sin build). Lo acompañan `og.jpg` (la imagen que muestra
+WhatsApp al pegar el link) y `foto-portada.webp` / `foto-portada.jpg` (la foto
+de la portada, recortada en vertical a 800×1013).
 
 > Este repositorio es público. Todo lo que está acá lo puede ver cualquiera.
 > No guardes acá claves, contraseñas ni datos que no quieras que se vean en el
@@ -23,6 +24,9 @@ marca explica qué se puede cambiar ahí al lado. Las principales:
 | Título de la pestaña y texto de la tarjeta de WhatsApp | `<head>`, arriba de todo |
 | Fecha y hora del evento | el `<time id="fecha-evento">` de la portada. El atributo `datetime` es **la única fuente** para la cuenta de días y para "Agendar"; `data-fin`, `data-titulo` y `data-lugar` son lo que se guarda en el calendario |
 | Nombres, frase de apertura, botones de la portada | portada |
+| Foto de la portada | reemplazá `foto-portada.webp` y `foto-portada.jpg` por otras con el mismo nombre, vertical, ~800 px de ancho y menos de 200 KB |
+| Texto "Nosotros" | sección debajo de la portada |
+| Qué muestra el sitio después del casamiento | `data-gracias` y `data-album` en el `<time>` de la portada (ver más abajo) |
 | Lugar, dirección y link de Google Maps | tarjeta "Ceremonia y fiesta" (la dirección y el botón llevan el mismo link: cambiá los dos) |
 | Dress code | párrafo debajo de la tarjeta |
 | Fecha límite para confirmar | sección Confirmar, arriba del formulario |
@@ -37,6 +41,26 @@ marca explica qué se puede cambiar ahí al lado. Las principales:
 Si cambia la **dirección del sitio** (nombre del repo o dominio propio), hay
 que actualizar a mano las dos URLs absolutas del `<head>` (`og:url` y
 `og:image`): WhatsApp las lee sin ejecutar JavaScript.
+
+## Link personalizado por invitado
+
+Si al link le agregás `?para=Nombre`, la portada saluda a esa persona:
+
+```
+https://guillesantillan.github.io/casamiento/?para=Tía+Marta
+```
+
+Los espacios van como `+` (o `%20`). Solo acepta letras, espacios, punto,
+apóstrofo y guion, hasta 40 caracteres; cualquier otra cosa se ignora y el
+sitio se ve normal. Sin el parámetro no pasa nada.
+
+## Después del casamiento
+
+Pasadas unas horas del fin del evento (`data-fin`), el sitio cambia solo:
+"Nos casamos" pasa a ser el texto de `data-gracias`, se ocultan la cuenta
+regresiva, la confirmación y el cronograma, y si `data-album` tiene un link
+(Google Photos, por ejemplo) el botón principal pasa a ser "Ver las fotos".
+Para ver cómo queda antes de tiempo: `…/casamiento/?vista=gracias`.
 
 ## Cómo publicar un cambio
 

@@ -206,7 +206,7 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   display:flex; flex-direction:column;
   align-items:center; justify-content:center;
   text-align:center;
-  padding:clamp(60px,12vh,100px) 24px;
+  padding:clamp(36px,7vh,90px) 24px;
   background:
     radial-gradient(ellipse 70% 55% at 50% 0%,  rgba(168,189,164,.24), transparent 70%),
     radial-gradient(ellipse 80% 60% at 50% 100%, rgba(168,189,164,.16), transparent 70%),
@@ -215,22 +215,62 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   overflow:hidden;
 }
 
-/* corona: dos arcos de hojas que abrazan los nombres (solo desktop) */
+/* foto en arco, con la corona de hojas detrás */
+.portada__foto{
+  position:relative;
+  width:min(400px,92vw);
+  margin:0 auto;
+  padding:6% 0;
+}
 .corona{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-  width:min(920px,100vw); height:auto; color:var(--verde-medio); opacity:.55;
-  pointer-events:none; display:none;
+  width:100%; height:auto; color:var(--verde-medio); opacity:.6;
+  pointer-events:none;
 }
-@media (min-width:700px){ .corona{ display:block; } }
-/* en celular la corona abraza solo los nombres */
-.portada__nombres{ position:relative; padding-block:26px; }
-.portada__nombres h1{ position:relative; z-index:1; }
-.corona--nombres{
-  display:block; width:min(370px,102vw); opacity:.6;
+.arco{
+  position:relative; z-index:1;
+  width:63%; margin:0 auto;
+  padding:7px;
+  background:var(--blanco);
+  border:1px solid var(--linea);
+  border-radius:999px 999px 6px 6px;
+  box-shadow:0 14px 40px -18px rgba(61,81,64,.35);
 }
-@media (min-width:700px){ .corona--nombres{ display:none; } }
-
-.portada__contenido{ position:relative; z-index:1; max-width:720px; }
+.arco::before{
+  content:""; position:absolute; top:3px; left:3px; right:3px; bottom:3px;
+  border:1px solid var(--verde-claro); border-radius:999px 999px 4px 4px;
+  opacity:.75; pointer-events:none;
+}
+.arco::after{
+  content:""; position:absolute; top:3px; left:3px; right:3px; bottom:3px; pointer-events:none;
+  background-image:
+    radial-gradient(circle, var(--dorado) 1.7px, transparent 2.4px),
+    radial-gradient(circle, var(--dorado) 1.7px, transparent 2.4px);
+  background-size:10px 10px; background-repeat:no-repeat;
+  background-position:-5px calc(100% + 5px), calc(100% + 5px) calc(100% + 5px);
+}
+.arco img{
+  display:block; width:100%; height:auto;
+  border-radius:999px 999px 3px 3px;
+  filter:saturate(.92);
+}
+/* saludo personalizado (?para=Nombre) */
+.portada__saludo{
+  margin:0 0 14px;
+  font-family:var(--serif); font-style:italic;
+  font-size:clamp(22px,4.5vw,28px);
+  color:var(--verde);
+}
+.portada__contenido{
+  position:relative; z-index:1; width:100%; max-width:1000px;
+  display:grid; grid-template-columns:1fr; gap:36px; align-items:center;
+}
+.portada__texto{ max-width:560px; margin-inline:auto; }
+/* en pantallas anchas: foto a la izquierda, textos a la derecha */
+@media (min-width:860px){
+  .portada__contenido{ grid-template-columns:minmax(0,440px) minmax(0,1fr); gap:56px; }
+  .portada__foto{ width:100%; }
+}
 
 .portada__intro{
   font-size:13px; letter-spacing:.3em; text-transform:uppercase;
@@ -240,32 +280,27 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
 .portada__intro::before,.portada__intro::after{ content:""; width:34px; height:1px; background:var(--verde-claro); }
 
 .portada h1{
-  font-size:clamp(52px,13vw,104px);
+  font-size:clamp(44px,12vw,88px);
   color:var(--verde);
   font-weight:300;
   letter-spacing:-.01em;
 }
 .portada h1 .amp{
-  display:block;
+  display:inline; margin:0 .12em;
   font-style:italic;
   font-size:.46em;
   color:var(--dorado);
-  margin-block:6px;
-}
-/* en desktop los nombres van en una sola línea, como en la tarjeta de WhatsApp */
-@media (min-width:700px){
-  .portada h1 .amp{ display:inline; margin:0 .12em; }
 }
 
 .portada__fecha{
-  margin-top:30px;
+  margin-top:22px;
   font-size:14px; letter-spacing:.22em; text-transform:uppercase;
   color:var(--tinta-suave);
 }
 .portada__fecha strong{ font-weight:400; color:var(--tinta); }
 
 .hojita{ display:block; width:38px; height:auto; margin:34px auto 0; color:var(--dorado); }
-.hojita--desktop{ display:block; }
+.hojita--desktop{ display:block; margin-top:26px; }
 
 /* Cuenta regresiva (la completa el JS; si no hay JS, no se muestra nada) */
 .portada__faltan{
@@ -293,13 +328,17 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   color:var(--verde);
   font-variant-numeric:tabular-nums;
 }
+@media (prefers-reduced-motion:no-preference){
+  .regresiva__num.tic{ animation:tic .5s ease-out; }
+  @keyframes tic{ from{ opacity:.3; } to{ opacity:1; } }
+}
 .regresiva__rot{
   display:block; margin-top:8px;
   font-size:12px; letter-spacing:.18em; text-transform:uppercase;
   color:var(--tinta-suave);
 }
 .regresiva__intro{
-  margin:26px 0 0;
+  margin:22px 0 0;
   font-size:13px; letter-spacing:.3em; text-transform:uppercase;
   color:var(--verde-medio);
 }
@@ -307,8 +346,8 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
 
 /* ── Botón principal de la portada ───────────────────────────── */
 .portada__acciones{
-  display:flex; flex-direction:column; align-items:center; gap:16px;
-  margin-top:34px;
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  margin-top:28px;
 }
 .boton-principal{
   display:inline-block;
@@ -320,10 +359,31 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   transition:background .25s;
 }
 .boton-principal:hover,.boton-principal:focus-visible{ background:var(--verde-medio); border-color:var(--verde-medio); }
+.boton-principal[hidden]{ display:none; }
 .enlace-suave{
   font-size:15px; color:var(--verde);
   text-decoration:underline; text-underline-offset:4px;
 }
+
+/* ── Nosotros ────────────────────────────────────────────────── */
+.seccion-nosotros{ padding-block:clamp(48px,7vw,72px); background:var(--crema-hondo); }
+.nosotros{ max-width:620px; margin-inline:auto; text-align:center; }
+.nosotros .divisor{ margin:0 auto 22px; }
+.nosotros__texto{
+  margin:0; font-family:var(--serif); font-style:italic;
+  font-size:clamp(21px,3.2vw,26px); line-height:1.5; color:var(--verde);
+  text-wrap:balance;
+}
+.nosotros__firma{
+  margin:18px 0 0; font-size:13px; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--verde-medio);
+}
+
+/* ── Después del casamiento (lo activa el código pasada la fecha) ── */
+.ya-paso #confirmar, .ya-paso #cronograma,
+.ya-paso .barra a[href="#confirmar"], .ya-paso .barra a[href="#cronograma"],
+.ya-paso .regresiva, .ya-paso .regresiva__intro, .ya-paso .enlace-suave,
+.ya-paso .despues{ display:none; }
 
 /* ── Tarjetas de lugar ───────────────────────────────────────── */
 .grilla-lugares{
@@ -678,18 +738,30 @@ footer :focus-visible{ outline-color:var(--crema); }
 <!-- ═══════════════ PORTADA ═══════════════ -->
 <div class="portada">
 
-  <svg class="corona dibuja" aria-hidden="true" viewBox="0 0 920 620" stroke-width="1.4"><g><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/></g><g transform="translate(920 0) scale(-1 1)"><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/></g></svg>
-
   <div class="portada__contenido">
 
-    <!-- ✏️ EDITAR: frase de apertura -->
-    <p class="portada__intro">Nos casamos</p>
-
-    <div class="portada__nombres">
-      <svg class="corona corona--nombres dibuja" aria-hidden="true" viewBox="0 0 920 620" stroke-width="1.4"><g><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/></g><g transform="translate(920 0) scale(-1 1)"><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/></g></svg>
-      <!-- ✏️ EDITAR: los nombres -->
-      <h1>Jess<span class="amp">&amp;</span>Guille</h1>
+    <!-- Foto de la portada: foto-portada.webp (y .jpg de respaldo), al lado
+         de este archivo, recortada en vertical (800×1013). Para cambiarla,
+         reemplazá los dos archivos con el mismo nombre y tamaño parecido. -->
+    <div class="portada__foto">
+      <svg class="corona dibuja" aria-hidden="true" viewBox="0 0 700 620" stroke-width="1.4"><g><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/></g><g transform="translate(700 0) scale(-1 1)"><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/></g></svg>
+      <div class="arco">
+        <picture>
+          <source srcset="foto-portada.webp" type="image/webp">
+          <img src="foto-portada.jpg" width="800" height="1013" alt="Jess y Guille" decoding="async">
+        </picture>
+      </div>
     </div>
+
+    <div class="portada__texto">
+    <!-- Saludo personalizado: aparece si el link trae ?para=Nombre -->
+    <p class="portada__saludo" id="saludo" hidden></p>
+
+    <!-- ✏️ EDITAR: frase de apertura -->
+    <p class="portada__intro" id="portada-intro">Nos casamos</p>
+
+    <!-- ✏️ EDITAR: los nombres -->
+    <h1>Jess<span class="amp">&amp;</span>Guille</h1>
 
     <!-- ════════════════════════════════════════════════════════
          ✏️ EDITAR: fecha y ciudad.
@@ -699,12 +771,18 @@ footer :focus-visible{ outline-color:var(--crema); }
          datetime Y el texto visible. La hora es la de llegada (18:00).
          data-fin, data-titulo y data-lugar son lo que se guarda en el
          calendario cuando alguien toca "Agendar".
+         DESPUÉS DEL CASAMIENTO el sitio cambia solo: data-gracias es la
+         frase que reemplaza a "Nos casamos" y data-album el link al álbum
+         de fotos (Google Photos, etc.); si está vacío no se muestra botón.
+         Para ver cómo queda antes de tiempo: abrí el sitio con ?vista=gracias
          ════════════════════════════════════════════════════════ -->
     <p class="portada__fecha">
       <strong><time id="fecha-evento" datetime="2027-01-09T18:00:00-03:00"
             data-fin="2027-01-10T00:00:00-03:00"
             data-titulo="Casamiento de Jess y Guille"
-            data-lugar="Estilo Coghlan, Dr. Pedro Ignacio Rivera 3804, Coghlan, CABA">Sábado 9 de enero de 2027</time></strong><br>
+            data-lugar="Estilo Coghlan, Dr. Pedro Ignacio Rivera 3804, Coghlan, CABA"
+            data-gracias="Gracias por acompañarnos"
+            data-album="">Sábado 9 de enero de 2027</time></strong><br>
       Estilo Coghlan · Buenos Aires
     </p>
 
@@ -725,8 +803,23 @@ footer :focus-visible{ outline-color:var(--crema); }
     </div>
 
     <svg class="hojita hojita--desktop" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
+    </div>
   </div>
 </div>
+
+<!-- ═══════════════ NOSOTROS ═══════════════ -->
+<section id="nosotros" class="seccion-nosotros">
+  <div class="envoltorio">
+    <div class="nosotros revelar">
+      <svg class="divisor" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
+      <!-- ✏️ EDITAR: escriban acá su historia, en primera persona, 3 o 4 líneas.
+           Cómo se conocieron, cuánto hace, por qué quieren a esta gente ahí. -->
+      <p class="nosotros__texto">Nos conocimos hace unos años y desde entonces no paramos de armar planes. Este es el más grande de todos, y queremos vivirlo con la gente que más queremos.</p>
+      <p class="nosotros__firma">Jess &amp; Guille</p>
+    </div>
+  </div>
+</section>
+
 
 <!-- ═══════════════ EL EVENTO ═══════════════ -->
 <section id="evento">
@@ -767,7 +860,8 @@ footer :focus-visible{ outline-color:var(--crema); }
 
     <!-- ✏️ EDITAR: dress code (o borrá este párrafo) -->
     <p class="nota-evento revelar">
-      <strong>Dress code: elegante sport.</strong> La ceremonia y la recepción son en el jardín:
+      <strong>Dress code: elegante sport.</strong> Ellos, traje o saco, con o sin corbata;
+      ellas, vestido de fiesta, corto o largo. La ceremonia y la recepción son en el jardín:
       tenelo en cuenta al elegir los zapatos.
     </p>
   </div>
@@ -1047,6 +1141,54 @@ var FECHA_EVENTO = (function(){
 })();
 
 
+/* ── Parámetros del link (?para=Nombre, ?vista=gracias) ─────────── */
+function parametro(nombre){
+  var partes = location.search.replace(/^\?/, '').split('&');
+  for(var i = 0; i < partes.length; i++){
+    var par = partes[i].split('=');
+    if(decodeURIComponent(par[0]) === nombre){
+      try{ return decodeURIComponent((par[1] || '').replace(/\+/g, ' ')); }
+      catch(e){ return ''; }
+    }
+  }
+  return '';
+}
+
+
+/* ── Saludo personalizado: ?para=Tía+Marta → "Hola, Tía Marta" ──── */
+(function(){
+  var caja = document.getElementById('saludo');
+  var nombre = parametro('para').trim().replace(/\s+/g, ' ');
+  /* solo letras (con acentos), espacios, punto, apóstrofo y guion; hasta 40 caracteres */
+  if(!caja || !nombre || !/^[A-Za-z\u00C0-\u017F' .\-]{2,40}$/.test(nombre)) return;
+  caja.textContent = 'Hola, ' + nombre;
+  caja.hidden = false;
+})();
+
+
+/* ── Después del casamiento ───────────────────────────────────── */
+(function(){
+  var t = document.getElementById('fecha-evento');
+  if(!t || !FECHA_EVENTO) return;
+  var fin = new Date(t.getAttribute('data-fin') || FECHA_EVENTO);
+  if(isNaN(fin.getTime())) fin = FECHA_EVENTO;
+  var yaPaso = Date.now() > fin.getTime() + 6 * 3600000 || parametro('vista') === 'gracias';
+  if(!yaPaso) return;
+
+  document.body.classList.add('ya-paso');
+  var intro = document.getElementById('portada-intro');
+  var gracias = t.getAttribute('data-gracias');
+  if(intro && gracias) intro.textContent = gracias;
+
+  var album = (t.getAttribute('data-album') || '').trim();
+  var boton = document.querySelector('.boton-principal');
+  if(boton){
+    if(album){ boton.textContent = 'Ver las fotos'; boton.href = album; boton.target = '_blank'; boton.rel = 'noopener'; }
+    else{ boton.hidden = true; }
+  }
+})();
+
+
 /* ── Cuenta regresiva en la portada ───────────────────────────── */
 (function(){
   var caja  = document.getElementById('regresiva');
@@ -1057,6 +1199,7 @@ var FECHA_EVENTO = (function(){
   var mins  = document.getElementById('cr-min');
   var segs  = document.getElementById('cr-seg');
   if(!caja || !frase || !FECHA_EVENTO) return;
+  if(document.body.classList.contains('ya-paso')){ frase.textContent = '¡Nos casamos!'; frase.hidden = false; return; }
 
   function dosDigitos(n){ return n < 10 ? '0' + n : String(n); }
 
@@ -1079,6 +1222,7 @@ var FECHA_EVENTO = (function(){
     horas.textContent = dosDigitos(Math.floor(s % 86400 / 3600));
     mins.textContent  = dosDigitos(Math.floor(s % 3600 / 60));
     segs.textContent  = dosDigitos(s % 60);
+    segs.classList.remove('tic'); void segs.offsetWidth; segs.classList.add('tic');
     caja.hidden = false; intro.hidden = false;
 
     /* se vuelve a correr justo al cambiar el segundo */
