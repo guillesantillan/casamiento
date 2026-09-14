@@ -244,7 +244,12 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
 .escena.viva .escena__vida{ opacity:1; }
 .escena__velo{
   position:absolute; top:0; left:0; right:0; bottom:0; opacity:0; transition:opacity 1.6s ease;
-  background:linear-gradient(180deg, rgba(250,247,241,0) 0%, rgba(250,247,241,.30) 28%, rgba(250,247,241,.78) 52%, rgba(250,247,241,.94) 100%);
+  /* fuerte detrás del texto (franja del medio), liviano abajo para que se vean las flores */
+  background:linear-gradient(180deg, rgba(250,247,241,0) 0%, rgba(250,247,241,.28) 24%, rgba(250,247,241,.84) 44%, rgba(250,247,241,.9) 72%, rgba(250,247,241,.35) 88%, rgba(250,247,241,.15) 100%);
+}
+@media (max-width:859px){
+  /* en celular, las flores tienen su propia franja debajo del botón */
+  .portada{ padding-bottom:230px; }
 }
 .escena.viva .escena__velo{ opacity:1; }
 
@@ -254,12 +259,12 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
 .escena__pampa{ left:12%; top:27%; width:125%; opacity:0; }
 .escena__pampa.cargada{ opacity:.85; }
 .escena__casa{ left:-6%; top:19%; width:112%; }
-.escena__cortadera--izq{ left:-16%; bottom:5%; width:54%; }
-.escena__cortadera--der{ right:-16%; bottom:5%; width:54%; }
-.escena__ceibo{ left:-5%; bottom:7%; width:50%; }
-.escena__pasionaria{ left:33%; bottom:2%; width:34%; }
-.escena__jacaranda{ right:-5%; bottom:6%; width:54%; }
-.escena__rosas{ right:28%; bottom:1%; width:38%; }
+.escena__cortadera--izq{ left:-16%; bottom:2%; width:54%; }
+.escena__cortadera--der{ right:-16%; bottom:2%; width:54%; }
+.escena__ceibo{ left:-4%; bottom:2%; width:48%; }
+.escena__pasionaria{ left:32%; bottom:-2%; width:34%; }
+.escena__jacaranda{ right:-5%; bottom:1%; width:52%; }
+.escena__rosas{ right:27%; bottom:-3%; width:36%; }
 @media (min-width:860px){
   .escena{ transform-origin:14% 8%; }
   .escena__ombu--izq{ left:-16%; top:-24%; width:50%; }
@@ -702,6 +707,42 @@ html.sobre:not(.abierto).animar .portada__contenido{ transform:scale(1.06); tran
   text-decoration:underline; text-underline-offset:4px;
 }
 
+/* ── Láminas de fondo en las secciones (reusan las imágenes de la
+      escena; solo se ven con WebP). Se mecen y acompañan el scroll. ── */
+.lamina-caja{ position:absolute; pointer-events:none; display:none; transform:translateY(var(--vy,0px)); will-change:transform; }
+html.con-escena .lamina-caja{ display:block; }
+.lamina{ display:block; width:100%; height:auto; transform-origin:50% 100%; }
+.lamina-caja--izq{ left:-6%; bottom:-2%; width:min(38vw,240px); }
+.lamina-caja--der{ right:-6%; bottom:-2%; width:min(38vw,240px); }
+.lamina-caja--arriba-izq{ left:-14%; top:-6%; width:min(60vw,360px); opacity:.35; }
+.lamina-caja{ opacity:.8; }
+.lamina-caja--tenue{ opacity:.5; }
+html.animar .lamina{ animation:mecer 8s ease-in-out infinite; }
+html.animar .lamina-caja--der .lamina{ animation-duration:9.5s; animation-delay:-3s; }
+html.animar .lamina--ombu{ animation:susurrar 12s ease-in-out infinite; transform-origin:30% 0; }
+html.animar .lamina--cortadera{ animation:mecer-cortadera 6s ease-in-out infinite; }
+html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-out -2s infinite; }
+.lamina--cortadera-der{ transform:scaleX(-1); }
+@media (min-width:860px){
+  .lamina-caja--izq{ left:-2%; width:220px; }
+  .lamina-caja--der{ right:-2%; width:220px; }
+  .lamina-caja--arriba-izq{ left:-6%; top:-10%; width:380px; }
+}
+/* los horneros de "Nosotros" van dentro del contenido, arriba del texto */
+.nosotros__hornero{ display:none; width:min(52vw,200px); height:auto; margin:0 auto 18px; transform-origin:50% 100%; }
+html.con-escena .nosotros__hornero{ display:block; }
+html.animar .nosotros__hornero{ animation:mecer 9s ease-in-out infinite; }
+/* mariposa que cruza la sección de vez en cuando */
+.cruce{ position:absolute; top:22%; left:0; width:34px; height:34px; pointer-events:none; opacity:0; }
+html.animar .cruce{ animation:cruzar 34s linear infinite; }
+html.animar .cruce--2{ top:60%; animation-duration:41s; animation-delay:-19s; }
+html.animar .cruce .vaiven{ animation:vaiven 4.2s ease-in-out infinite; }
+html.animar .cruce .ala{ transform-box:fill-box; animation:aletear .5s ease-in-out infinite alternate; }
+html.animar .cruce .ala--izq{ transform-origin:100% 50%; }
+html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
+@keyframes cruzar{ 0%{ transform:translateX(-12vw); opacity:0; } 4%{ opacity:1; } 36%{ opacity:1; } 40%{ transform:translateX(112vw); opacity:0; } 100%{ transform:translateX(112vw); opacity:0; } }
+@keyframes vaiven{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-22px); } }
+
 /* ── Nosotros ────────────────────────────────────────────────── */
 .seccion-nosotros{ padding-block:clamp(48px,7vw,72px); background:var(--crema-hondo); }
 .nosotros{ max-width:620px; margin-inline:auto; text-align:center; }
@@ -1006,6 +1047,7 @@ footer{
 }
 footer > *{ position:relative; }
 footer .rama-fondo{ position:absolute; bottom:auto; top:-6%; right:-70px; height:112%; width:auto; color:var(--crema); opacity:.2; }
+footer .lamina-caja{ position:absolute; opacity:.5; }
 footer .monograma{ display:block; width:68px; height:68px; margin:0 auto 22px; color:rgba(250,247,241,.9); }
 footer h2{ font-size:clamp(30px,6vw,42px); font-style:italic; font-weight:400; }
 footer .pie__firma{
@@ -1237,6 +1279,8 @@ footer :focus-visible{ outline-color:var(--crema); }
 <section id="nosotros" class="seccion-nosotros">
   <div class="envoltorio">
     <div class="nosotros revelar">
+      <!-- dos horneros sobre su nido (Hudson, Birds of La Plata, 1920) -->
+      <img class="nosotros__hornero" src="escena/hornero.webp" alt="" loading="lazy" decoding="async">
       <svg class="divisor" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
       <!-- ✏️ EDITAR: escriban acá su historia, en primera persona, 3 o 4 líneas.
            Cómo se conocieron, cuánto hace, por qué quieren a esta gente ahí. -->
@@ -1249,6 +1293,9 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ EL EVENTO ═══════════════ -->
 <section id="evento">
+  <span class="lamina-caja lamina-caja--der"><img class="lamina lamina--jacaranda" src="escena/jacaranda.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--arriba-izq"><img class="lamina lamina--ombu-izq" src="escena/ombu-izq.webp" alt="" loading="lazy" decoding="async"></span>
+  <svg class="cruce cruce--1" viewBox="-18 -18 36 36" aria-hidden="true"><g class="vaiven"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-9.9 -9.9 -15.4 -2.2 -9.9 1.6 C-13.2 6.1 -5.5 7.7 0 1.6Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8"/><path d="M-6.6 -2.8 a2 2 0 1 0 .1 0" fill="#c79a98" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-9.9 -9.9 -15.4 -2.2 -9.9 1.6 C-13.2 6.1 -5.5 7.7 0 1.6Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-6.6 -2.8 a2 2 0 1 0 .1 0" fill="#c79a98" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -3.8 v7.7" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></svg>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Cuándo y dónde</p>
@@ -1362,6 +1409,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ REGALOS ═══════════════ -->
 <section id="regalos">
+  <span class="lamina-caja lamina-caja--izq"><img class="lamina lamina--rosas" src="escena/rosas.webp" alt="" loading="lazy" decoding="async"></span>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Si querés hacernos un regalo</p>
@@ -1411,7 +1459,8 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ CRONOGRAMA ═══════════════ -->
 <section id="cronograma" class="seccion-alterna">
-  <svg class="rama-fondo izq" aria-hidden="true" viewBox="0 0 300 620"><use href="#rama-arco"/></svg>
+  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--ceibo" src="escena/ceibo.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--der lamina-caja--tenue"><img class="lamina lamina--cortadera-der" src="escena/cortadera.webp" alt="" loading="lazy" decoding="async"></span>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Hora por hora</p>
@@ -1502,6 +1551,8 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ PREGUNTAS ═══════════════ -->
 <section id="preguntas">
+  <span class="lamina-caja lamina-caja--der lamina-caja--tenue"><img class="lamina lamina--pasionaria" src="escena/pasionaria.webp" alt="" loading="lazy" decoding="async"></span>
+  <svg class="cruce cruce--2" viewBox="-18 -18 36 36" aria-hidden="true"><g class="vaiven"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-8.1 -8.1 -12.6 -1.8 -8.1 1.3 C-10.8 5 -4.5 6.3 0 1.3Z" fill="#d9b7b3" stroke="#9c7a45" stroke-width=".8"/><path d="M-5.4 -2.2 a1.6 1.6 0 1 0 .1 0" fill="#c9a46a" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-8.1 -8.1 -12.6 -1.8 -8.1 1.3 C-10.8 5 -4.5 6.3 0 1.3Z" fill="#d9b7b3" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-5.4 -2.2 a1.6 1.6 0 1 0 .1 0" fill="#c9a46a" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -3.1 v6.3" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></svg>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Lo que más nos preguntan</p>
@@ -1544,7 +1595,8 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ PIE ═══════════════ -->
 <footer>
-  <svg class="rama-fondo der" aria-hidden="true" viewBox="0 0 300 620"><use href="#rama-arco"/></svg>
+  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--cortadera" src="escena/cortadera.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--der lamina-caja--tenue"><img class="lamina lamina--cortadera-der" src="escena/cortadera.webp" alt="" loading="lazy" decoding="async"></span>
   <svg class="monograma" aria-hidden="true" viewBox="0 0 64 64"><use href="#monograma"/></svg>
   <!-- ✏️ EDITAR -->
   <h2>Te esperamos</h2>
@@ -1665,6 +1717,27 @@ var ESCENA = (function(){
   var raiz = document.documentElement;
   if(!ESCENA.caja || /\bsobre\b/.test(raiz.className)) return;
   setTimeout(function(){ ESCENA.caja.classList.add('viva'); ESCENA.caja.classList.add('meciendo'); }, 800);
+})();
+
+
+/* ── Láminas de las secciones: acompañan el scroll ───────────── */
+(function(){
+  var cajas = document.querySelectorAll('.lamina-caja');
+  if(!cajas.length || !/\banimar\b/.test(document.documentElement.className)) return;
+  var pedido = false;
+  function pintar(){
+    pedido = false;
+    var vh = window.innerHeight || 800;
+    cajas.forEach(function(c){
+      var r = c.getBoundingClientRect();
+      if(r.bottom < -200 || r.top > vh + 200) return;
+      var vy = (r.top + r.height / 2 - vh / 2) * -0.10;
+      c.style.setProperty('--vy', vy.toFixed(1) + 'px');
+    });
+  }
+  window.addEventListener('scroll', function(){ if(!pedido){ pedido = true; (window.requestAnimationFrame || setTimeout)(pintar); } }, { passive:true });
+  window.addEventListener('resize', pintar);
+  pintar();
 })();
 
 
