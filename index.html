@@ -7,18 +7,36 @@
 <!-- ════════════════════════════════════════════════════════════
      ✏️  EDITAR: título de la pestaña y descripción para WhatsApp
      ════════════════════════════════════════════════════════════ -->
-<title>Ana & Martín · 14 de noviembre de 2026</title>
+<title>Jess &amp; Guille · 9 de enero de 2027</title>
 <meta name="description" content="Nos casamos. Toda la información del evento, el cronograma y la confirmación de asistencia.">
-<meta property="og:title" content="Ana & Martín se casan">
-<meta property="og:description" content="14 de noviembre de 2026 · Toda la info y confirmación de asistencia.">
+<meta property="og:title" content="Jess &amp; Guille se casan">
+<meta property="og:description" content="Sábado 9 de enero de 2027 · Toda la info y confirmación de asistencia.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#3d5140">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- Fuentes de Google cargadas SIN bloquear el render: la hoja entra como
+     "print" (no frena la pantalla) y al terminar de bajar pasa a "all".
+     Mientras tanto se ven las fuentes de respaldo definidas más abajo.
+     Solo se piden los pesos que el sitio usa. -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@400&display=swap" rel="stylesheet"></noscript>
 
 <style>
+/* ═══════════════════════════════════════════════════════════════
+   FUENTES DE RESPALDO — se ven hasta que llegan las de Google (o si
+   nunca llegan). Están escaladas (size-adjust) para ocupar el mismo
+   ancho que Cormorant/Jost, así el texto no salta cuando cambian.
+   Valores medidos: Cormorant = 95,5% de Times (itálica 85,4%),
+   87,3% de Georgia (itálica 77,7%); Jost = 95,4% de Arial.
+   ═══════════════════════════════════════════════════════════════ */
+@font-face{ font-family:"Cormorant respaldo Times"; src:local("Times New Roman"), local("TimesNewRomanPSMT"); size-adjust:95.5%; }
+@font-face{ font-family:"Cormorant respaldo Times"; src:local("Times New Roman Italic"), local("TimesNewRomanPS-ItalicMT"); font-style:italic; size-adjust:85.4%; }
+@font-face{ font-family:"Cormorant respaldo Georgia"; src:local("Georgia"); size-adjust:87.3%; }
+@font-face{ font-family:"Cormorant respaldo Georgia"; src:local("Georgia Italic"), local("Georgia-Italic"); font-style:italic; size-adjust:77.7%; }
+@font-face{ font-family:"Jost respaldo"; src:local("Arial"), local("ArialMT"), local("Helvetica Neue"), local("Roboto"); size-adjust:95.4%; }
+
 /* ═══════════════════════════════════════════════════════════════
    PALETA — cambiá estos valores para ajustar todos los colores
    ═══════════════════════════════════════════════════════════════ */
@@ -26,15 +44,15 @@
   --crema:        #faf7f1;
   --crema-hondo:  #f2ede2;
   --verde:        #3d5140;
-  --verde-medio:  #6b8269;
+  --verde-medio:  #5a7058;   /* 5:1 sobre crema: pasa AA en texto chico */
   --verde-claro:  #a8bda4;
   --tinta:        #2c3229;
   --tinta-suave:  #5d655a;
   --linea:        #ddd5c5;
   --blanco:       #fffefb;
 
-  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --sans:  "Jost", "Helvetica Neue", Arial, sans-serif;
+  --serif: "Cormorant Garamond", "Cormorant respaldo Times", "Cormorant respaldo Georgia", Georgia, "Times New Roman", serif;
+  --sans:  "Jost", "Jost respaldo", "Helvetica Neue", Arial, sans-serif;
 
   --ancho: 1100px;
 }
@@ -48,7 +66,7 @@ body{
   background:var(--crema);
   color:var(--tinta);
   font-family:var(--sans);
-  font-weight:300;
+  font-weight:400;
   font-size:17px;
   line-height:1.75;
   -webkit-font-smoothing:antialiased;
@@ -60,6 +78,9 @@ img{ max-width:100%; height:auto; display:block; }
 h1,h2,h3{ font-family:var(--serif); font-weight:400; line-height:1.15; margin:0; }
 
 a{ color:var(--verde); }
+
+/* foco visible para quien navega con teclado */
+:focus-visible{ outline:2px solid var(--verde); outline-offset:3px; }
 
 .envoltorio{
   width:100%;
@@ -76,7 +97,7 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
 
 .sobretitulo{
   font-family:var(--sans);
-  font-size:12px;
+  font-size:13px;
   font-weight:400;
   letter-spacing:.28em;
   text-transform:uppercase;
@@ -117,29 +138,33 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
 .barra.pegada{ border-bottom-color:var(--linea); box-shadow:0 2px 20px rgba(61,81,64,.05); }
 
 .barra nav{
-  display:flex; justify-content:center; gap:clamp(14px,3.5vw,38px);
-  padding:16px 20px;
+  display:flex; gap:clamp(14px,3.5vw,38px);
+  padding:10px 20px;
   overflow-x:auto;
   scrollbar-width:none;
 }
 .barra nav::-webkit-scrollbar{ display:none; }
+/* centrado con márgenes automáticos: si entra, queda centrado; si no entra,
+   se puede scrollear hasta el primer ítem (con justify-content:center no se podía) */
+.barra a:first-child{ margin-left:auto; }
+.barra a:last-child{ margin-right:auto; }
 
 .barra a{
-  font-size:11.5px;
-  letter-spacing:.19em;
+  font-size:13px;
+  letter-spacing:.16em;
   text-transform:uppercase;
   text-decoration:none;
   color:var(--tinta-suave);
   white-space:nowrap;
-  padding-bottom:3px;
+  padding:8px 0 5px;
   border-bottom:1px solid transparent;
   transition:color .2s, border-color .2s;
 }
-.barra a:hover,.barra a:focus-visible{ color:var(--verde); border-bottom-color:var(--verde-claro); }
+.barra a:hover,.barra a:focus-visible{ color:var(--verde); border-bottom-color:var(--verde-medio); }
 
 /* ── Portada ─────────────────────────────────────────────────── */
 .portada{
-  min-height:clamp(560px,92vh,860px);
+  min-height:clamp(480px,80vh,760px);
   display:flex; flex-direction:column;
   align-items:center; justify-content:center;
   text-align:center;
@@ -161,7 +186,7 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
 .portada__contenido{ position:relative; z-index:1; max-width:720px; }
 
 .portada__intro{
-  font-size:12px; letter-spacing:.3em; text-transform:uppercase;
+  font-size:13px; letter-spacing:.3em; text-transform:uppercase;
   color:var(--verde-medio); margin:0 0 28px;
 }
 
@@ -181,30 +206,39 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
 
 .portada__fecha{
   margin-top:30px;
-  font-size:13px; letter-spacing:.24em; text-transform:uppercase;
+  font-size:14px; letter-spacing:.22em; text-transform:uppercase;
   color:var(--tinta-suave);
 }
 .portada__fecha strong{ font-weight:400; color:var(--tinta); }
 
-.hojita{ display:block; width:38px; margin:34px auto 0; color:var(--verde-claro); }
+.hojita{ display:block; width:38px; margin:34px auto 0; color:var(--verde-medio); }
 
-/* ── Cuenta regresiva ────────────────────────────────────────── */
-.regresiva{
-  display:flex; justify-content:center; gap:clamp(12px,4vw,34px);
-  margin-top:40px; flex-wrap:wrap;
-}
-.regresiva div{ min-width:64px; }
-.regresiva .num{
-  display:block;
-  font-family:var(--serif);
-  font-size:clamp(32px,7vw,46px);
-  line-height:1;
+/* "Faltan N días" (lo completa el JS; si no hay JS, no se muestra nada) */
+.portada__faltan{
+  margin:22px 0 0;
+  font-family:var(--serif); font-style:italic;
+  font-size:clamp(22px,4.5vw,28px);
   color:var(--verde);
 }
-.regresiva .rot{
-  display:block; margin-top:8px;
-  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
-  color:var(--tinta-suave);
+
+/* ── Botón principal de la portada ───────────────────────────── */
+.portada__acciones{
+  display:flex; flex-direction:column; align-items:center; gap:16px;
+  margin-top:34px;
+}
+.boton-principal{
+  display:inline-block;
+  font-size:16px; font-weight:400; letter-spacing:.08em;
+  text-decoration:none;
+  color:var(--crema); background:var(--verde);
+  border:1px solid var(--verde); border-radius:3px;
+  padding:16px 38px;
+  transition:background .25s;
+}
+.boton-principal:hover,.boton-principal:focus-visible{ background:var(--verde-medio); border-color:var(--verde-medio); }
+.enlace-suave{
+  font-size:15px; color:var(--verde);
+  text-decoration:underline; text-underline-offset:4px;
 }
 
 /* ── Tarjetas de lugar ───────────────────────────────────────── */
@@ -212,7 +246,15 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
   gap:28px;
+  max-width:800px; margin-inline:auto;
 }
+
+/* nota debajo de las tarjetas (dress code, etc.) */
+.nota-evento{
+  max-width:560px; margin:32px auto 0;
+  text-align:center; color:var(--tinta-suave);
+}
+.nota-evento strong{ font-weight:400; color:var(--tinta); }
 
 .tarjeta{
   background:var(--blanco);
@@ -225,23 +267,35 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
 .tarjeta .icono{ width:34px; margin:0 auto 18px; color:var(--verde-medio); }
 
 .tarjeta h3{
-  font-size:27px; color:var(--verde); font-style:italic;
-  margin-bottom:6px;
+  font-size:24px; color:var(--verde-medio); font-style:italic;
+  margin-bottom:4px;
 }
+/* la hora es el dato más importante de la tarjeta: va grande */
 .tarjeta .hora{
-  font-size:11px; letter-spacing:.22em; text-transform:uppercase;
-  color:var(--verde-medio); margin:0 0 18px;
+  font-family:var(--serif);
+  font-size:clamp(34px,7vw,42px); line-height:1.1;
+  color:var(--verde); margin:0 0 4px;
+}
+.tarjeta .dia{
+  font-size:13px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--tinta-suave); margin:0 0 20px;
 }
 .tarjeta p{ margin:0 0 6px; color:var(--tinta-suave); }
-.tarjeta .lugar{ color:var(--tinta); font-weight:400; }
+.tarjeta .lugar{ color:var(--tinta); font-size:18px; }
+.tarjeta .direccion a{
+  color:var(--tinta);
+  text-decoration:underline; text-decoration-color:var(--verde-claro);
+  text-underline-offset:4px;
+}
+.tarjeta .direccion a:hover,.tarjeta .direccion a:focus-visible{ text-decoration-color:var(--verde); }
 
 .boton-mapa{
-  display:inline-block; margin-top:20px;
-  font-size:11px; letter-spacing:.19em; text-transform:uppercase;
+  display:inline-block; margin-top:22px;
+  font-size:14px; letter-spacing:.12em; text-transform:uppercase;
   text-decoration:none; color:var(--verde);
-  border:1px solid var(--verde-claro);
-  border-radius:2px;
-  padding:11px 22px;
+  border:1px solid var(--verde-medio);
+  border-radius:3px;
+  padding:13px 26px;
   transition:background .25s, color .25s;
 }
 .boton-mapa:hover,.boton-mapa:focus-visible{ background:var(--verde); color:var(--crema); border-color:var(--verde); }
@@ -280,7 +334,7 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
 .hito:last-child  .hito__punto{ background:var(--verde-medio); border-color:var(--verde-medio); }
 
 .hito__texto h3{ font-size:22px; color:var(--tinta); margin-bottom:2px; }
-.hito__texto p{ margin:0; font-size:15.5px; color:var(--tinta-suave); }
+.hito__texto p{ margin:0; font-size:16px; color:var(--tinta-suave); }
 
 /* ── Regalos ─────────────────────────────────────────────────── */
 .bloque-regalo{
@@ -295,7 +349,7 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
   padding:clamp(28px,4.5vw,40px) 24px;
 }
 .caja-alias .rot{
-  font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+  font-size:13px; letter-spacing:.22em; text-transform:uppercase;
   color:var(--verde-medio); margin:0 0 12px;
 }
 .caja-alias .valor{
@@ -306,23 +360,23 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
   margin:0;
 }
 .caja-alias .titular{
-  font-size:14px; color:var(--tinta-suave); margin:10px 0 0;
+  font-size:15px; color:var(--tinta-suave); margin:10px 0 0;
 }
 .caja-alias + .caja-alias{ margin-top:18px; }
 
 .boton-copiar{
   margin-top:22px;
-  font-family:var(--sans); font-size:11px; font-weight:400;
-  letter-spacing:.19em; text-transform:uppercase;
+  font-family:var(--sans); font-size:14px; font-weight:400;
+  letter-spacing:.12em; text-transform:uppercase;
   color:var(--crema); background:var(--verde);
-  border:1px solid var(--verde); border-radius:2px;
-  padding:13px 30px; cursor:pointer;
+  border:1px solid var(--verde); border-radius:3px;
+  padding:14px 30px; cursor:pointer;
   transition:background .25s, color .25s;
 }
 .boton-copiar:hover,.boton-copiar:focus-visible{ background:var(--verde-medio); border-color:var(--verde-medio); }
-.boton-copiar.listo{ background:var(--verde-claro); border-color:var(--verde-claro); color:var(--verde); }
+.boton-copiar.listo{ background:var(--verde-claro); border-color:var(--verde-claro); color:var(--tinta); }
 
-.nota-chica{ font-size:14px; color:var(--tinta-suave); margin-top:28px; font-style:italic; }
+.nota-chica{ font-size:15px; color:var(--tinta-suave); margin-top:28px; font-style:italic; }
 
 /* ── Confirmación ────────────────────────────────────────────── */
 .caja-form{
@@ -332,23 +386,54 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
   border-radius:3px;
   padding:clamp(20px,3vw,28px);
 }
-.caja-form iframe{ width:100%; border:0; display:block; min-height:640px; }
+.caja-form iframe{ width:100%; border:0; display:block; min-height:640px; position:relative; z-index:1; }
 
-.marcador{
-  border:1.5px dashed var(--verde-claro);
-  border-radius:3px;
-  padding:44px 28px;
-  text-align:center;
+/* Mientras Google tarda en cargar el formulario, se ve esto detrás del
+   iframe (el iframe es transparente hasta que carga). */
+.caja-form{ position:relative; }
+.cargando-form{
+  position:absolute; top:clamp(20px,3vw,28px); right:clamp(20px,3vw,28px); bottom:clamp(20px,3vw,28px); left:clamp(20px,3vw,28px);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:14px; text-align:center;
   color:var(--tinta-suave);
+  padding:24px;
 }
-.marcador strong{ display:block; color:var(--verde); font-weight:400; font-size:19px; font-family:var(--serif); margin-bottom:10px; }
-.marcador code{
-  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-  font-size:13px; background:var(--crema-hondo);
-  padding:2px 6px; border-radius:2px; color:var(--verde);
+.cargando-form .hojita{ margin:0; animation:latido 1.6s ease-in-out infinite; }
+.cargando-form p{ margin:0; }
+.cargando-form .boton-mapa{ margin-top:6px; display:none; }
+.cargando-form.tarda .boton-mapa{ display:inline-block; }
+.caja-form.cargado .cargando-form{ display:none; }
+/* en celular la caja se abre casi al borde: Google Forms necesita ancho */
+@media (max-width:560px){
+  .caja-form{ padding:4px; margin-inline:-16px; }
+  .cargando-form{ top:4px; right:4px; bottom:4px; left:4px; }
 }
+@keyframes latido{ 0%,100%{ opacity:.45; } 50%{ opacity:1; } }
+@media (prefers-reduced-motion:reduce){ .cargando-form .hojita{ animation:none; } }
 
-.limite{ text-align:center; margin-top:30px; font-size:14px; color:var(--tinta-suave); }
+.alternativa{
+  text-align:center; margin-top:18px;
+  font-size:15px; color:var(--tinta-suave);
+}
+.alternativa a{ color:var(--verde-medio); }
+
+/* Después de confirmar: el "paso siguiente" siempre visible bajo el formulario */
+.despues{
+  max-width:720px; margin:40px auto 0;
+  text-align:center;
+  border-top:1px solid var(--linea);
+  padding-top:32px;
+}
+.despues p{ margin:0 0 18px; color:var(--tinta-suave); }
+.despues p strong{ font-weight:400; color:var(--tinta); }
+.despues__enlaces{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; }
+.despues__enlaces .boton-mapa{ margin-top:0; }
+
+/* fecha límite: va ARRIBA del formulario, para que se lea antes de confirmar */
+.limite{
+  max-width:520px; margin:-16px auto 30px;
+  text-align:center; font-size:17px; color:var(--tinta-suave);
+}
 .limite strong{ font-weight:400; color:var(--tinta); }
 
 /* ── Preguntas ───────────────────────────────────────────────── */
@@ -364,12 +449,12 @@ section{ padding-block:clamp(64px,10vw,110px); position:relative; }
 .pregunta summary::after{
   content:"+"; position:absolute; right:4px; top:50%;
   transform:translateY(-50%);
-  font-family:var(--sans); font-weight:300; font-size:22px;
-  color:var(--verde-claro);
+  font-family:var(--sans); font-weight:400; font-size:28px;
+  color:var(--verde-medio);
   transition:transform .25s;
 }
 .pregunta[open] summary::after{ transform:translateY(-50%) rotate(45deg); }
-.pregunta p{ margin:0 0 22px; color:var(--tinta-suave); font-size:15.5px; }
+.pregunta p{ margin:0 0 22px; color:var(--tinta-suave); font-size:16px; }
 
 /* ── Pie ─────────────────────────────────────────────────────── */
 footer{
@@ -378,9 +463,10 @@ footer{
   text-align:center;
   padding:clamp(56px,8vw,80px) 24px;
 }
-footer .hojita{ color:rgba(250,247,241,.42); margin-top:0; margin-bottom:24px; }
+footer .hojita{ color:rgba(250,247,241,.55); margin-top:0; margin-bottom:24px; }
 footer h2{ font-size:clamp(30px,6vw,42px); font-style:italic; font-weight:300; }
-footer p{ margin:16px 0 0; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:rgba(250,247,241,.62); }
+footer p{ margin:16px 0 0; font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:rgba(250,247,241,.8); }
+footer :focus-visible{ outline-color:var(--crema); }
 
 /* ── Aparición suave al hacer scroll ─────────────────────────── */
 .revelar{ opacity:0; transform:translateY(20px); transition:opacity .8s ease, transform .8s ease; }
@@ -398,9 +484,9 @@ footer p{ margin:16px 0 0; font-size:12px; letter-spacing:.22em; text-transform:
 <header class="barra" id="barra">
   <nav aria-label="Secciones del sitio">
     <a href="#evento">El evento</a>
-    <a href="#cronograma">Cronograma</a>
-    <a href="#regalos">Regalos</a>
     <a href="#confirmar">Confirmar</a>
+    <a href="#regalos">Regalos</a>
+    <a href="#cronograma">Cronograma</a>
     <a href="#preguntas">Preguntas</a>
   </nav>
 </header>
@@ -437,16 +523,28 @@ footer p{ margin:16px 0 0; font-size:12px; letter-spacing:.22em; text-transform:
     <p class="portada__intro">Nos casamos</p>
 
     <!-- ✏️ EDITAR: los nombres -->
-    <h1>Ana<span class="amp">&amp;</span>Martín</h1>
+    <h1>Jess<span class="amp">&amp;</span>Guille</h1>
 
-    <!-- ✏️ EDITAR: fecha y ciudad -->
-    <p class="portada__fecha"><strong>Sábado 14 de noviembre de 2026</strong><br>Buenos Aires, Argentina</p>
+    <!-- ════════════════════════════════════════════════════════
+         ✏️ EDITAR: fecha y ciudad.
+         El atributo datetime es LA ÚNICA fuente de la fecha para el
+         código (cuenta de días, etc.). Formato: AAAA-MM-DDTHH:MM:SS-03:00
+         (el -03:00 es la hora argentina, dejalo así). Cambiá el
+         datetime Y el texto visible.
+         ⚠️ La HORA es provisoria — cambiala cuando la tengas.
+         ════════════════════════════════════════════════════════ -->
+    <p class="portada__fecha">
+      <strong><time id="fecha-evento" datetime="2027-01-09T17:30:00-03:00">Sábado 9 de enero de 2027</time></strong><br>
+      Buenos Aires, Argentina
+    </p>
 
-    <div class="regresiva" id="regresiva" aria-live="polite">
-      <div><span class="num" id="cr-dias">—</span><span class="rot">días</span></div>
-      <div><span class="num" id="cr-horas">—</span><span class="rot">horas</span></div>
-      <div><span class="num" id="cr-min">—</span><span class="rot">minutos</span></div>
-      <div><span class="num" id="cr-seg">—</span><span class="rot">segundos</span></div>
+    <!-- "Faltan N días": lo completa el código, no hace falta tocarlo -->
+    <p class="portada__faltan" id="faltan" hidden></p>
+
+    <!-- ✏️ EDITAR: textos de los botones de la portada -->
+    <div class="portada__acciones">
+      <a class="boton-principal" href="#confirmar">Confirmar asistencia</a>
+      <a class="enlace-suave" href="#evento">Ver dónde y cuándo</a>
     </div>
 
     <svg class="hojita" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
@@ -476,9 +574,11 @@ footer p{ margin:16px 0 0; font-size:12px; letter-spacing:.22em; text-transform:
           <path d="M4 36h32M20 36v-9M15 24h10" stroke-linecap="round"/>
         </svg>
         <h3>Ceremonia</h3>
-        <p class="hora">Sábado · 17:30 h</p>
+        <p class="hora">17:30 h</p>
+        <p class="dia">Sábado 9 de enero</p>
         <p class="lugar">Parroquia Nuestra Señora del Valle</p>
-        <p>Av. Siempreviva 1234, San Isidro</p>
+        <!-- la dirección y el botón llevan al MISMO link de Maps: cambiá los dos -->
+        <p class="direccion"><a href="https://maps.google.com/?q=Parroquia+Nuestra+Se%C3%B1ora+del+Valle+San+Isidro" target="_blank" rel="noopener">Av. Siempreviva 1234, San Isidro</a></p>
         <a class="boton-mapa" href="https://maps.google.com/?q=Parroquia+Nuestra+Se%C3%B1ora+del+Valle+San+Isidro" target="_blank" rel="noopener">Cómo llegar</a>
       </article>
 
@@ -490,24 +590,121 @@ footer p{ margin:16px 0 0; font-size:12px; letter-spacing:.22em; text-transform:
           <path d="M12.4 11h15.2" stroke-linecap="round"/>
         </svg>
         <h3>Fiesta</h3>
-        <p class="hora">Sábado · 20:00 h</p>
+        <p class="hora">20:00 h</p>
+        <p class="dia">Sábado 9 de enero</p>
         <p class="lugar">Quinta Los Álamos</p>
-        <p>Ruta 27 km 8, Ingeniero Maschwitz</p>
+        <!-- la dirección y el botón llevan al MISMO link de Maps: cambiá los dos -->
+        <p class="direccion"><a href="https://maps.google.com/?q=Quinta+Los+Alamos+Ingeniero+Maschwitz" target="_blank" rel="noopener">Ruta 27 km 8, Ingeniero Maschwitz</a></p>
         <a class="boton-mapa" href="https://maps.google.com/?q=Quinta+Los+Alamos+Ingeniero+Maschwitz" target="_blank" rel="noopener">Cómo llegar</a>
       </article>
 
-      <!-- ✏️ EDITAR: dress code (o borrá esta tarjeta entera) -->
-      <article class="tarjeta revelar">
-        <svg class="icono" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-          <path d="M16 5h8l6 4-3.5 4.5V35H13.5V13.5L10 9l6-4Z" stroke-linejoin="round"/>
-          <path d="M16 5c0 2.2 1.8 4 4 4s4-1.8 4-4" stroke-linecap="round"/>
-        </svg>
-        <h3>Dress code</h3>
-        <p class="hora">Elegante</p>
-        <p>La fiesta es en un parque con césped: cuidado con los tacos finos.</p>
-        <p>Por favor, evitá el blanco.</p>
-      </article>
+    </div>
 
+    <!-- ✏️ EDITAR: dress code (o borrá este párrafo) -->
+    <p class="nota-evento revelar">
+      <strong>Dress code: elegante.</strong> La fiesta es en un parque con césped,
+      cuidado con los tacos finos. Por favor, evitá el blanco.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════ CONFIRMACIÓN ═══════════════ -->
+<section id="confirmar" class="seccion-alterna">
+  <div class="envoltorio">
+    <div class="encabezado-seccion revelar">
+      <p class="sobretitulo">Contanos si venís</p>
+      <h2>Confirmar asistencia</h2>
+      <div class="filete"></div>
+    </div>
+
+    <!-- ✏️ EDITAR: fecha límite para confirmar (provisoria) -->
+    <p class="limite revelar">Te pedimos confirmar antes del <strong>9 de diciembre de 2026</strong>.</p>
+
+    <div class="caja-form revelar" id="caja-form">
+      <!-- Esto se ve mientras Google carga el formulario. Si a los 6 s no
+           cargó, aparece el botón para abrirlo aparte. -->
+      <div class="cargando-form" id="cargando-form" aria-live="polite">
+        <svg class="hojita" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+          <path d="M2 12h11M27 12h11" stroke-linecap="round"/>
+          <path d="M20 4c3.6 2.6 5 5.3 5 8s-1.4 5.4-5 8c-3.6-2.6-5-5.3-5-8s1.4-5.4 5-8Z"/>
+          <path d="M20 4v16" stroke-linecap="round"/>
+        </svg>
+        <p>Cargando el formulario…</p>
+        <!-- ✏️ EDITAR: mismo link del formulario que abajo -->
+        <a class="boton-mapa" href="https://docs.google.com/forms/d/e/1FAIpQLSfxuow3PamYp5UG-qH-qAlO76OdIuo0nG3qOszzrj6l-1Vn4g/viewform" target="_blank" rel="noopener">¿Tarda mucho? Abrilo aparte</a>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════════
+           Formulario de confirmación (Google Forms).
+           Si alguna vez lo reemplazás, cambiá solo la URL del src
+           (y los otros dos links al formulario de esta sección).
+
+           ✏️ Dos cosas para hacer EN GOOGLE FORMS, no acá:
+           1. Configuración → Presentación → Mensaje de confirmación:
+              escribí algo como "¡Listo! Te esperamos el 9 de enero.
+              Si querés hacernos un regalo, el alias está más abajo."
+           2. Configuración → Respuestas → desactivá "Permitir guardar
+              el progreso" (es lo que muestra el "Acceder a Google"
+              arriba del formulario y confunde).
+           ════════════════════════════════════════════════════════ -->
+      <iframe
+        id="iframe-form"
+        src="https://docs.google.com/forms/d/e/1FAIpQLSfxuow3PamYp5UG-qH-qAlO76OdIuo0nG3qOszzrj6l-1Vn4g/viewform?embedded=true"
+        title="Formulario de confirmación de asistencia"
+        loading="lazy"
+        width="100%"
+        style="min-height:820px">Cargando el formulario…</iframe>
+    </div>
+
+    <p class="alternativa">
+      ¿No te carga el formulario?
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfxuow3PamYp5UG-qH-qAlO76OdIuo0nG3qOszzrj6l-1Vn4g/viewform" target="_blank" rel="noopener">Abrilo en una pestaña nueva</a>.
+    </p>
+
+    <!-- ✏️ EDITAR: qué sigue después de confirmar -->
+    <div class="despues revelar">
+      <p><strong>¿Ya confirmaste?</strong> Gracias. Esto es lo que te puede servir ahora:</p>
+      <div class="despues__enlaces">
+        <a class="boton-mapa" href="#evento">Cómo llegar</a>
+        <a class="boton-mapa" href="#regalos">Hacernos un regalo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ REGALOS ═══════════════ -->
+<section id="regalos">
+  <div class="envoltorio">
+    <div class="encabezado-seccion revelar">
+      <p class="sobretitulo">Si querés hacernos un regalo</p>
+      <h2>Regalos</h2>
+      <div class="filete"></div>
+    </div>
+
+    <div class="bloque-regalo revelar">
+      <!-- ✏️ EDITAR: el texto de esta introducción -->
+      <p>El mejor regalo es que nos acompañes ese día. Pero si además querés colaborar con nuestra luna de miel, te dejamos los datos acá abajo.</p>
+
+      <div class="caja-alias">
+        <!-- ✏️ EDITAR: alias y titular -->
+        <p class="rot">Alias</p>
+        <p class="valor" id="alias">ana.martin.boda</p>
+        <p class="titular">Ana Pérez · Banco Ejemplo</p>
+        <button class="boton-copiar" id="btn-copiar" type="button" data-copiar="alias">Copiar alias</button>
+      </div>
+
+      <!--
+        ✏️ OPCIONAL: si además querés mostrar el CBU, descomentá este bloque
+        y cambiá el número.
+
+      <div class="caja-alias">
+        <p class="rot">CBU</p>
+        <p class="valor" id="cbu">0000000000000000000000</p>
+        <button class="boton-copiar" type="button" data-copiar="cbu">Copiar CBU</button>
+      </div>
+      -->
+
+      <p class="nota-chica">Si preferís otra forma, escribinos y lo vemos.</p>
     </div>
   </div>
 </section>
@@ -582,71 +779,6 @@ footer p{ margin:16px 0 0; font-size:12px; letter-spacing:.22em; text-transform:
   </div>
 </section>
 
-<!-- ═══════════════ REGALOS ═══════════════ -->
-<section id="regalos">
-  <div class="envoltorio">
-    <div class="encabezado-seccion revelar">
-      <p class="sobretitulo">Si querés hacernos un regalo</p>
-      <h2>Regalos</h2>
-      <div class="filete"></div>
-    </div>
-
-    <div class="bloque-regalo revelar">
-      <!-- ✏️ EDITAR: el texto de esta introducción -->
-      <p>El mejor regalo es que nos acompañes ese día. Pero si además querés colaborar con nuestra luna de miel, te dejamos los datos acá abajo.</p>
-
-      <div class="caja-alias">
-        <!-- ✏️ EDITAR: alias y titular -->
-        <p class="rot">Alias</p>
-        <p class="valor" id="alias">ana.martin.boda</p>
-        <p class="titular">Ana Pérez · Banco Ejemplo</p>
-        <button class="boton-copiar" id="btn-copiar" type="button" data-copiar="alias">Copiar alias</button>
-      </div>
-
-      <!--
-        ✏️ OPCIONAL: si además querés mostrar el CBU, descomentá este bloque
-        y cambiá el número.
-
-      <div class="caja-alias">
-        <p class="rot">CBU</p>
-        <p class="valor" id="cbu">0000000000000000000000</p>
-        <button class="boton-copiar" type="button" data-copiar="cbu">Copiar CBU</button>
-      </div>
-      -->
-
-      <p class="nota-chica">Si preferís otra forma, escribinos y lo vemos.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════ CONFIRMACIÓN ═══════════════ -->
-<section id="confirmar" class="seccion-alterna">
-  <div class="envoltorio">
-    <div class="encabezado-seccion revelar">
-      <p class="sobretitulo">Contanos si venís</p>
-      <h2>Confirmar asistencia</h2>
-      <div class="filete"></div>
-    </div>
-
-    <div class="caja-form revelar">
-      <!-- ════════════════════════════════════════════════════════
-           ✏️ EDITAR: pegá acá el <iframe> que te da Google Forms
-           (Enviar → pestaña < > → Copiar) y borrá el div.marcador
-           de abajo. Dejá el atributo style="min-height:640px".
-           ════════════════════════════════════════════════════════ -->
-      <div class="marcador">
-        <strong>Acá va el formulario de Google</strong>
-        En el README está el paso a paso: creás el formulario, tocás
-        <code>Enviar</code>, la pestaña <code>&lt; &gt;</code>, copiás el
-        <code>&lt;iframe&gt;</code> y lo pegás reemplazando este recuadro.
-      </div>
-    </div>
-
-    <!-- ✏️ EDITAR: fecha límite para confirmar -->
-    <p class="limite">Te pedimos confirmar antes del <strong>14 de octubre</strong>.</p>
-  </div>
-</section>
-
 <!-- ═══════════════ PREGUNTAS ═══════════════ -->
 <section id="preguntas">
   <div class="envoltorio">
@@ -681,7 +813,7 @@ footer p{ margin:16px 0 0; font-size:12px; letter-spacing:.22em; text-transform:
 
       <details class="pregunta">
         <summary>¿Hasta cuándo puedo confirmar?</summary>
-        <p>Hasta el 14 de octubre. Después de esa fecha ya cerramos el número con el salón.</p>
+        <p>Hasta el 9 de diciembre. Después de esa fecha ya cerramos el número con el salón.</p>
       </details>
 
     </div>
@@ -697,47 +829,48 @@ footer p{ margin:16px 0 0; font-size:12px; letter-spacing:.22em; text-transform:
   </svg>
   <!-- ✏️ EDITAR -->
   <h2>Te esperamos</h2>
-  <p>Ana &amp; Martín · 14.11.2026</p>
+  <p>Jess &amp; Guille · 09.01.2027</p>
 </footer>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════
-   ✏️ EDITAR: fecha y hora del evento para la cuenta regresiva.
-   Formato: año, mes-1, día, hora, minuto.
-   OJO con el mes: enero es 0, febrero 1 ... noviembre 10, diciembre 11.
-   El ejemplo es 14 de noviembre de 2026 a las 17:30.
-   ═══════════════════════════════════════════════════════════════ */
-var FECHA_EVENTO = new Date(2026, 10, 14, 17, 30, 0);
+/* ── Fecha del evento ─────────────────────────────────────────────
+   Se lee del atributo datetime del <time id="fecha-evento"> de la
+   portada. Para cambiar la fecha, editá ESO (arriba, en el HTML);
+   acá no hay nada que tocar.
+   ─────────────────────────────────────────────────────────────── */
+var FECHA_EVENTO = (function(){
+  var t = document.getElementById('fecha-evento');
+  var d = t ? new Date(t.getAttribute('datetime')) : null;
+  return (d && !isNaN(d.getTime())) ? d : null;
+})();
 
 
-/* ── Cuenta regresiva ─────────────────────────────────────────── */
+/* ── "Faltan N días" en la portada ────────────────────────────── */
 (function(){
-  var dias  = document.getElementById('cr-dias');
-  var horas = document.getElementById('cr-horas');
-  var mins  = document.getElementById('cr-min');
-  var segs  = document.getElementById('cr-seg');
-  if(!dias) return;
+  var caja = document.getElementById('faltan');
+  if(!caja || !FECHA_EVENTO) return;
 
-  function dosDigitos(n){ return n < 10 ? '0' + n : String(n); }
+  var DIA = 86400000;
 
   function actualizar(){
     var falta = FECHA_EVENTO.getTime() - Date.now();
+    var texto;
 
-    if(falta <= 0){
-      document.getElementById('regresiva').innerHTML =
-        '<div><span class="num">¡Hoy!</span><span class="rot">nos casamos</span></div>';
-      return;
+    if(falta > 0){
+      var dias = Math.ceil(falta / DIA);
+      texto = dias === 1 ? 'Falta 1 día' : 'Faltan ' + dias + ' días';
+    }else if(falta > -18 * 3600000){
+      texto = '¡Es hoy!';            /* hasta ~18 h después del inicio */
+    }else{
+      texto = '¡Nos casamos!';
     }
 
-    var s = Math.floor(falta / 1000);
-    dias.textContent  = Math.floor(s / 86400);
-    horas.textContent = dosDigitos(Math.floor(s % 86400 / 3600));
-    mins.textContent  = dosDigitos(Math.floor(s % 3600 / 60));
-    segs.textContent  = dosDigitos(s % 60);
-
-    setTimeout(actualizar, 1000);
+    caja.textContent = texto;
+    caja.hidden = false;
   }
+
   actualizar();
+  setInterval(actualizar, 60000);   /* una vez por minuto alcanza */
 })();
 
 
@@ -782,6 +915,48 @@ var FECHA_EVENTO = new Date(2026, 10, 14, 17, 30, 0);
       });
     });
   });
+})();
+
+
+/* ── Formulario embebido: carga, aviso si tarda, y scroll al tope ── */
+(function(){
+  var caja    = document.getElementById('caja-form');
+  var iframe  = document.getElementById('iframe-form');
+  var cartel  = document.getElementById('cargando-form');
+  if(!caja || !iframe || !cartel) return;
+
+  var cargas = 0;
+
+  iframe.addEventListener('load', function(){
+    cargas++;
+    caja.classList.add('cargado');
+
+    /* Google Forms recarga el iframe en cada "Siguiente", "Atrás" y
+       "Enviar". Después de la primera carga, llevamos la página al
+       borde superior del formulario para que se vea el principio de la
+       pantalla nueva y no un pedazo del medio. */
+    if(cargas > 1){
+      caja.scrollIntoView({ block:'start' });
+    }
+  });
+
+  /* Si el formulario está a la vista y en 6 s no cargó, ofrecemos
+     abrirlo aparte. El iframe es lazy: arrancamos a contar cuando se
+     acerca a la pantalla. */
+  function empezarAContar(){
+    setTimeout(function(){
+      if(!caja.classList.contains('cargado')) cartel.classList.add('tarda');
+    }, 6000);
+  }
+
+  if('IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entradas){
+      if(entradas[0].isIntersecting){ empezarAContar(); obs.disconnect(); }
+    }, { rootMargin:'300px 0px' });
+    obs.observe(caja);
+  }else{
+    empezarAContar();
+  }
 })();
 
 
