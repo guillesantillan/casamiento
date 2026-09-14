@@ -865,10 +865,6 @@ footer :focus-visible{ outline-color:var(--crema); }
         <p class="titular">Guillermo Eduardo Santillan · Mercado Pago</p>
         <div class="caja-alias__acciones">
           <button class="boton-copiar" id="btn-copiar" type="button" data-copiar="alias">Copiar alias</button>
-          <!-- "Enviar por WhatsApp": abre WhatsApp para mandarse el alias
-               (a uno mismo o a quien haga la transferencia). El texto del
-               mensaje lo arma el código con el alias de arriba. -->
-          <a class="boton-mapa js-wsp-alias" href="https://wa.me/?text=Alias%20para%20el%20regalo%20de%20Jess%20y%20Guille%3A%20jess.guille.boda" target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-whatsapp"/></svg>Enviar por WhatsApp</a>
         </div>
         <p class="ayuda-copiado" id="ayuda-copiado" aria-live="polite" hidden></p>
       </div>
@@ -1136,7 +1132,7 @@ var FECHA_EVENTO = (function(){
         if(ayuda){ ayuda.textContent = 'Ahora pegalo en la app de tu banco.'; ayuda.hidden = false; }
       }, function(){
         boton.textContent = 'Copialo a mano';
-        if(ayuda){ ayuda.textContent = 'Este navegador no deja copiar: anotalo o mandátelo por WhatsApp.'; ayuda.hidden = false; }
+        if(ayuda){ ayuda.textContent = 'Este navegador no deja copiar: anotalo a mano.'; ayuda.hidden = false; }
       }).then(function(){
         clearTimeout(temporizador);
         temporizador = setTimeout(restaurar, 6000);
@@ -1144,16 +1140,6 @@ var FECHA_EVENTO = (function(){
     });
   });
 
-  /* el link "Enviármelo por WhatsApp" toma el alias de la página, así
-     queda sincronizado si se edita el alias en el HTML */
-  var alias = document.getElementById('alias');
-  var titular = document.querySelector('.caja-alias .titular');
-  document.querySelectorAll('.js-wsp-alias').forEach(function(a){
-    if(!alias) return;
-    var texto = 'Alias para el regalo de Jess y Guille: ' + alias.textContent.trim();
-    if(titular) texto += ' (' + titular.textContent.trim() + ')';
-    a.href = 'https://wa.me/?text=' + encodeURIComponent(texto);
-  });
 })();
 
 
