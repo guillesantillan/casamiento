@@ -424,11 +424,13 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   font-size:13px; letter-spacing:.22em; text-transform:uppercase;
   color:var(--verde-medio); margin:0 0 12px;
 }
+/* el alias va en la sans, sin ambigüedad entre l / I / 1, y con aire entre letras */
 .caja-alias .valor{
-  font-family:var(--serif);
-  font-size:clamp(26px,6vw,36px);
+  font-family:var(--sans);
+  font-size:clamp(24px,6vw,30px);
+  letter-spacing:.06em;
   color:var(--verde);
-  word-break:break-all;
+  overflow-wrap:anywhere;
   margin:0;
 }
 .caja-alias .titular{
@@ -448,7 +450,36 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
 .boton-copiar:hover,.boton-copiar:focus-visible{ background:var(--verde-medio); border-color:var(--verde-medio); }
 .boton-copiar.listo{ background:var(--verde-claro); border-color:var(--verde-claro); color:var(--tinta); }
 
-.nota-chica{ font-size:15px; color:var(--tinta-suave); margin-top:28px; font-style:italic; }
+/* botones de la caja del alias: copiar + mandarlo por WhatsApp */
+.caja-alias__acciones{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:22px; }
+.caja-alias__acciones .boton-copiar{ margin-top:0; }
+.caja-alias__acciones .boton-mapa{ margin-top:0; }
+.ayuda-copiado{ margin:12px 0 0; font-size:15px; color:var(--verde-medio); min-height:1.4em; }
+.ayuda-copiado[hidden]{ display:block; visibility:hidden; } /* reserva el lugar: nada salta */
+
+/* CBU plegado */
+.cbu{ margin-top:18px; text-align:center; }
+.cbu summary{
+  cursor:pointer; list-style:none; display:inline-block;
+  font-size:15px; color:var(--verde-medio); text-decoration:underline; text-underline-offset:4px;
+}
+.cbu summary::-webkit-details-marker{ display:none; }
+.cbu .caja-alias{ margin-top:14px; }
+
+/* botones con ícono (WhatsApp, agendar) */
+.boton-mapa svg{ width:17px; height:17px; vertical-align:-3px; margin-right:8px; }
+.contacto{ text-align:center; margin-top:36px; }
+.contacto p{ margin:0 0 14px; color:var(--tinta-suave); }
+.tarjeta__acciones{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:22px; }
+.tarjeta__acciones .boton-mapa{ margin-top:0; }
+.agendar-alt{ margin:12px 0 0; font-size:14px; color:var(--tinta-suave); }
+.agendar-alt a{ color:var(--verde-medio); }
+/* en celular, un botón por línea y bien ancho */
+@media (max-width:480px){
+  .tarjeta__acciones > *, .caja-alias__acciones > *, .despues__enlaces > *{ flex:1 1 100%; }
+}
+
+.nota-chica{ font-size:15px; color:var(--tinta-suave); margin-top:28px; font-style:italic; text-wrap:balance; }
 
 /* ── Confirmación ────────────────────────────────────────────── */
 .caja-form{
@@ -591,6 +622,8 @@ footer :focus-visible{ outline-color:var(--crema); }
   <symbol id="ic-nota" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 18V6l10-2.5V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></symbol>
   <symbol id="ic-cubiertos" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6.5 3v18M4.5 3v5a2 2 0 0 0 4 0V3"/><path d="M16.5 3c-2.5 3-2.5 8 0 10.5V21"/><path d="M16.5 3c2.2 3 2.2 8 0 10.5"/></symbol>
   <symbol id="ic-brillos" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M10.5 3.5 12 8.5l5 1.5-5 1.5-1.5 5-1.5-5-5-1.5 5-1.5 1.5-5Z"/><path d="M18 14l.9 2.6 2.6.9-2.6.9L18 21l-.9-2.6-2.6-.9 2.6-.9L18 14Z"/></symbol>
+  <symbol id="ic-whatsapp" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z"/><path d="M9 8.6c.2 2.6 3.2 5.6 5.8 5.8l1.4-1.4-2-1.1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1.1-2L9 8.6Z"/></symbol>
+  <symbol id="ic-calendario" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><path d="M9 14.5l2 2 4-4"/></symbol>
   <symbol id="ic-torta" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 20.5h16M5 20.5v-7.5h14v7.5"/><path d="M5 13c1.5 0 1.5-1.6 3-1.6s1.5 1.6 3 1.6 1.5-1.6 3-1.6 1.5 1.6 3 1.6"/><path d="M12 11.4V8.5"/><path d="M12 4c1 1.1 1 2.4 0 3.2-1-.8-1-2.1 0-3.2Z"/></symbol>
 </svg>
 
@@ -626,9 +659,14 @@ footer :focus-visible{ outline-color:var(--crema); }
          código (cuenta de días, etc.). Formato: AAAA-MM-DDTHH:MM:SS-03:00
          (el -03:00 es la hora argentina, dejalo así). Cambiá el
          datetime Y el texto visible. La hora es la de llegada (18:00).
+         data-fin, data-titulo y data-lugar son lo que se guarda en el
+         calendario cuando alguien toca "Agendar".
          ════════════════════════════════════════════════════════ -->
     <p class="portada__fecha">
-      <strong><time id="fecha-evento" datetime="2027-01-09T18:00:00-03:00">Sábado 9 de enero de 2027</time></strong><br>
+      <strong><time id="fecha-evento" datetime="2027-01-09T18:00:00-03:00"
+            data-fin="2027-01-10T04:00:00-03:00"
+            data-titulo="Casamiento de Jess y Guille"
+            data-lugar="Estilo Coghlan, Dr. Pedro Ignacio Rivera 3804, Coghlan, CABA">Sábado 9 de enero de 2027</time></strong><br>
       Estilo Coghlan · Buenos Aires
     </p>
 
@@ -671,7 +709,14 @@ footer :focus-visible{ outline-color:var(--crema); }
         <!-- la dirección y el botón llevan al MISMO link de Maps: cambiá los dos -->
         <p class="direccion"><a href="https://maps.google.com/?q=Estilo+Coghlan+Dr.+Pedro+Ignacio+Rivera+3804+Coghlan+CABA" target="_blank" rel="noopener">Dr. Pedro Ignacio Rivera 3804, Coghlan, CABA</a></p>
         <p class="tarjeta__nota">Todo en el mismo lugar. Te esperamos a las 18:00; la ceremonia empieza a las 18:30.</p>
-        <a class="boton-mapa" href="https://maps.google.com/?q=Estilo+Coghlan+Dr.+Pedro+Ignacio+Rivera+3804+Coghlan+CABA" target="_blank" rel="noopener">Cómo llegar</a>
+        <div class="tarjeta__acciones">
+          <a class="boton-mapa" href="https://maps.google.com/?q=Estilo+Coghlan+Dr.+Pedro+Ignacio+Rivera+3804+Coghlan+CABA" target="_blank" rel="noopener">Cómo llegar</a>
+          <!-- "Agendar": el código arma el evento con la fecha del <time> de la
+               portada y este lugar; en iPhone baja un .ics, en el resto abre
+               Google Calendar. No hace falta tocar nada acá. -->
+          <a class="boton-mapa js-agendar" href="#" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-calendario"/></svg>Agendar</a>
+        </div>
+        <p class="agendar-alt js-agendar-alt" hidden></p>
       </article>
 
     </div>
@@ -738,6 +783,7 @@ footer :focus-visible{ outline-color:var(--crema); }
     <div class="despues revelar">
       <p><strong>¿Ya confirmaste?</strong> Gracias. Esto es lo que te puede servir ahora:</p>
       <div class="despues__enlaces">
+        <a class="boton-mapa js-agendar" href="#" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-calendario"/></svg>Agendar</a>
         <a class="boton-mapa" href="#evento">Cómo llegar</a>
         <a class="boton-mapa" href="#regalos">Hacernos un regalo</a>
       </div>
@@ -766,21 +812,34 @@ footer :focus-visible{ outline-color:var(--crema); }
         <p class="rot">Alias</p>
         <p class="valor" id="alias">jess.guille.boda</p>
         <p class="titular">Nombre Apellido · Mercado Pago</p>
-        <button class="boton-copiar" id="btn-copiar" type="button" data-copiar="alias">Copiar alias</button>
+        <div class="caja-alias__acciones">
+          <button class="boton-copiar" id="btn-copiar" type="button" data-copiar="alias">Copiar alias</button>
+          <!-- "Enviar por WhatsApp": abre WhatsApp para mandarse el alias
+               (a uno mismo o a quien haga la transferencia). El texto del
+               mensaje lo arma el código con el alias de arriba. -->
+          <a class="boton-mapa js-wsp-alias" href="https://wa.me/?text=Alias%20para%20el%20regalo%20de%20Jess%20y%20Guille%3A%20jess.guille.boda" target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-whatsapp"/></svg>Enviar por WhatsApp</a>
+        </div>
+        <p class="ayuda-copiado" id="ayuda-copiado" aria-live="polite" hidden></p>
       </div>
 
       <!--
         ✏️ OPCIONAL: si además querés mostrar el CBU, descomentá este bloque
-        y cambiá el número.
+        (borrá la línea de arriba y la de abajo) y cambiá el número.
 
-      <div class="caja-alias">
-        <p class="rot">CBU</p>
-        <p class="valor" id="cbu">0000000000000000000000</p>
-        <button class="boton-copiar" type="button" data-copiar="cbu">Copiar CBU</button>
-      </div>
+      <details class="cbu">
+        <summary>¿Tu banco te pide CBU?</summary>
+        <div class="caja-alias">
+          <p class="rot">CBU</p>
+          <p class="valor" id="cbu">0000000000000000000000</p>
+          <button class="boton-copiar" type="button" data-copiar="cbu">Copiar CBU</button>
+        </div>
+      </details>
       -->
 
-      <p class="nota-chica">Si preferís otra forma, escribinos y lo vemos.</p>
+      <!-- ✏️ EDITAR: número de WhatsApp de los novios (también está en la
+           sección de preguntas). Formato: 549 + código de área + número. -->
+      <p class="nota-chica">Si preferís otra forma de regalo, escribinos y lo vemos.</p>
+      <p class="contacto"><a class="boton-mapa" href="https://wa.me/5491137737433?text=Hola%21%20Quer%C3%ADa%20consultarles%20por%20el%20regalo%20de%20casamiento." target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-whatsapp"/></svg>Escribinos por WhatsApp</a></p>
     </div>
   </div>
 </section>
@@ -914,6 +973,12 @@ footer :focus-visible{ outline-color:var(--crema); }
       </details>
 
     </div>
+
+    <!-- ✏️ EDITAR: número de WhatsApp (el mismo que en Regalos) -->
+    <div class="contacto revelar">
+      <p>¿Otra duda? Escribinos, respondemos rápido.</p>
+      <a class="boton-mapa" href="https://wa.me/5491137737433?text=Hola%21%20Tengo%20una%20duda%20sobre%20el%20casamiento." target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-whatsapp"/></svg>Escribinos por WhatsApp</a>
+    </div>
   </div>
 </section>
 
@@ -990,8 +1055,17 @@ var FECHA_EVENTO = (function(){
     });
   }
 
+  var ayuda = document.getElementById('ayuda-copiado');
+  var temporizador;
+
   document.querySelectorAll('[data-copiar]').forEach(function(boton){
     var original = boton.textContent;
+
+    function restaurar(){
+      boton.textContent = original;
+      boton.classList.remove('listo');
+      if(ayuda) ayuda.hidden = true;
+    }
 
     boton.addEventListener('click', function(){
       var destino = document.getElementById(boton.dataset.copiar);
@@ -1000,16 +1074,99 @@ var FECHA_EVENTO = (function(){
       copiar(destino.textContent.trim()).then(function(){
         boton.textContent = '¡Copiado!';
         boton.classList.add('listo');
-      }).catch(function(){
+        if(ayuda){ ayuda.textContent = 'Ahora pegalo en la app de tu banco.'; ayuda.hidden = false; }
+      }, function(){
         boton.textContent = 'Copialo a mano';
-      }).finally(function(){
-        setTimeout(function(){
-          boton.textContent = original;
-          boton.classList.remove('listo');
-        }, 2200);
+        if(ayuda){ ayuda.textContent = 'Este navegador no deja copiar: anotalo o mandátelo por WhatsApp.'; ayuda.hidden = false; }
+      }).then(function(){
+        clearTimeout(temporizador);
+        temporizador = setTimeout(restaurar, 6000);
       });
     });
   });
+
+  /* el link "Enviármelo por WhatsApp" toma el alias de la página, así
+     queda sincronizado si se edita el alias en el HTML */
+  var alias = document.getElementById('alias');
+  var titular = document.querySelector('.caja-alias .titular');
+  document.querySelectorAll('.js-wsp-alias').forEach(function(a){
+    if(!alias) return;
+    var texto = 'Alias para el regalo de Jess y Guille: ' + alias.textContent.trim();
+    if(titular) texto += ' (' + titular.textContent.trim() + ')';
+    a.href = 'https://wa.me/?text=' + encodeURIComponent(texto);
+  });
+})();
+
+
+/* ── Agendar (Google Calendar o archivo .ics) ─────────────────── */
+(function(){
+  var t = document.getElementById('fecha-evento');
+  var botones = document.querySelectorAll('.js-agendar');
+  if(!t || !botones.length || !FECHA_EVENTO) return;
+
+  var inicio = FECHA_EVENTO;
+  var fin = new Date(t.getAttribute('data-fin') || (inicio.getTime() + 6 * 3600000));
+  if(isNaN(fin.getTime())) fin = new Date(inicio.getTime() + 6 * 3600000);
+  var titulo = t.getAttribute('data-titulo') || 'Casamiento';
+  var lugar  = t.getAttribute('data-lugar') || '';
+  var metaUrl = document.querySelector('meta[property="og:url"]');
+  var sitio  = (metaUrl && metaUrl.content) || location.href.split('#')[0];
+  var detalle = 'Toda la info y la confirmación de asistencia: ' + sitio;
+
+  function utc(d){ return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
+
+  var urlGoogle = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+    + '&text='     + encodeURIComponent(titulo)
+    + '&dates='    + utc(inicio) + '/' + utc(fin)
+    + '&location=' + encodeURIComponent(lugar)
+    + '&details='  + encodeURIComponent(detalle)
+    + '&ctz=America/Argentina/Buenos_Aires';
+
+  function descargarIcs(){
+    var ics = [
+      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//casamiento//ES','CALSCALE:GREGORIAN',
+      'BEGIN:VEVENT',
+      'UID:' + utc(inicio) + '@casamiento',
+      'DTSTAMP:' + utc(new Date()),
+      'DTSTART:' + utc(inicio),
+      'DTEND:' + utc(fin),
+      'SUMMARY:' + titulo,
+      'LOCATION:' + lugar.replace(/,/g, '\\,'),
+      'DESCRIPTION:' + detalle.replace(/,/g, '\\,'),
+      'URL:' + sitio,
+      'BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:' + titulo + ' es mañana','END:VALARM',
+      'END:VEVENT','END:VCALENDAR'
+    ].join('\r\n');
+    var blob = new Blob([ics], { type:'text/calendar;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'casamiento-jess-y-guille.ics';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+  }
+
+  var esApple = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
+  var puedeIcs = !!(window.Blob && window.URL && URL.createObjectURL);
+
+  botones.forEach(function(b){
+    if(esApple && puedeIcs){
+      b.addEventListener('click', function(e){ e.preventDefault(); descargarIcs(); });
+    }else{
+      b.href = urlGoogle; b.target = '_blank';
+    }
+  });
+
+  /* la alternativa, para quien usa otro calendario */
+  var alt = document.querySelector('.js-agendar-alt');
+  if(alt){
+    if(esApple && puedeIcs){
+      alt.innerHTML = '¿Usás Google Calendar? <a href="' + urlGoogle + '" target="_blank" rel="noopener">Agendalo acá</a>.';
+    }else if(puedeIcs){
+      alt.innerHTML = '¿Usás otro calendario? <a href="#" class="js-ics">Descargá el archivo (.ics)</a>.';
+      alt.querySelector('.js-ics').addEventListener('click', function(e){ e.preventDefault(); descargarIcs(); });
+    }
+    alt.hidden = !alt.innerHTML;
+  }
 })();
 
 
