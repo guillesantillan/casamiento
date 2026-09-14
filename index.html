@@ -104,12 +104,13 @@ body::after{
 
 /* ── Adornos botánicos (los dibujos viven en el <svg> de símbolos al
       principio del <body>; acá solo se estilizan) ──────────────── */
-/* Las ramas se "dibujan" al cargar (el estilo va sobre los símbolos
-   originales porque el CSS no alcanza a las copias que hace <use>).
+/* Las ramas de la portada se "dibujan" al cargar. Son trazos directos (no
+   <use>) para que la animación se vea igual en todos los navegadores.
    Con reduced-motion aparecen ya dibujadas. */
+.dibuja path{ fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; }
 @media (prefers-reduced-motion:no-preference){
-  #rama-arco path,#ramita path{ stroke-dasharray:1; stroke-dashoffset:1; animation:dibujar 1.6s ease-out forwards; }
-  #rama-arco .hoja,#ramita .hoja{ animation-duration:1.1s; animation-delay:.7s; }
+  .dibuja path{ stroke-dasharray:1; stroke-dashoffset:1; animation:dibujar 1.6s ease-out forwards; }
+  .dibuja .hoja{ animation-duration:1.1s; animation-delay:.7s; }
   @keyframes dibujar{ to{ stroke-dashoffset:0; } }
 }
 .divisor{ display:block; width:46px; height:auto; margin:20px auto 0; color:var(--dorado); }
@@ -265,13 +266,43 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
 .hojita--desktop{ display:none; }
 @media (min-width:700px){ .hojita--desktop{ display:block; } }
 
-/* "Faltan N días" (lo completa el JS; si no hay JS, no se muestra nada) */
+/* Cuenta regresiva (la completa el JS; si no hay JS, no se muestra nada) */
 .portada__faltan{
-  margin:22px 0 0;
+  margin:26px 0 0;
   font-family:var(--serif); font-style:italic;
   font-size:clamp(22px,4.5vw,28px);
   color:var(--verde);
 }
+.regresiva{
+  display:flex; justify-content:center; align-items:flex-start;
+  gap:clamp(6px,2.5vw,18px);
+  margin-top:26px;
+}
+.regresiva__celda{
+  min-width:clamp(56px,16vw,84px);
+  text-align:center;
+  padding-inline:clamp(4px,1.5vw,10px);
+}
+.regresiva__celda + .regresiva__celda{ border-left:1px solid var(--linea); }
+.regresiva__num{
+  display:block;
+  font-family:var(--serif);
+  font-size:clamp(34px,8vw,50px);
+  line-height:1;
+  color:var(--verde);
+  font-variant-numeric:tabular-nums;
+}
+.regresiva__rot{
+  display:block; margin-top:8px;
+  font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--tinta-suave);
+}
+.regresiva__intro{
+  margin:26px 0 0;
+  font-size:13px; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--verde-medio);
+}
+.regresiva__intro + .regresiva{ margin-top:12px; }
 
 /* ── Botón principal de la portada ───────────────────────────── */
 .portada__acciones{
@@ -609,13 +640,13 @@ footer :focus-visible{ outline-color:var(--crema); }
     <path d="M20 4c3.6 2.6 5 5.3 5 8s-1.4 5.4-5 8c-3.6-2.6-5-5.3-5-8s1.4-5.4 5-8Z"/>
     <path d="M20 4v16"/>
   </symbol>
-  <symbol id="rama-arco" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 300 620">
-    <path class="tallo" pathLength="1" vector-effect="non-scaling-stroke" d="M250 600C40 520 20 140 230 20"/>
-    <path class="hoja" pathLength="1" vector-effect="non-scaling-stroke" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/>
+  <symbol id="rama-arco" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 300 620">
+    <path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/>
+    <path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/>
   </symbol>
-  <symbol id="ramita" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 220 70">
-    <path class="tallo" pathLength="1" vector-effect="non-scaling-stroke" d="M6 60C70 20 150 8 214 26"/>
-    <path class="hoja" pathLength="1" vector-effect="non-scaling-stroke" d="M25.6 48.8Q35.1 61.3 53.3 60.5Q41.1 46.9 25.6 48.8ZM46.6 39.2Q57.5 29.2 55.2 12Q43.4 24.7 46.6 39.2ZM68.1 31.3Q74.7 43.7 91 45.7Q82.1 31.8 68.1 31.3ZM90 25.2Q101.1 17.9 101.5 2.4Q89.3 12 90 25.2ZM112.2 20.9Q116.1 32.7 130.2 36.8Q124.4 23.4 112.2 20.9ZM134.3 18.5Q144.9 13.7 147.5 0.3Q135.5 6.8 134.3 18.5ZM156.1 17.9Q157.9 28.6 169.4 34.2Q166.3 21.8 156.1 17.9ZM177.6 19.1Q187.4 16.7 191.6 5.6Q180.3 9.4 177.6 19.1ZM198.3 22.3Q198.1 31.6 207 38Q206.3 27.1 198.3 22.3Z"/>
+  <symbol id="ramita" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 220 70">
+    <path class="tallo" pathLength="1" d="M6 60C70 20 150 8 214 26"/>
+    <path class="hoja" pathLength="1" d="M25.6 48.8Q35.1 61.3 53.3 60.5Q41.1 46.9 25.6 48.8ZM46.6 39.2Q57.5 29.2 55.2 12Q43.4 24.7 46.6 39.2ZM68.1 31.3Q74.7 43.7 91 45.7Q82.1 31.8 68.1 31.3ZM90 25.2Q101.1 17.9 101.5 2.4Q89.3 12 90 25.2ZM112.2 20.9Q116.1 32.7 130.2 36.8Q124.4 23.4 112.2 20.9ZM134.3 18.5Q144.9 13.7 147.5 0.3Q135.5 6.8 134.3 18.5ZM156.1 17.9Q157.9 28.6 169.4 34.2Q166.3 21.8 156.1 17.9ZM177.6 19.1Q187.4 16.7 191.6 5.6Q180.3 9.4 177.6 19.1ZM198.3 22.3Q198.1 31.6 207 38Q206.3 27.1 198.3 22.3Z"/>
   </symbol>
   <symbol id="monograma" viewBox="0 0 64 64">
     <circle cx="32" cy="32" r="30.5" fill="none" stroke="currentColor" stroke-width="1"/>
@@ -650,10 +681,10 @@ footer :focus-visible{ outline-color:var(--crema); }
 <!-- ═══════════════ PORTADA ═══════════════ -->
 <div class="portada">
 
-  <svg class="corona" aria-hidden="true" viewBox="0 0 920 620"><use href="#rama-arco" width="300" height="620"/><use href="#rama-arco" width="300" height="620" transform="translate(920 0) scale(-1 1)"/></svg>
+  <svg class="corona dibuja" aria-hidden="true" viewBox="0 0 920 620" stroke-width="1.4"><g><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/></g><g transform="translate(920 0) scale(-1 1)"><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/></g></svg>
 
   <div class="portada__contenido">
-    <svg class="ramita-par arriba" aria-hidden="true" viewBox="0 0 450 70"><use href="#ramita" width="220" height="70"/><use href="#ramita" width="220" height="70" transform="translate(450 0) scale(-1 1)"/></svg>
+    <svg class="ramita-par arriba dibuja" aria-hidden="true" viewBox="0 0 450 70" stroke-width="2"><g><path class="tallo" pathLength="1" d="M6 60C70 20 150 8 214 26"/><path class="hoja" pathLength="1" d="M25.6 48.8Q35.1 61.3 53.3 60.5Q41.1 46.9 25.6 48.8ZM46.6 39.2Q57.5 29.2 55.2 12Q43.4 24.7 46.6 39.2ZM68.1 31.3Q74.7 43.7 91 45.7Q82.1 31.8 68.1 31.3ZM90 25.2Q101.1 17.9 101.5 2.4Q89.3 12 90 25.2ZM112.2 20.9Q116.1 32.7 130.2 36.8Q124.4 23.4 112.2 20.9ZM134.3 18.5Q144.9 13.7 147.5 0.3Q135.5 6.8 134.3 18.5ZM156.1 17.9Q157.9 28.6 169.4 34.2Q166.3 21.8 156.1 17.9ZM177.6 19.1Q187.4 16.7 191.6 5.6Q180.3 9.4 177.6 19.1ZM198.3 22.3Q198.1 31.6 207 38Q206.3 27.1 198.3 22.3Z"/></g><g transform="translate(450 0) scale(-1 1)"><path class="tallo" pathLength="1" d="M6 60C70 20 150 8 214 26"/><path class="hoja" pathLength="1" d="M25.6 48.8Q35.1 61.3 53.3 60.5Q41.1 46.9 25.6 48.8ZM46.6 39.2Q57.5 29.2 55.2 12Q43.4 24.7 46.6 39.2ZM68.1 31.3Q74.7 43.7 91 45.7Q82.1 31.8 68.1 31.3ZM90 25.2Q101.1 17.9 101.5 2.4Q89.3 12 90 25.2ZM112.2 20.9Q116.1 32.7 130.2 36.8Q124.4 23.4 112.2 20.9ZM134.3 18.5Q144.9 13.7 147.5 0.3Q135.5 6.8 134.3 18.5ZM156.1 17.9Q157.9 28.6 169.4 34.2Q166.3 21.8 156.1 17.9ZM177.6 19.1Q187.4 16.7 191.6 5.6Q180.3 9.4 177.6 19.1ZM198.3 22.3Q198.1 31.6 207 38Q206.3 27.1 198.3 22.3Z"/></g></svg>
 
     <!-- ✏️ EDITAR: frase de apertura -->
     <p class="portada__intro">Nos casamos</p>
@@ -678,7 +709,14 @@ footer :focus-visible{ outline-color:var(--crema); }
       Estilo Coghlan · Buenos Aires
     </p>
 
-    <!-- "Faltan N días": lo completa el código, no hace falta tocarlo -->
+    <!-- Cuenta regresiva: la completa el código, no hace falta tocarla -->
+    <p class="regresiva__intro" id="regresiva-intro" hidden>Faltan</p>
+    <div class="regresiva" id="regresiva" hidden>
+      <div class="regresiva__celda"><span class="regresiva__num" id="cr-dias">0</span><span class="regresiva__rot">días</span></div>
+      <div class="regresiva__celda"><span class="regresiva__num" id="cr-horas">00</span><span class="regresiva__rot">horas</span></div>
+      <div class="regresiva__celda"><span class="regresiva__num" id="cr-min">00</span><span class="regresiva__rot">min</span></div>
+      <div class="regresiva__celda"><span class="regresiva__num" id="cr-seg">00</span><span class="regresiva__rot">seg</span></div>
+    </div>
     <p class="portada__faltan" id="faltan" hidden></p>
 
     <!-- ✏️ EDITAR: textos de los botones de la portada -->
@@ -688,7 +726,7 @@ footer :focus-visible{ outline-color:var(--crema); }
     </div>
 
     <svg class="hojita hojita--desktop" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
-    <svg class="ramita-par abajo" aria-hidden="true" viewBox="0 0 450 70"><use href="#ramita" width="220" height="70"/><use href="#ramita" width="220" height="70" transform="translate(450 0) scale(-1 1)"/></svg>
+    <svg class="ramita-par abajo dibuja" aria-hidden="true" viewBox="0 0 450 70" stroke-width="2"><g><path class="tallo" pathLength="1" d="M6 60C70 20 150 8 214 26"/><path class="hoja" pathLength="1" d="M25.6 48.8Q35.1 61.3 53.3 60.5Q41.1 46.9 25.6 48.8ZM46.6 39.2Q57.5 29.2 55.2 12Q43.4 24.7 46.6 39.2ZM68.1 31.3Q74.7 43.7 91 45.7Q82.1 31.8 68.1 31.3ZM90 25.2Q101.1 17.9 101.5 2.4Q89.3 12 90 25.2ZM112.2 20.9Q116.1 32.7 130.2 36.8Q124.4 23.4 112.2 20.9ZM134.3 18.5Q144.9 13.7 147.5 0.3Q135.5 6.8 134.3 18.5ZM156.1 17.9Q157.9 28.6 169.4 34.2Q166.3 21.8 156.1 17.9ZM177.6 19.1Q187.4 16.7 191.6 5.6Q180.3 9.4 177.6 19.1ZM198.3 22.3Q198.1 31.6 207 38Q206.3 27.1 198.3 22.3Z"/></g><g transform="translate(450 0) scale(-1 1)"><path class="tallo" pathLength="1" d="M6 60C70 20 150 8 214 26"/><path class="hoja" pathLength="1" d="M25.6 48.8Q35.1 61.3 53.3 60.5Q41.1 46.9 25.6 48.8ZM46.6 39.2Q57.5 29.2 55.2 12Q43.4 24.7 46.6 39.2ZM68.1 31.3Q74.7 43.7 91 45.7Q82.1 31.8 68.1 31.3ZM90 25.2Q101.1 17.9 101.5 2.4Q89.3 12 90 25.2ZM112.2 20.9Q116.1 32.7 130.2 36.8Q124.4 23.4 112.2 20.9ZM134.3 18.5Q144.9 13.7 147.5 0.3Q135.5 6.8 134.3 18.5ZM156.1 17.9Q157.9 28.6 169.4 34.2Q166.3 21.8 156.1 17.9ZM177.6 19.1Q187.4 16.7 191.6 5.6Q180.3 9.4 177.6 19.1ZM198.3 22.3Q198.1 31.6 207 38Q206.3 27.1 198.3 22.3Z"/></g></svg>
   </div>
 </div>
 
@@ -731,8 +769,8 @@ footer :focus-visible{ outline-color:var(--crema); }
 
     <!-- ✏️ EDITAR: dress code (o borrá este párrafo) -->
     <p class="nota-evento revelar">
-      <strong>Dress code: elegante.</strong> La ceremonia y la recepción son en el jardín,
-      cuidado con los tacos finos. Por favor, evitá el blanco.
+      <strong>Dress code: elegante sport.</strong> La ceremonia y la recepción son en el jardín:
+      tenelo en cuenta al elegir los zapatos.
     </p>
   </div>
 </section>
@@ -864,7 +902,7 @@ footer :focus-visible{ outline-color:var(--crema); }
   <svg class="rama-fondo izq" aria-hidden="true" viewBox="0 0 300 620"><use href="#rama-arco"/></svg>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
-      <p class="sobretitulo">Cómo viene la mano</p>
+      <p class="sobretitulo">Hora por hora</p>
       <h2>Cronograma</h2>
       <svg class="divisor" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
     </div>
@@ -954,7 +992,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 <section id="preguntas">
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
-      <p class="sobretitulo">Por las dudas</p>
+      <p class="sobretitulo">Lo que más nos preguntan</p>
       <h2>Preguntas frecuentes</h2>
       <svg class="divisor" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
     </div>
@@ -963,18 +1001,13 @@ footer :focus-visible{ outline-color:var(--crema); }
     <div class="preguntas revelar">
 
       <details class="pregunta">
-        <summary>¿Puedo llevar chicos?</summary>
-        <p>Sí. Avisanos en el formulario cuántos son y sus edades para preparar el menú infantil.</p>
-      </details>
-
-      <details class="pregunta">
         <summary>¿Hay estacionamiento?</summary>
-        <p>El salón no tiene estacionamiento para invitados. Si venís en auto, hay que buscar lugar en la calle; si podés, vení en taxi, remís o auto de aplicación.</p>
+        <p>El salón no tiene estacionamiento para invitados.</p>
       </details>
 
       <details class="pregunta">
         <summary>¿La ceremonia es en otro lado?</summary>
-        <p>No: ceremonia y fiesta son en Estilo Coghlan. Llegás a las 18:00 y no te movés más.</p>
+        <p>No: ceremonia y fiesta son en Estilo Coghlan.</p>
       </details>
 
       <details class="pregunta">
@@ -1020,32 +1053,45 @@ var FECHA_EVENTO = (function(){
 })();
 
 
-/* ── "Faltan N días" en la portada ────────────────────────────── */
+/* ── Cuenta regresiva en la portada ───────────────────────────── */
 (function(){
-  var caja = document.getElementById('faltan');
-  if(!caja || !FECHA_EVENTO) return;
+  var caja  = document.getElementById('regresiva');
+  var intro = document.getElementById('regresiva-intro');
+  var frase = document.getElementById('faltan');
+  var dias  = document.getElementById('cr-dias');
+  var horas = document.getElementById('cr-horas');
+  var mins  = document.getElementById('cr-min');
+  var segs  = document.getElementById('cr-seg');
+  if(!caja || !frase || !FECHA_EVENTO) return;
 
-  var DIA = 86400000;
+  function dosDigitos(n){ return n < 10 ? '0' + n : String(n); }
+
+  function mostrarFrase(texto){
+    caja.hidden = true; intro.hidden = true;
+    frase.textContent = texto; frase.hidden = false;
+  }
 
   function actualizar(){
     var falta = FECHA_EVENTO.getTime() - Date.now();
-    var texto;
 
-    if(falta > 0){
-      var dias = Math.ceil(falta / DIA);
-      texto = dias === 1 ? 'Falta 1 día' : 'Faltan ' + dias + ' días';
-    }else if(falta > -18 * 3600000){
-      texto = '¡Es hoy!';            /* hasta ~18 h después del inicio */
-    }else{
-      texto = '¡Nos casamos!';
+    if(falta <= 0){
+      /* hasta ~18 h después del inicio es "hoy"; después, ya pasó */
+      mostrarFrase(falta > -18 * 3600000 ? '¡Es hoy!' : '¡Nos casamos!');
+      return;
     }
 
-    caja.textContent = texto;
-    caja.hidden = false;
+    var s = Math.floor(falta / 1000);
+    dias.textContent  = Math.floor(s / 86400);
+    horas.textContent = dosDigitos(Math.floor(s % 86400 / 3600));
+    mins.textContent  = dosDigitos(Math.floor(s % 3600 / 60));
+    segs.textContent  = dosDigitos(s % 60);
+    caja.hidden = false; intro.hidden = false;
+
+    /* se vuelve a correr justo al cambiar el segundo */
+    setTimeout(actualizar, 1000 - (Date.now() % 1000));
   }
 
   actualizar();
-  setInterval(actualizar, 60000);   /* una vez por minuto alcanza */
 })();
 
 
