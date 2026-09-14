@@ -124,9 +124,11 @@ con `?v=2` al final para que la vuelva a leer.
   titular que estén en la página.
 - Sin `localStorage`, sin cookies, sin scripts de terceros. Los únicos pedidos
   externos son las fuentes de Google y el iframe de Forms.
-- **Entrada animada**: la primera vez en cada sesión, la portada aparece como
-  una invitación cerrada con el sello J&G que se abre en dos hojas; después
-  los elementos de la portada entran en secuencia. Es CSS puro (opacity,
+- **Entrada animada**: la primera vez en cada sesión, la página aparece como
+  una invitación cerrada (dos hojas con la corona, el sello J&G, nombres y
+  fecha, y la pista "Deslizá para abrir"). Se abre con cualquier gesto
+  (scroll, arrastre, tap o tecla) y, si nadie hace nada, sola a los 8 s;
+  después los elementos de la portada entran en secuencia. Es CSS puro (opacity,
   transform, clip-path) decidido por un script de pocas líneas al principio
   del `<body>`. Con "reducir movimiento" o sin JavaScript no hay animación.
   Para volver a verla: abrí el link en una pestaña nueva.
