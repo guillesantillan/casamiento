@@ -227,6 +227,12 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   position:absolute; top:0; left:0; right:0; height:62%;
   background:linear-gradient(180deg, #e3e9dc 0%, #eef0e6 40%, rgba(250,247,241,0) 100%);
 }
+.escena__plano{ position:absolute; top:0; left:0; right:0; bottom:0; }
+/* parallax con el scroll: --sy lo pone el JS (píxeles scrolleados dentro de la portada) */
+html.animar .escena__plano--lejos{  transform:translateY(calc(var(--sy,0px) * .42)); }
+html.animar .escena__plano--medio{  transform:translateY(calc(var(--sy,0px) * .26)); }
+html.animar .escena__plano--cerca{  transform:translateY(calc(var(--sy,0px) * .10)); }
+html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.06)); }
 .escena__capa{ position:absolute; display:block; height:auto; opacity:0; transition:opacity 1.2s ease; }
 .escena__capa.cargada{ opacity:1; }
 .escena__pasto{
@@ -295,6 +301,22 @@ html.animar .petalo--5{ animation-delay:-11s; animation-duration:14s; }
 }
 @keyframes soplar{ 0%{ stroke-dashoffset:1.32; opacity:0; } 15%{ opacity:.75; } 50%{ opacity:.6; } 70%{ stroke-dashoffset:-.32; opacity:0; } 100%{ stroke-dashoffset:-.32; opacity:0; } }
 @keyframes caer{ 0%{ transform:translate(0,0) rotate(0); opacity:0; } 8%{ opacity:.9; } 90%{ opacity:.8; } 100%{ transform:translate(-70px,460px) rotate(260deg); opacity:0; } }
+
+/* ── Brisa: cuando la escena ya está quieta, hojas y flores se mecen ──
+   (la clase "meciendo" la pone el JS al terminar la intro) */
+html.animar .escena.meciendo .escena__flor{ animation:mecer 7s ease-in-out infinite; }
+html.animar .escena.meciendo .escena__pasionaria{ animation-duration:6.2s; animation-delay:-2s; }
+html.animar .escena.meciendo .escena__jacaranda{ animation-duration:8.1s; animation-delay:-4.5s; }
+html.animar .escena.meciendo .escena__rosas{ animation-duration:7.4s; animation-delay:-1.2s; }
+html.animar .escena.meciendo .escena__cortadera--izq{ animation:mecer-cortadera 5.6s ease-in-out infinite; }
+html.animar .escena.meciendo .escena__cortadera--der{ animation:mecer-cortadera-der 6.3s ease-in-out -2.5s infinite; }
+html.animar .escena.meciendo .escena__ombu--izq{ transform-origin:35% 0; animation:susurrar 11s ease-in-out infinite; }
+html.animar .escena.meciendo .escena__ombu--der{ transform-origin:65% 0; animation:susurrar-der 12.5s ease-in-out -5s infinite; }
+@keyframes mecer{ 0%,100%{ transform:rotate(0); } 30%{ transform:rotate(1.5deg); } 70%{ transform:rotate(-1.3deg); } }
+@keyframes mecer-cortadera{ 0%,100%{ transform:rotate(0); } 35%{ transform:rotate(2.6deg) skewX(1deg); } 75%{ transform:rotate(-2deg) skewX(-.6deg); } }
+@keyframes mecer-cortadera-der{ 0%,100%{ transform:scaleX(-1) rotate(0); } 35%{ transform:scaleX(-1) rotate(2.6deg) skewX(1deg); } 75%{ transform:scaleX(-1) rotate(-2deg) skewX(-.6deg); } }
+@keyframes susurrar{ 0%,100%{ transform:none; } 33%{ transform:translate(.4%,.25%) rotate(.35deg); } 66%{ transform:translate(-.3%,.15%) rotate(-.3deg); } }
+@keyframes susurrar-der{ 0%,100%{ transform:scaleX(-1); } 33%{ transform:scaleX(-1) translate(.4%,.25%) rotate(.35deg); } 66%{ transform:scaleX(-1) translate(-.3%,.15%) rotate(-.3deg); } }
 
 /* ── La intro de la escena (al abrirse la invitación) ─────────────
    La cámara arranca dentro del ombú y se aleja; las capas entran en
@@ -1106,18 +1128,26 @@ footer :focus-visible{ outline-color:var(--crema); }
        escena aparece suave cuando terminan de bajar. Los navegadores sin
        WebP (iPhone muy viejos) no la ven y el sitio sigue igual. -->
   <div class="escena" id="escena" aria-hidden="true">
-    <div class="escena__cielo"></div>
-    <img class="escena__capa escena__pampa" data-src="escena/pampa.webp" alt="" decoding="async">
-    <img class="escena__capa escena__casa" data-src="escena/casa.webp" alt="" decoding="async">
-    <img class="escena__capa escena__ombu escena__ombu--izq" data-src="escena/ombu-izq.webp" alt="" decoding="async">
-    <img class="escena__capa escena__ombu escena__ombu--der" data-src="escena/ombu-der.webp" alt="" decoding="async">
-    <div class="escena__capa escena__pasto"></div>
-    <img class="escena__capa escena__cortadera escena__cortadera--izq" data-src="escena/cortadera.webp" alt="" decoding="async">
-    <img class="escena__capa escena__cortadera escena__cortadera--der" data-src="escena/cortadera.webp" alt="" decoding="async">
-    <img class="escena__capa escena__flor escena__ceibo" data-src="escena/ceibo.webp" alt="" decoding="async">
-    <img class="escena__capa escena__flor escena__pasionaria" data-src="escena/pasionaria.webp" alt="" decoding="async">
-    <img class="escena__capa escena__flor escena__jacaranda" data-src="escena/jacaranda.webp" alt="" decoding="async">
-    <img class="escena__capa escena__flor escena__rosas" data-src="escena/rosas.webp" alt="" decoding="async">
+    <!-- planos de profundidad: al scrollear se mueven a distinta velocidad -->
+    <div class="escena__plano escena__plano--lejos">
+      <div class="escena__cielo"></div>
+      <img class="escena__capa escena__pampa" data-src="escena/pampa.webp" alt="" decoding="async">
+    </div>
+    <div class="escena__plano escena__plano--medio">
+      <img class="escena__capa escena__casa" data-src="escena/casa.webp" alt="" decoding="async">
+      <img class="escena__capa escena__ombu escena__ombu--izq" data-src="escena/ombu-izq.webp" alt="" decoding="async">
+      <img class="escena__capa escena__ombu escena__ombu--der" data-src="escena/ombu-der.webp" alt="" decoding="async">
+    </div>
+    <div class="escena__plano escena__plano--cerca">
+      <div class="escena__capa escena__pasto"></div>
+      <img class="escena__capa escena__cortadera escena__cortadera--izq" data-src="escena/cortadera.webp" alt="" decoding="async">
+      <img class="escena__capa escena__cortadera escena__cortadera--der" data-src="escena/cortadera.webp" alt="" decoding="async">
+    </div>
+    <div class="escena__plano escena__plano--frente">
+      <img class="escena__capa escena__flor escena__ceibo" data-src="escena/ceibo.webp" alt="" decoding="async">
+      <img class="escena__capa escena__flor escena__pasionaria" data-src="escena/pasionaria.webp" alt="" decoding="async">
+      <img class="escena__capa escena__flor escena__jacaranda" data-src="escena/jacaranda.webp" alt="" decoding="async">
+      <img class="escena__capa escena__flor escena__rosas" data-src="escena/rosas.webp" alt="" decoding="async">
     <svg class="escena__vida" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
         <g class="viento">
           <path class="racha" pathLength="1" d="M160 300 C300 275 400 330 540 295 S780 250 930 285" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
@@ -1130,6 +1160,7 @@ footer :focus-visible{ outline-color:var(--crema); }
         <g transform="translate(860 430)"><g class="vuelo vuelo--2"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-9 -9 -14 -2 -9 1.5 C-12 5.5 -5 7 0 1.5Z" fill="#d9b7b3" stroke="#9c7a45" stroke-width=".8"/><path d="M-6 -2.5 a1.8 1.8 0 1 0 .1 0" fill="#c9a46a" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-9 -9 -14 -2 -9 1.5 C-12 5.5 -5 7 0 1.5Z" fill="#d9b7b3" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-6 -2.5 a1.8 1.8 0 1 0 .1 0" fill="#c9a46a" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -3.5 v7" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></g>
         <g transform="translate(600 520)"><g class="vuelo vuelo--3"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-7.2 -7.2 -11.2 -1.6 -7.2 1.2 C-9.6 4.4 -4 5.6 0 1.2Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8"/><path d="M-4.8 -2 a1.4 1.4 0 1 0 .1 0" fill="#c79a98" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-7.2 -7.2 -11.2 -1.6 -7.2 1.2 C-9.6 4.4 -4 5.6 0 1.2Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-4.8 -2 a1.4 1.4 0 1 0 .1 0" fill="#c79a98" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -2.8 v5.6" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></g>
       </svg>
+    </div>
     <div class="escena__velo"></div>
   </div>
 
@@ -1581,8 +1612,9 @@ var ESCENA = (function(){
     if(ESCENA.caja && /\bcon-escena\b/.test(raiz.className) && ESCENA.claveLista()){
       raiz.className += ' escena-intro';
       ESCENA.caja.classList.add('viva');
+      setTimeout(function(){ ESCENA.caja.classList.add('meciendo'); }, 7600);   /* al terminar la intro, la brisa */
     }else if(ESCENA.caja){
-      setTimeout(function(){ ESCENA.caja.classList.add('viva'); }, 1500);
+      setTimeout(function(){ ESCENA.caja.classList.add('viva'); ESCENA.caja.classList.add('meciendo'); }, 1500);
     }
     raiz.className += ' abierto lista';
     window.scrollTo(0, 0);
@@ -1632,7 +1664,25 @@ var ESCENA = (function(){
 (function(){
   var raiz = document.documentElement;
   if(!ESCENA.caja || /\bsobre\b/.test(raiz.className)) return;
-  setTimeout(function(){ ESCENA.caja.classList.add('viva'); }, 800);
+  setTimeout(function(){ ESCENA.caja.classList.add('viva'); ESCENA.caja.classList.add('meciendo'); }, 800);
+})();
+
+
+/* ── Escena: parallax con el scroll ───────────────────────────── */
+(function(){
+  var caja = ESCENA.caja, portada = document.querySelector('.portada');
+  if(!caja || !portada || !/\banimar\b/.test(document.documentElement.className)) return;
+  var pedido = false;
+  function pintar(){
+    pedido = false;
+    var alto = portada.offsetHeight;
+    var y = Math.max(0, Math.min(window.scrollY || window.pageYOffset || 0, alto));
+    caja.style.setProperty('--sy', y + 'px');
+  }
+  window.addEventListener('scroll', function(){
+    if(!pedido){ pedido = true; (window.requestAnimationFrame || setTimeout)(pintar); }
+  }, { passive:true });
+  pintar();
 })();
 
 
