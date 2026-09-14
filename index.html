@@ -222,11 +222,13 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   pointer-events:none; display:none;
 }
 @media (min-width:700px){ .corona{ display:block; } }
-/* en celular: dos ramitas horizontales, arriba y abajo del bloque */
-.ramita-par{ display:block; width:min(250px,70vw); height:auto; margin-inline:auto; color:var(--verde-medio); opacity:.7; }
-.ramita-par.arriba{ margin-bottom:26px; }
-.ramita-par.abajo{ margin-top:34px; }
-@media (min-width:700px){ .ramita-par{ display:none; } }
+/* en celular la corona abraza solo los nombres */
+.portada__nombres{ position:relative; padding-block:26px; }
+.portada__nombres h1{ position:relative; z-index:1; }
+.corona--nombres{
+  display:block; width:min(370px,102vw); opacity:.6;
+}
+@media (min-width:700px){ .corona--nombres{ display:none; } }
 
 .portada__contenido{ position:relative; z-index:1; max-width:720px; }
 
@@ -263,8 +265,7 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
 .portada__fecha strong{ font-weight:400; color:var(--tinta); }
 
 .hojita{ display:block; width:38px; height:auto; margin:34px auto 0; color:var(--dorado); }
-.hojita--desktop{ display:none; }
-@media (min-width:700px){ .hojita--desktop{ display:block; } }
+.hojita--desktop{ display:block; }
 
 /* Cuenta regresiva (la completa el JS; si no hay JS, no se muestra nada) */
 .portada__faltan{
@@ -644,10 +645,6 @@ footer :focus-visible{ outline-color:var(--crema); }
     <path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/>
     <path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/>
   </symbol>
-  <symbol id="ramita" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 220 70">
-    <path class="tallo" pathLength="1" d="M6 60C70 20 150 8 214 26"/>
-    <path class="hoja" pathLength="1" d="M25.6 48.8Q35.1 61.3 53.3 60.5Q41.1 46.9 25.6 48.8ZM46.6 39.2Q57.5 29.2 55.2 12Q43.4 24.7 46.6 39.2ZM68.1 31.3Q74.7 43.7 91 45.7Q82.1 31.8 68.1 31.3ZM90 25.2Q101.1 17.9 101.5 2.4Q89.3 12 90 25.2ZM112.2 20.9Q116.1 32.7 130.2 36.8Q124.4 23.4 112.2 20.9ZM134.3 18.5Q144.9 13.7 147.5 0.3Q135.5 6.8 134.3 18.5ZM156.1 17.9Q157.9 28.6 169.4 34.2Q166.3 21.8 156.1 17.9ZM177.6 19.1Q187.4 16.7 191.6 5.6Q180.3 9.4 177.6 19.1ZM198.3 22.3Q198.1 31.6 207 38Q206.3 27.1 198.3 22.3Z"/>
-  </symbol>
   <symbol id="monograma" viewBox="0 0 64 64">
     <circle cx="32" cy="32" r="30.5" fill="none" stroke="currentColor" stroke-width="1"/>
     <circle cx="32" cy="32" r="27" fill="none" stroke="currentColor" stroke-width=".6" opacity=".6"/>
@@ -684,13 +681,15 @@ footer :focus-visible{ outline-color:var(--crema); }
   <svg class="corona dibuja" aria-hidden="true" viewBox="0 0 920 620" stroke-width="1.4"><g><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/></g><g transform="translate(920 0) scale(-1 1)"><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/></g></svg>
 
   <div class="portada__contenido">
-    <svg class="ramita-par arriba dibuja" aria-hidden="true" viewBox="0 0 450 70" stroke-width="2"><g><path class="tallo" pathLength="1" d="M6 60C70 20 150 8 214 26"/><path class="hoja" pathLength="1" d="M25.6 48.8Q35.1 61.3 53.3 60.5Q41.1 46.9 25.6 48.8ZM46.6 39.2Q57.5 29.2 55.2 12Q43.4 24.7 46.6 39.2ZM68.1 31.3Q74.7 43.7 91 45.7Q82.1 31.8 68.1 31.3ZM90 25.2Q101.1 17.9 101.5 2.4Q89.3 12 90 25.2ZM112.2 20.9Q116.1 32.7 130.2 36.8Q124.4 23.4 112.2 20.9ZM134.3 18.5Q144.9 13.7 147.5 0.3Q135.5 6.8 134.3 18.5ZM156.1 17.9Q157.9 28.6 169.4 34.2Q166.3 21.8 156.1 17.9ZM177.6 19.1Q187.4 16.7 191.6 5.6Q180.3 9.4 177.6 19.1ZM198.3 22.3Q198.1 31.6 207 38Q206.3 27.1 198.3 22.3Z"/></g><g transform="translate(450 0) scale(-1 1)"><path class="tallo" pathLength="1" d="M6 60C70 20 150 8 214 26"/><path class="hoja" pathLength="1" d="M25.6 48.8Q35.1 61.3 53.3 60.5Q41.1 46.9 25.6 48.8ZM46.6 39.2Q57.5 29.2 55.2 12Q43.4 24.7 46.6 39.2ZM68.1 31.3Q74.7 43.7 91 45.7Q82.1 31.8 68.1 31.3ZM90 25.2Q101.1 17.9 101.5 2.4Q89.3 12 90 25.2ZM112.2 20.9Q116.1 32.7 130.2 36.8Q124.4 23.4 112.2 20.9ZM134.3 18.5Q144.9 13.7 147.5 0.3Q135.5 6.8 134.3 18.5ZM156.1 17.9Q157.9 28.6 169.4 34.2Q166.3 21.8 156.1 17.9ZM177.6 19.1Q187.4 16.7 191.6 5.6Q180.3 9.4 177.6 19.1ZM198.3 22.3Q198.1 31.6 207 38Q206.3 27.1 198.3 22.3Z"/></g></svg>
 
     <!-- ✏️ EDITAR: frase de apertura -->
     <p class="portada__intro">Nos casamos</p>
 
-    <!-- ✏️ EDITAR: los nombres -->
-    <h1>Jess<span class="amp">&amp;</span>Guille</h1>
+    <div class="portada__nombres">
+      <svg class="corona corona--nombres dibuja" aria-hidden="true" viewBox="0 0 920 620" stroke-width="1.4"><g><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/></g><g transform="translate(920 0) scale(-1 1)"><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/></g></svg>
+      <!-- ✏️ EDITAR: los nombres -->
+      <h1>Jess<span class="amp">&amp;</span>Guille</h1>
+    </div>
 
     <!-- ════════════════════════════════════════════════════════
          ✏️ EDITAR: fecha y ciudad.
@@ -726,7 +725,6 @@ footer :focus-visible{ outline-color:var(--crema); }
     </div>
 
     <svg class="hojita hojita--desktop" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
-    <svg class="ramita-par abajo dibuja" aria-hidden="true" viewBox="0 0 450 70" stroke-width="2"><g><path class="tallo" pathLength="1" d="M6 60C70 20 150 8 214 26"/><path class="hoja" pathLength="1" d="M25.6 48.8Q35.1 61.3 53.3 60.5Q41.1 46.9 25.6 48.8ZM46.6 39.2Q57.5 29.2 55.2 12Q43.4 24.7 46.6 39.2ZM68.1 31.3Q74.7 43.7 91 45.7Q82.1 31.8 68.1 31.3ZM90 25.2Q101.1 17.9 101.5 2.4Q89.3 12 90 25.2ZM112.2 20.9Q116.1 32.7 130.2 36.8Q124.4 23.4 112.2 20.9ZM134.3 18.5Q144.9 13.7 147.5 0.3Q135.5 6.8 134.3 18.5ZM156.1 17.9Q157.9 28.6 169.4 34.2Q166.3 21.8 156.1 17.9ZM177.6 19.1Q187.4 16.7 191.6 5.6Q180.3 9.4 177.6 19.1ZM198.3 22.3Q198.1 31.6 207 38Q206.3 27.1 198.3 22.3Z"/></g><g transform="translate(450 0) scale(-1 1)"><path class="tallo" pathLength="1" d="M6 60C70 20 150 8 214 26"/><path class="hoja" pathLength="1" d="M25.6 48.8Q35.1 61.3 53.3 60.5Q41.1 46.9 25.6 48.8ZM46.6 39.2Q57.5 29.2 55.2 12Q43.4 24.7 46.6 39.2ZM68.1 31.3Q74.7 43.7 91 45.7Q82.1 31.8 68.1 31.3ZM90 25.2Q101.1 17.9 101.5 2.4Q89.3 12 90 25.2ZM112.2 20.9Q116.1 32.7 130.2 36.8Q124.4 23.4 112.2 20.9ZM134.3 18.5Q144.9 13.7 147.5 0.3Q135.5 6.8 134.3 18.5ZM156.1 17.9Q157.9 28.6 169.4 34.2Q166.3 21.8 156.1 17.9ZM177.6 19.1Q187.4 16.7 191.6 5.6Q180.3 9.4 177.6 19.1ZM198.3 22.3Q198.1 31.6 207 38Q206.3 27.1 198.3 22.3Z"/></g></svg>
   </div>
 </div>
 
