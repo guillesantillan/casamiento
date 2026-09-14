@@ -374,34 +374,34 @@ html.animar.lista .portada h1, html.animar.lista .portada h1 .amp, html.animar.l
 html.animar.lista .regresiva__intro, html.animar.lista .regresiva__celda, html.animar.lista .portada__faltan,
 html.animar.lista .portada__acciones, html.animar.lista .portada .hojita{ animation-play-state:running; }
 
-html.animar .arco{ animation-name:posar; animation-duration:1s; }
-html.animar .portada__saludo{ animation-name:subir; animation-delay:.45s; }
-html.animar .portada__intro{ animation-name:aparecer; animation-delay:.5s; animation-duration:.7s; }
-html.animar .portada h1{ animation-name:barrer; animation-delay:.6s; animation-duration:1s; }
-html.animar .portada h1 .amp{ display:inline-block; animation-name:caer; animation-delay:1s; animation-duration:.7s; }
-html.animar .portada__fecha{ animation-name:subir; animation-delay:.85s; }
-html.animar .regresiva__intro{ animation-name:subir; animation-delay:.95s; }
-html.animar .regresiva__celda{ animation-name:subir; animation-delay:1s; }
-html.animar .regresiva__celda:nth-child(2){ animation-delay:1.06s; }
-html.animar .regresiva__celda:nth-child(3){ animation-delay:1.12s; }
-html.animar .regresiva__celda:nth-child(4){ animation-delay:1.18s; }
-html.animar .portada__faltan{ animation-name:subir; animation-delay:1s; }
-html.animar .portada__acciones{ animation-name:subir; animation-delay:1.2s; }
-html.animar .portada .hojita{ animation-name:aparecer; animation-delay:1.4s; }
+html.animar .arco{ animation-name:posar; animation-duration:1s; animation-delay:calc(var(--retraso,0s) + 0s); }
+html.animar .portada__saludo{ animation-name:subir; animation-delay:calc(var(--retraso,0s) + .45s); }
+html.animar .portada__intro{ animation-name:aparecer; animation-delay:calc(var(--retraso,0s) + .5s); animation-duration:.7s; }
+html.animar .portada h1{ animation-name:barrer; animation-delay:calc(var(--retraso,0s) + .6s); animation-duration:1s; }
+html.animar .portada h1 .amp{ display:inline-block; animation-name:caer; animation-delay:calc(var(--retraso,0s) + 1s); animation-duration:.7s; }
+html.animar .portada__fecha{ animation-name:subir; animation-delay:calc(var(--retraso,0s) + .85s); }
+html.animar .regresiva__intro{ animation-name:subir; animation-delay:calc(var(--retraso,0s) + .95s); }
+html.animar .regresiva__celda{ animation-name:subir; animation-delay:calc(var(--retraso,0s) + 1s); }
+html.animar .regresiva__celda:nth-child(2){ animation-delay:calc(var(--retraso,0s) + 1.06s); }
+html.animar .regresiva__celda:nth-child(3){ animation-delay:calc(var(--retraso,0s) + 1.12s); }
+html.animar .regresiva__celda:nth-child(4){ animation-delay:calc(var(--retraso,0s) + 1.18s); }
+html.animar .portada__faltan{ animation-name:subir; animation-delay:calc(var(--retraso,0s) + 1s); }
+html.animar .portada__acciones{ animation-name:subir; animation-delay:calc(var(--retraso,0s) + 1.2s); }
+html.animar .portada .hojita{ animation-name:aparecer; animation-delay:calc(var(--retraso,0s) + 1.4s); }
 
 /* las líneas de "Nos casamos" se extienden desde el centro hacia afuera */
 html.animar .portada__intro::before,
 html.animar .portada__intro::after{
-  transform:scaleX(0); animation:extender .8s var(--suave) .55s both paused;
+  transform:scaleX(0); animation:extender .8s var(--suave) both paused; animation-delay:calc(var(--retraso,0s) + .55s);
 }
 html.animar .portada__intro::before{ transform-origin:right center; }
 html.animar .portada__intro::after{ transform-origin:left center; }
 html.animar.lista .portada__intro::before, html.animar.lista .portada__intro::after{ animation-play-state:running; }
 
 /* la corona espera a que la foto se pose */
-html.animar .corona path{ animation-delay:.25s; }
-html.animar .corona .hoja{ animation-delay:.95s; }
-html.animar .corona .flor{ animation-delay:1.55s; }
+html.animar .corona path{ animation-delay:calc(var(--retraso,0s) + .25s); }
+html.animar .corona .hoja{ animation-delay:calc(var(--retraso,0s) + .95s); }
+html.animar .corona .flor{ animation-delay:calc(var(--retraso,0s) + 1.55s); }
 
 @keyframes posar{ from{ opacity:0; transform:translateY(10px) scale(.965); } to{ opacity:1; transform:none; } }
 @keyframes subir{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
@@ -413,6 +413,51 @@ html.animar .corona .flor{ animation-delay:1.55s; }
   from{ opacity:1; clip-path:inset(-10% 100% -10% 0); -webkit-clip-path:inset(-10% 100% -10% 0); }
   to{   opacity:1; clip-path:inset(-10% -6% -10% -2%); -webkit-clip-path:inset(-10% -6% -10% -2%); }
 }
+
+/* ── La invitación que se abre (antes de la coreografía) ──────────
+   Solo con la clase "sobre" en <html> (la pone el script del principio
+   del <body> la primera vez en la sesión). Dos hojas crema con el sello
+   J&G al centro; el sello se estampa, se levanta, y las hojas se abren
+   hacia los costados mientras la portada "se aleja" hasta su tamaño. */
+html.sobre{ --retraso:1.15s; }
+#sobre{ display:none; }
+html.sobre #sobre{
+  display:block; position:fixed; top:0; left:0; right:0; bottom:0; z-index:100;
+  pointer-events:none;
+}
+#sobre[hidden]{ display:none !important; }
+.sobre__hoja{
+  position:absolute; top:0; bottom:0; width:50.5%;
+  background:var(--crema-hondo);
+  animation:1s var(--suave) both paused;
+  animation-delay:calc(var(--retraso,0s) - .2s);
+}
+.sobre__hoja--izq{ left:0;  border-right:1px solid var(--linea); animation-name:abrir-izq; }
+.sobre__hoja--der{ right:0; border-left:1px solid var(--linea);  animation-name:abrir-der; }
+.sobre__sello{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:clamp(96px,24vw,124px); height:clamp(96px,24vw,124px);
+  border-radius:50%;
+  background:var(--verde); color:var(--crema);
+  box-shadow:0 10px 30px -12px rgba(44,50,41,.55), inset 0 0 0 3px var(--verde), inset 0 0 0 4px rgba(250,247,241,.55);
+  display:flex; align-items:center; justify-content:center;
+  animation:sellar .55s var(--suave) both paused, desellar .3s ease-in both paused;
+  animation-delay:.05s, calc(var(--retraso,0s) - .4s);
+}
+.sobre__sello::before{
+  content:""; position:absolute; top:-7px; left:-7px; right:-7px; bottom:-7px;
+  border-radius:50%; border:1px solid var(--dorado); opacity:.8;
+}
+.sobre__sello svg{ width:66%; height:66%; }
+html.animar.lista .sobre__hoja, html.animar.lista .sobre__sello{ animation-play-state:running; }
+@keyframes sellar{ from{ opacity:0; transform:translate(-50%,-50%) scale(1.25); } 60%{ transform:translate(-50%,-50%) scale(.94); } to{ opacity:1; transform:translate(-50%,-50%) scale(1); } }
+@keyframes desellar{ to{ opacity:0; transform:translate(-50%,-58%) scale(.88); } }
+@keyframes abrir-izq{ to{ transform:translateX(-102%); } }
+@keyframes abrir-der{ to{ transform:translateX(102%); } }
+/* la portada empieza un poco más cerca y se aleja mientras se abre */
+html.sobre.animar .portada__contenido{ animation:alejar 1.8s var(--suave) both paused; animation-delay:calc(var(--retraso,0s) - .2s); transform-origin:50% 40%; }
+html.sobre.animar.lista .portada__contenido{ animation-play-state:running; }
+@keyframes alejar{ from{ transform:scale(1.06); } to{ transform:none; } }
 
 /* ── Botón principal de la portada ───────────────────────────── */
 .portada__acciones{
@@ -768,6 +813,13 @@ footer :focus-visible{ outline-color:var(--crema); }
     if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var raiz = document.documentElement;
     raiz.className += ' animar';
+    /* la invitación cerrada se abre solo la primera vez en la sesión */
+    try{
+      if(!sessionStorage.getItem('invitacion-abierta')){
+        raiz.className += ' sobre';
+        sessionStorage.setItem('invitacion-abierta', '1');
+      }
+    }catch(e){ raiz.className += ' sobre'; }
     var listo = false;
     function soltar(){ if(!listo){ listo = true; raiz.className += ' lista'; } }
     if(document.fonts && document.fonts.ready){ document.fonts.ready.then(soltar, soltar); }
@@ -775,6 +827,13 @@ footer :focus-visible{ outline-color:var(--crema); }
   }catch(e){}
 })();
 </script>
+
+<!-- La invitación cerrada: se ve un instante y se abre sola (ver CSS "sobre") -->
+<div class="sobre" id="sobre" aria-hidden="true">
+  <div class="sobre__hoja sobre__hoja--izq"></div>
+  <div class="sobre__hoja sobre__hoja--der"></div>
+  <div class="sobre__sello"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#monograma"/></svg></div>
+</div>
 
 <!-- ═══════════════ DIBUJOS REUTILIZABLES ═══════════════
      Símbolos SVG que se usan en varios lados con <use href="#nombre">.
@@ -1223,6 +1282,17 @@ var FECHA_EVENTO = (function(){
   var t = document.getElementById('fecha-evento');
   var d = t ? new Date(t.getAttribute('datetime')) : null;
   return (d && !isNaN(d.getTime())) ? d : null;
+})();
+
+
+/* ── Sobre: cuando terminó de abrirse, se saca ─────────────────── */
+(function(){
+  var sobre = document.getElementById('sobre');
+  if(!sobre || !/\bsobre\b/.test(document.documentElement.className)) return;
+  var der = sobre.querySelector('.sobre__hoja--der');
+  function sacar(){ sobre.hidden = true; }
+  if(der) der.addEventListener('animationend', sacar);
+  setTimeout(sacar, 4000);   /* red de seguridad */
 })();
 
 
