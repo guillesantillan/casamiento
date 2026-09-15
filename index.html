@@ -340,7 +340,7 @@ html.escena-intro .escena__casa{ opacity:0; animation:llegar 2s var(--suave) 2.2
 html.escena-intro .escena__pasto{ opacity:1; animation:subir-pasto 1.6s var(--suave) 3.1s both; }
 html.escena-intro .escena__cortadera--izq{ opacity:1; animation:brotar-izq 1.8s var(--suave) 3.3s both; }
 html.escena-intro .escena__cortadera--der{ opacity:1; animation:brotar-der 1.8s var(--suave) 3.5s both; }
-html.escena-intro .escena__flor{ opacity:0; animation:brotar-flor 1.5s var(--suave) both; }
+html.escena-intro .escena__flor{ animation:brotar-flor 1.5s var(--suave) both; }   /* sin opacity acá: al pasar a la brisa, quedaría en 0 */
 html.escena-intro .escena__ceibo{ animation-delay:3.8s; }
 html.escena-intro .escena__pasionaria{ animation-delay:4.15s; }
 html.escena-intro .escena__jacaranda{ animation-delay:4.4s; }
@@ -565,8 +565,10 @@ html.animar .corona .flor{ animation-delay:calc(var(--retraso,0s) + 1.55s * var(
    Solo con la clase "sobre" en <html> (la pone el script del principio
    del <body>, la primera vez en la sesión). Dos hojas de papel con la
    corona repartida entre las dos, el sello de lacre J&G, los nombres y la
-   fecha, y la pista "Deslizá para abrir". Cualquier gesto la abre (scroll,
-   arrastre, tap, tecla); si nadie hace nada, se abre sola a los 8 s.
+   fecha, y la pista "Tocá el sello para abrir". Se abre tocando el sello
+   (o con Enter); si nadie hace nada, se abre sola a los 8 s. Con WebP, en
+   vez de la corona dibujada hay un jardín de láminas: copas de ombú arriba
+   y cortaderas, cardo, rosas, jacarandá y malvón abajo.
    Estados: html.sobre → cerrada; .sobre-visible → contenido a la vista;
    .abierto → abriéndose; después el overlay se saca. ─────────────── */
 html.sobre{ --retraso:.8s; }
@@ -574,7 +576,7 @@ html.sobre:not(.abierto), html.sobre:not(.abierto) body{ overflow:hidden; }
 #sobre{ display:none; }
 html.sobre #sobre{
   display:block; position:fixed; top:0; left:0; right:0; bottom:0; z-index:100;
-  cursor:pointer; -webkit-tap-highlight-color:transparent; outline:none;
+  -webkit-tap-highlight-color:transparent; outline:none;
   color:var(--verde);
 }
 #sobre[hidden]{ display:none !important; }
@@ -601,6 +603,37 @@ html.sobre #sobre{
 .sobre__hoja--der .sobre__rama{ left:calc(min(66vh,560px,118vw) * -0.06); }
 .sobre__rama path{ fill:none; stroke:currentColor; stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round; }
 .sobre__rama .flor{ stroke:var(--dorado); }
+html.con-escena .sobre__rama{ display:none; }
+
+/* el jardín de la tapa: alturas en vh (con tope) para que entre en cualquier
+   pantalla; en cada hoja, lo más alto va afuera y lo bajo cerca de la costura */
+.sobre__copa, .sobre__planta, .sobre__pasto{ display:none; position:absolute; pointer-events:none; opacity:0; }
+html.con-escena .sobre__copa, html.con-escena .sobre__planta, html.con-escena .sobre__pasto{ display:block; }
+.sobre__copa{ top:-6%; height:clamp(150px,27vh,250px); width:auto; }
+.sobre__copa--izq{ right:-12%; }
+.sobre__copa--der{ left:-12%; transform:scaleX(-1); }
+.sobre__planta{ bottom:0; width:auto; transform-origin:50% 100%; }
+.sobre__planta--cortadera-izq{ right:min(44%,300px); bottom:-2%; height:clamp(150px,30vh,290px); }
+.sobre__planta--cortadera-der{ left:min(44%,300px);  bottom:-2%; height:clamp(150px,30vh,290px); transform:scaleX(-1); }
+.sobre__planta--cardo{     right:min(24%,150px); bottom:-1%; height:clamp(160px,34vh,320px); }
+.sobre__planta--jacaranda{ left:min(20%,130px);  bottom:-2%; height:clamp(150px,32vh,300px); }
+.sobre__planta--rosas{     right:0; bottom:-3%; height:clamp(120px,22vh,200px); }
+.sobre__planta--malvon{    left:2%; bottom:-3%; height:clamp(130px,24vh,210px); }
+.sobre__pasto{ left:0; right:0; bottom:-4px; height:clamp(44px,7vh,60px); background:url("escena/pasto.webp") repeat-x center bottom / auto 100%; }
+/* aparecen cuando la imagen cargó (así también funciona con señal lenta), en orden, y luego se mecen */
+html.sobre-visible .sobre__copa.cargada{ opacity:.22; animation:asomar 2.2s ease-out both, susurrar 12s ease-in-out 2.2s infinite; transform-origin:40% 0; }
+html.sobre-visible .sobre__copa--der.cargada{ animation:asomar 2.2s ease-out .3s both, susurrar-der 13s ease-in-out -4s infinite; transform-origin:60% 0; }
+html.sobre-visible .sobre__pasto.cargada{ opacity:.8; animation:asomar 1.4s ease-out .2s both; }
+html.sobre-visible .sobre__planta.cargada{ opacity:1; animation:brotar-planta 1.6s var(--suave) var(--d,0s) both, mecer 8s ease-in-out calc(var(--d,0s) + 1.6s) infinite; }
+html.sobre-visible .sobre__planta--cortadera-izq.cargada{ --d:.3s; opacity:.75; animation-name:brotar-planta, mecer-cortadera; animation-duration:1.6s, 6s; }
+html.sobre-visible .sobre__planta--cortadera-der.cargada{ --d:.45s; opacity:.75; animation-name:brotar-der-planta, mecer-cortadera-der; animation-duration:1.6s, 6.8s; }
+html.sobre-visible .sobre__planta--cardo.cargada{ --d:.7s; animation-duration:1.6s, 9s; }
+html.sobre-visible .sobre__planta--jacaranda.cargada{ --d:.9s; animation-duration:1.6s, 8.4s; }
+html.sobre-visible .sobre__planta--rosas.cargada{ --d:1.15s; animation-duration:1.6s, 7.2s; }
+html.sobre-visible .sobre__planta--malvon.cargada{ --d:1.3s; animation-duration:1.6s, 7.8s; }
+@keyframes asomar{ from{ opacity:0; } }
+@keyframes brotar-planta{ from{ opacity:0; transform:translateY(14%) scale(.94); } to{ transform:none; } }
+@keyframes brotar-der-planta{ from{ opacity:0; transform:scaleX(-1) translateY(14%) scale(.94); } to{ transform:scaleX(-1); } }
 
 /* velo suave para dar profundidad al papel */
 .sobre__velo{
@@ -612,6 +645,7 @@ html.sobre #sobre{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
   text-align:center; pointer-events:none; width:min(90vw,420px);
 }
+.sobre__centro .sobre__sello{ pointer-events:auto; }
 .sobre__nombres{
   margin:0 0 26px;
   font-family:var(--serif); font-style:italic;
@@ -628,6 +662,7 @@ html.sobre #sobre{
 .sobre__sello-caja{ display:block; width:clamp(104px,26vw,132px); height:clamp(104px,26vw,132px); margin:0 auto; opacity:0; }
 .sobre__sello{
   width:100%; height:100%; border-radius:50%; position:relative;
+  border:0; padding:0; margin:0; cursor:pointer; font:inherit; -webkit-appearance:none; appearance:none;
   background:radial-gradient(circle at 36% 30%, #66805f 0%, #4a6149 38%, #3d5140 62%, #2c3b2e 100%);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.28),
@@ -648,15 +683,12 @@ html.sobre #sobre{
 }
 .sobre__sello svg{ width:64%; height:64%; filter:drop-shadow(0 1px 0 rgba(0,0,0,.35)); }
 
-/* pista para abrir */
+/* pista para abrir, debajo de la fecha */
 .sobre__pista{
-  position:absolute; left:0; right:0; bottom:max(28px, env(safe-area-inset-bottom, 0px) + 20px);
-  margin:0; text-align:center; pointer-events:none;
-  font-size:13px; letter-spacing:.24em; text-transform:uppercase;
+  margin:22px 0 0; text-align:center; pointer-events:none;
+  font-size:11px; letter-spacing:.24em; text-transform:uppercase;
   color:var(--verde-medio); opacity:0;
 }
-.sobre__pista svg{ display:block; width:22px; height:22px; margin:8px auto 0; }
-.sobre__pista path{ fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
 
 /* ── al cargar: la invitación "llega" ── */
 html.sobre-visible .sobre__rama{ animation:aparecer .9s var(--suave) .1s both; }
@@ -668,9 +700,9 @@ html.sobre-visible .sobre__sello{ animation:respirar 3.6s ease-in-out 1.6s infin
 html.sobre-visible .sobre__nombres{ animation:subir 1.4s var(--suave) 1.7s both; }
 html.sobre-visible .sobre__fecha{ animation:subir 1.4s var(--suave) 1.9s both; }
 html.sobre-visible .sobre__pista{ animation:aparecer 1.2s var(--suave) 2.9s both; }
-html.sobre-visible .sobre__pista svg{ animation:flotar 2.6s ease-in-out 2.9s infinite; }
-/* al tocar/agarrar, el sello se hunde apenas */
-html.sobre-visible.agarrado .sobre__sello{ animation:none; transform:scale(.96); transition:transform .18s; }
+/* al tocar, el sello se hunde apenas */
+html.sobre-visible .sobre__sello:active{ animation:none; transform:scale(.96); transition:transform .18s; }
+.sobre__sello:focus-visible{ outline:2px solid var(--dorado); outline-offset:6px; }
 
 /* ── al abrir ── */
 html.abierto #sobre{ pointer-events:none; }
@@ -746,22 +778,17 @@ html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-o
   .lamina-caja--arriba-izq{ opacity:.18; }
   footer .lamina-caja--izq, footer .lamina-caja--der{ height:110px; }
 }
-/* "Nosotros": flores, ombú y pasto a los costados, con el texto en el medio */
+/* "Nosotros": jazmín y lavanda a los costados (distintas de las de la portada), ombú tenue arriba */
 .seccion-nosotros{ position:relative; overflow:hidden; }
 .nosotros{ position:relative; z-index:1; }
-.nosotros__pasto{
-  position:absolute; left:0; right:0; bottom:-4px; height:56px; display:none; pointer-events:none; opacity:.8;
-  background:url("escena/pasto.webp") repeat-x center bottom / auto 100%;
-}
-html.con-escena .nosotros__pasto{ display:block; }
 .lamina-caja--arriba-der{ right:-16%; top:-8%; width:min(60vw,360px); opacity:.3; }
 html.animar .lamina-caja--arriba-der .lamina{ animation:susurrar-der 13s ease-in-out -4s infinite; transform-origin:70% 0; }
 .lamina--ombu-der{ transform:scaleX(-1); }
 @media (min-width:860px){ .lamina-caja--arriba-der{ right:-6%; top:-14%; width:380px; } }
 @media (max-width:859px){
   /* en celular, las flores de "Nosotros" van debajo del texto, no encima */
-  html.con-escena section.seccion-nosotros{ padding-bottom:196px; }
-  .seccion-nosotros .lamina-caja--izq, .seccion-nosotros .lamina-caja--der{ height:160px; bottom:-4px; }
+  html.con-escena section.seccion-nosotros{ padding-bottom:176px; }
+  .seccion-nosotros .lamina-caja--izq, .seccion-nosotros .lamina-caja--der{ height:150px; bottom:-4px; }
   .seccion-nosotros .lamina-caja--arriba-der{ opacity:.16; }
 }
 /* mariposa que cruza la sección de vez en cuando */
@@ -1128,22 +1155,33 @@ footer :focus-visible{ outline-color:var(--crema); }
 })();
 </script>
 
-<!-- La invitación cerrada (ver CSS "La invitación cerrada"). Se abre con
-     cualquier gesto o sola a los 8 s. ✏️ EDITAR: nombres, fecha y pista. -->
-<div class="sobre" id="sobre" role="button" tabindex="0" aria-label="Invitación. Deslizá o tocá para abrir.">
+<!-- La invitación cerrada (ver CSS "La invitación cerrada"). Se abre al
+     tocar el sello o sola a los 8 s. ✏️ EDITAR: nombres, fecha y pista. -->
+<div class="sobre" id="sobre" aria-label="Invitación">
   <div class="sobre__hoja sobre__hoja--izq">
+    <!-- el jardín de la tapa (solo con WebP; si no, queda la corona dibujada) -->
+    <img class="sobre__copa sobre__copa--izq" data-src="escena/ombu-izq.webp" alt="" decoding="async">
+    <div class="sobre__pasto"></div>
+    <img class="sobre__planta sobre__planta--cortadera-izq" data-src="escena/cortadera.webp" alt="" decoding="async">
+    <img class="sobre__planta sobre__planta--cardo" data-src="escena/cardo.webp" alt="" decoding="async">
+    <img class="sobre__planta sobre__planta--rosas" data-src="escena/rosas.webp" alt="" decoding="async">
     <svg class="sobre__rama" viewBox="0 0 300 620" aria-hidden="true"><g><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/><path class="flor" pathLength="1" d="M143.2 515.1Q150.2 502.3 162.9 495.2M162.9 495.2Q175.3 502.9 182.6 492Q172.2 483.9 162.9 495.2ZM162.9 495.2Q159.4 509.4 172.1 513Q176.5 500.6 162.9 495.2ZM162.9 495.2Q148.3 496.3 148.8 509.4Q162 509.8 162.9 495.2ZM162.9 495.2Q157.4 481.7 145 486.2Q148.8 498.8 162.9 495.2ZM162.9 495.2Q174 485.8 165.9 475.4Q155.1 482.9 162.9 495.2ZM159.3 495.2a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0ZM87.7 374.9Q73.6 378.8 59.7 374.7M59.7 374.7Q56.7 361.3 44.6 363.5Q46 375.8 59.7 374.7ZM59.7 374.7Q71.5 367.7 65.6 356.8Q54.4 362 59.7 374.7ZM59.7 374.7Q69.9 383.8 78.5 374.8Q70.1 365.7 59.7 374.7ZM59.7 374.7Q54.2 387.2 65.3 392.6Q71.4 381.8 59.7 374.7ZM59.7 374.7Q46 373.3 44.4 385.6Q56.5 388 59.7 374.7ZM56.1 374.7a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0ZM92.3 217.5Q106.5 214.3 120.3 219M120.3 219Q122.5 231.7 133.9 230.1Q133.1 218.5 120.3 219ZM120.3 219Q108.9 225 114 235.4Q124.7 231.1 120.3 219ZM120.3 219Q111 210.1 102.7 218.1Q110.2 226.9 120.3 219ZM120.3 219Q125.9 207.5 115.7 202Q109.6 211.8 120.3 219ZM120.3 219Q133 220.8 135 209.4Q123.8 206.7 120.3 219ZM116.7 219a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0ZM155.2 84.2Q143 76.2 136.8 63.1M136.8 63.1Q143.8 53.4 135.3 46.7Q128.1 54.8 136.8 63.1ZM136.8 63.1Q148.2 66.8 151.9 56.6Q142 52.3 136.8 63.1ZM136.8 63.1Q136.8 75 147.6 75.4Q148.6 64.7 136.8 63.1ZM136.8 63.1Q125.4 66.8 128.4 77.2Q138.9 74.9 136.8 63.1ZM136.8 63.1Q129.7 53.4 120.8 59.4Q126.2 68.7 136.8 63.1ZM133.2 63.1a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0Z"/></g></svg>
   </div>
   <div class="sobre__hoja sobre__hoja--der">
+    <img class="sobre__copa sobre__copa--der" data-src="escena/ombu-der.webp" alt="" decoding="async">
+    <div class="sobre__pasto"></div>
+    <img class="sobre__planta sobre__planta--cortadera-der" data-src="escena/cortadera.webp" alt="" decoding="async">
+    <img class="sobre__planta sobre__planta--jacaranda" data-src="escena/jacaranda.webp" alt="" decoding="async">
+    <img class="sobre__planta sobre__planta--malvon" data-src="escena/malvon.webp" alt="" decoding="async">
     <svg class="sobre__rama" viewBox="0 0 300 620" aria-hidden="true"><g transform="translate(300 0) scale(-1 1)"><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/><path class="flor" pathLength="1" d="M143.2 515.1Q150.2 502.3 162.9 495.2M162.9 495.2Q175.3 502.9 182.6 492Q172.2 483.9 162.9 495.2ZM162.9 495.2Q159.4 509.4 172.1 513Q176.5 500.6 162.9 495.2ZM162.9 495.2Q148.3 496.3 148.8 509.4Q162 509.8 162.9 495.2ZM162.9 495.2Q157.4 481.7 145 486.2Q148.8 498.8 162.9 495.2ZM162.9 495.2Q174 485.8 165.9 475.4Q155.1 482.9 162.9 495.2ZM159.3 495.2a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0ZM87.7 374.9Q73.6 378.8 59.7 374.7M59.7 374.7Q56.7 361.3 44.6 363.5Q46 375.8 59.7 374.7ZM59.7 374.7Q71.5 367.7 65.6 356.8Q54.4 362 59.7 374.7ZM59.7 374.7Q69.9 383.8 78.5 374.8Q70.1 365.7 59.7 374.7ZM59.7 374.7Q54.2 387.2 65.3 392.6Q71.4 381.8 59.7 374.7ZM59.7 374.7Q46 373.3 44.4 385.6Q56.5 388 59.7 374.7ZM56.1 374.7a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0ZM92.3 217.5Q106.5 214.3 120.3 219M120.3 219Q122.5 231.7 133.9 230.1Q133.1 218.5 120.3 219ZM120.3 219Q108.9 225 114 235.4Q124.7 231.1 120.3 219ZM120.3 219Q111 210.1 102.7 218.1Q110.2 226.9 120.3 219ZM120.3 219Q125.9 207.5 115.7 202Q109.6 211.8 120.3 219ZM120.3 219Q133 220.8 135 209.4Q123.8 206.7 120.3 219ZM116.7 219a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0ZM155.2 84.2Q143 76.2 136.8 63.1M136.8 63.1Q143.8 53.4 135.3 46.7Q128.1 54.8 136.8 63.1ZM136.8 63.1Q148.2 66.8 151.9 56.6Q142 52.3 136.8 63.1ZM136.8 63.1Q136.8 75 147.6 75.4Q148.6 64.7 136.8 63.1ZM136.8 63.1Q125.4 66.8 128.4 77.2Q138.9 74.9 136.8 63.1ZM136.8 63.1Q129.7 53.4 120.8 59.4Q126.2 68.7 136.8 63.1ZM133.2 63.1a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0Z"/></g></svg>
   </div>
   <div class="sobre__velo"></div>
   <div class="sobre__centro">
     <p class="sobre__nombres">Jess &amp; Guille</p>
-    <span class="sobre__sello-caja"><span class="sobre__sello"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#monograma"/></svg></span></span>
+    <span class="sobre__sello-caja"><button class="sobre__sello" type="button" aria-label="Abrir la invitación"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#monograma"/></svg></button></span>
     <p class="sobre__fecha">Sábado 9 de enero de 2027</p>
+    <p class="sobre__pista">Tocá el sello para abrir</p>
   </div>
-  <p class="sobre__pista">Deslizá para abrir<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10l6 6 6-6"/></svg></p>
 </div>
 
 <!-- ═══════════════ DIBUJOS REUTILIZABLES ═══════════════
@@ -1309,10 +1347,9 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ NOSOTROS ═══════════════ -->
 <section id="nosotros" class="seccion-nosotros">
-  <span class="lamina-caja lamina-caja--izq"><img class="lamina lamina--ceibo" src="escena/ceibo.webp" alt="" loading="lazy" decoding="async"></span>
-  <span class="lamina-caja lamina-caja--der"><img class="lamina lamina--pasionaria" src="escena/pasionaria.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--izq"><img class="lamina lamina--jazmin" src="escena/jazmin.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--der"><img class="lamina lamina--lavanda" src="escena/lavanda.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--arriba-der"><img class="lamina lamina--ombu-der" src="escena/ombu-der.webp" alt="" loading="lazy" decoding="async"></span>
-  <div class="nosotros__pasto"></div>
   <div class="envoltorio">
     <div class="nosotros revelar">
       <svg class="divisor" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
@@ -1495,7 +1532,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ CRONOGRAMA ═══════════════ -->
 <section id="cronograma" class="seccion-alterna">
-  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--ceibo" src="escena/ceibo.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--malvon" src="escena/malvon.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--der lamina-caja--tenue"><img class="lamina lamina--cortadera-der" src="escena/cortadera.webp" alt="" loading="lazy" decoding="async"></span>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
@@ -1660,7 +1697,7 @@ var ESCENA = (function(){
   if(!caja) return estado;
 
   function arrancar(){
-    var imgs = caja.querySelectorAll('img[data-src]');
+    var imgs = document.querySelectorAll('#sobre img[data-src], #escena img[data-src]');
     var pendientes = 0;
     imgs.forEach(function(img){
       pendientes++;
@@ -1669,7 +1706,9 @@ var ESCENA = (function(){
       img.src = img.getAttribute('data-src');
       if(/ombu-izq|casa\.webp/.test(img.src)) estado.clave.push(img);
     });
-    var pasto = new Image(); pasto.onload = function(){ caja.querySelector('.escena__pasto').classList.add('cargada'); }; pasto.src = 'escena/pasto.webp';
+    var pasto = new Image();
+    pasto.onload = function(){ document.querySelectorAll('.escena__pasto, .sobre__pasto').forEach(function(el){ el.classList.add('cargada'); }); };
+    pasto.src = 'escena/pasto.webp';
     function listo(){ if(--pendientes <= 0){ estado.lista = true; } }
   }
   /* WebP: los navegadores que no lo decodifican no ven la escena (el sitio sigue igual) */
@@ -1685,14 +1724,14 @@ var ESCENA = (function(){
 })();
 
 
-/* ── La invitación cerrada: se abre con cualquier gesto (o sola) ──── */
+/* ── La invitación cerrada: se abre tocando el sello (o sola a los 8 s) ── */
 (function(){
   var raiz = document.documentElement;
   var sobre = document.getElementById('sobre');
   if(!sobre || !/\bsobre\b/.test(raiz.className)) return;
 
+  var boton = sobre.querySelector('.sobre__sello');
   var abierto = false;
-  var y0 = null;
 
   function abrir(){
     if(abierto) return; abierto = true;
@@ -1712,38 +1751,18 @@ var ESCENA = (function(){
     setTimeout(sacar, 4500);   /* red de seguridad */
     quitar();
   }
-  function agarrar(){ if(!abierto) raiz.className += ' agarrado'; }
-  function soltarSello(){ raiz.className = raiz.className.replace(/ agarrado/g, ''); }
-
-  function onWheel(e){ if(e.deltaY > 2) abrir(); }
-  function onTouchStart(e){ y0 = e.touches[0].clientY; agarrar(); }
-  function onTouchMove(e){
-    if(y0 === null) return;
-    if(y0 - e.touches[0].clientY > 14) abrir();   /* deslizó hacia arriba = quiere bajar */
-  }
-  function onTouchEnd(){ y0 = null; soltarSello(); }
   function onKey(e){
-    if(['ArrowDown','PageDown','Space',' ','Enter'].indexOf(e.key) > -1 || e.keyCode === 32 || e.keyCode === 40){ e.preventDefault(); abrir(); }
+    if(e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32){ e.preventDefault(); abrir(); }
   }
-  function onClick(){ abrir(); }
 
-  window.addEventListener('wheel', onWheel, { passive:true });
-  sobre.addEventListener('touchstart', onTouchStart, { passive:true });
-  sobre.addEventListener('touchmove', onTouchMove, { passive:true });
-  sobre.addEventListener('touchend', onTouchEnd);
-  sobre.addEventListener('touchcancel', onTouchEnd);
-  sobre.addEventListener('mousedown', agarrar);
-  sobre.addEventListener('mouseup', soltarSello);
-  sobre.addEventListener('click', onClick);
+  if(boton) boton.addEventListener('click', abrir);
   window.addEventListener('keydown', onKey);
-  var solo = setTimeout(abrir, 8000);   /* si nadie hace nada, se abre sola */
+  var solo = setTimeout(abrir, 8000);   /* si nadie toca nada, se abre sola */
 
   function quitar(){
     clearTimeout(solo);
-    window.removeEventListener('wheel', onWheel);
     window.removeEventListener('keydown', onKey);
-    sobre.removeEventListener('click', onClick);
-    soltarSello();
+    if(boton) boton.removeEventListener('click', abrir);
   }
 })();
 

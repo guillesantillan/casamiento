@@ -122,6 +122,9 @@ viejos) no se muestra y el sitio queda igual que antes.
 | `cortadera.webp` | *Cortaderia selloana*, dibujo a línea (dominio público) |
 | `pasto.webp` | *Trisetum flavescens*, *Flora Londinensis* (1777) |
 | `cardo.webp` | *Cirsium heterophyllum*, Jacob Sturm, *Deutschlands Flora in Abbildungen* (1796) |
+| `jazmin.webp` | *Jasminum officinale*, *The Botanical Magazine* pl. 31 (1787) |
+| `lavanda.webp` | *Lavandula vera*, Köhler, *Medizinal-Pflanzen* (1887) |
+| `malvon.webp` | *Pelargonium*, *The Botanical Magazine* pl. 493 (1800) |
 
 Las mismas láminas reaparecen, tenues y meciéndose, en las demás secciones
 (`.lamina-caja` en el HTML de cada sección; no pesan más porque ya están
@@ -158,9 +161,9 @@ con `?v=2` al final para que la vuelva a leer.
 - Sin `localStorage`, sin cookies, sin scripts de terceros. Los únicos pedidos
   externos son las fuentes de Google y el iframe de Forms.
 - **Entrada animada**: la primera vez en cada sesión, la página aparece como
-  una invitación cerrada (dos hojas con la corona, el sello J&G, nombres y
-  fecha, y la pista "Deslizá para abrir"). Se abre con cualquier gesto
-  (scroll, arrastre, tap o tecla) y, si nadie hace nada, sola a los 8 s;
+  una invitación cerrada (dos hojas con un jardín de láminas —o la corona
+  dibujada, sin WebP—, el sello J&G, nombres y fecha, y la pista "Tocá el
+  sello para abrir"). Se abre tocando el sello (o con Enter) y, si nadie hace nada, sola a los 8 s;
   después los elementos de la portada entran en secuencia. Es CSS puro (opacity,
   transform, clip-path) decidido por un script de pocas líneas al principio
   del `<body>`. Con "reducir movimiento" o sin JavaScript no hay animación.
