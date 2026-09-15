@@ -276,12 +276,12 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
   .escena__ombu--der{ right:-12%; top:-16%; width:46%; }
   .escena__pampa{ left:40%; top:34%; width:60%; }
   .escena__casa{ left:5%; top:24%; width:42%; }
-  .escena__cortadera--izq{ left:-5%; bottom:0; width:19%; }
-  .escena__cortadera--der{ right:-5%; bottom:0; width:19%; }
-  .escena__ceibo{ left:-2%; bottom:1%; width:19%; }
-  .escena__pasionaria{ left:15%; bottom:-3%; width:12%; }
-  .escena__jacaranda{ right:0; bottom:0; width:20%; }
-  .escena__rosas{ right:17%; bottom:-3%; width:13%; }
+  .escena__cortadera--izq{ left:-4%; bottom:0; width:16%; }
+  .escena__cortadera--der{ right:-4%; bottom:0; width:16%; }
+  .escena__ceibo{ left:-2%; bottom:0; width:14%; }
+  .escena__pasionaria{ left:11%; bottom:-3%; width:8%; }
+  .escena__jacaranda{ right:-1%; bottom:-1%; width:17%; }
+  .escena__rosas{ right:14%; bottom:-4%; width:10%; }
   .escena__pasto{ height:100px; }
   .escena__velo{
     background:
@@ -610,12 +610,12 @@ html.con-escena .sobre__rama{ display:none; }
 .sobre__copa, .sobre__planta, .sobre__pasto{ display:none; position:absolute; pointer-events:none; opacity:0; }
 html.con-escena .sobre__copa, html.con-escena .sobre__planta, html.con-escena .sobre__pasto{ display:block; }
 .sobre__copa{ top:-6%; height:clamp(150px,27vh,250px); width:auto; }
-.sobre__copa--izq{ right:-12%; }
-.sobre__copa--der{ left:-12%; transform:scaleX(-1); }
+.sobre__copa--izq{ right:3%; }
+.sobre__copa--der{ left:3%; transform:scaleX(-1); }
 .sobre__planta{ bottom:0; width:auto; transform-origin:50% 100%; }
 .sobre__planta--cortadera-izq{ right:min(44%,300px); bottom:-2%; height:clamp(150px,30vh,290px); }
 .sobre__planta--cortadera-der{ left:min(44%,300px);  bottom:-2%; height:clamp(150px,30vh,290px); transform:scaleX(-1); }
-.sobre__planta--cardo{     right:min(24%,150px); bottom:-1%; height:clamp(160px,34vh,320px); }
+.sobre__planta--cardo{     right:min(24%,150px); bottom:-1%; height:clamp(120px,22vh,200px); }
 .sobre__planta--jacaranda{ left:min(20%,130px);  bottom:-2%; height:clamp(150px,32vh,300px); }
 .sobre__planta--rosas{     right:0; bottom:-3%; height:clamp(120px,22vh,200px); }
 .sobre__planta--malvon{    left:2%; bottom:-3%; height:clamp(130px,24vh,210px); }
@@ -751,7 +751,7 @@ html.con-escena .lamina-caja{ display:block; }
 .lamina{ display:block; width:100%; height:auto; transform-origin:50% 100%; }
 .lamina-caja--izq{ left:-6%; bottom:-2%; width:min(38vw,240px); }
 .lamina-caja--der{ right:-6%; bottom:-2%; width:min(38vw,240px); }
-.lamina-caja--arriba-izq{ left:-14%; top:-6%; width:min(60vw,360px); opacity:.35; }
+.lamina-caja--arriba-izq{ left:-14%; top:0; width:min(60vw,360px); opacity:.35; }
 .lamina-caja{ opacity:.8; }
 .lamina-caja--tenue{ opacity:.5; }
 html.animar .lamina{ animation:mecer 8s ease-in-out infinite; }
@@ -762,10 +762,18 @@ html.animar .lamina--cortadera{ animation:mecer-cortadera 6s ease-in-out infinit
 html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-out -2s infinite; }
 .lamina--cortadera-der{ transform:scaleX(-1); }
 @media (min-width:860px){
-  /* el ancho depende del espacio libre a los costados de la columna de texto */
-  .lamina-caja--izq{ left:-2%; width:clamp(120px, calc(50vw - 330px), 220px); }
-  .lamina-caja--der{ right:-2%; width:clamp(120px, calc(50vw - 330px), 220px); }
-  .lamina-caja--arriba-izq{ left:-6%; top:-10%; width:380px; }
+  /* por altura (con tope del 78 % de la sección, así nunca se cortan) y con un
+     ancho máximo que depende del espacio libre a los costados de la columna */
+  .lamina-caja--izq, .lamina-caja--der{
+    width:auto; height:min(clamp(200px,36vh,320px), 78%); bottom:0;
+    max-width:clamp(120px, calc(50vw - 340px), 300px);
+    display:flex; align-items:flex-end;
+  }
+  .lamina-caja--izq{ left:-1%; }
+  .lamina-caja--der{ right:-1%; justify-content:flex-end; }
+  .lamina-caja--izq .lamina, .lamina-caja--der .lamina{ width:auto; height:auto; max-width:100%; max-height:100%; }
+  #confirmar .lamina-caja--izq{ height:min(clamp(150px,24vh,220px), 60%); }   /* el cardo es ancho */
+  .lamina-caja--arriba-izq{ left:-6%; top:0; width:380px; }
 }
 @media (max-width:859px){
   /* en celular el texto ocupa todo el ancho: cada sección termina con una franja
@@ -781,10 +789,10 @@ html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-o
 /* "Nosotros": jazmín y lavanda a los costados (distintas de las de la portada), ombú tenue arriba */
 .seccion-nosotros{ position:relative; overflow:hidden; }
 .nosotros{ position:relative; z-index:1; }
-.lamina-caja--arriba-der{ right:-16%; top:-8%; width:min(60vw,360px); opacity:.3; }
+.lamina-caja--arriba-der{ right:-16%; top:0; width:min(60vw,360px); opacity:.3; }
 html.animar .lamina-caja--arriba-der .lamina{ animation:susurrar-der 13s ease-in-out -4s infinite; transform-origin:70% 0; }
 .lamina--ombu-der{ transform:scaleX(-1); }
-@media (min-width:860px){ .lamina-caja--arriba-der{ right:-6%; top:-14%; width:380px; } }
+@media (min-width:860px){ .lamina-caja--arriba-der{ right:-6%; top:0; width:380px; } }
 @media (max-width:859px){
   /* en celular, las flores de "Nosotros" van debajo del texto, no encima */
   html.con-escena section.seccion-nosotros{ padding-bottom:176px; }
@@ -1255,6 +1263,8 @@ footer :focus-visible{ outline-color:var(--crema); }
       <img class="escena__capa escena__cortadera escena__cortadera--izq" data-src="escena/cortadera.webp" alt="" decoding="async">
       <img class="escena__capa escena__cortadera escena__cortadera--der" data-src="escena/cortadera.webp" alt="" decoding="async">
     </div>
+    <!-- el velo va debajo del primer plano: las flores y las mariposas quedan nítidas -->
+    <div class="escena__velo"></div>
     <div class="escena__plano escena__plano--frente">
       <img class="escena__capa escena__flor escena__ceibo" data-src="escena/ceibo.webp" alt="" decoding="async">
       <img class="escena__capa escena__flor escena__pasionaria" data-src="escena/pasionaria.webp" alt="" decoding="async">
@@ -1273,7 +1283,6 @@ footer :focus-visible{ outline-color:var(--crema); }
         <g transform="translate(600 520)"><g class="vuelo vuelo--3"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-7.2 -7.2 -11.2 -1.6 -7.2 1.2 C-9.6 4.4 -4 5.6 0 1.2Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8"/><path d="M-4.8 -2 a1.4 1.4 0 1 0 .1 0" fill="#c79a98" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-7.2 -7.2 -11.2 -1.6 -7.2 1.2 C-9.6 4.4 -4 5.6 0 1.2Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-4.8 -2 a1.4 1.4 0 1 0 .1 0" fill="#c79a98" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -2.8 v5.6" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></g>
       </svg>
     </div>
-    <div class="escena__velo"></div>
   </div>
 
   <div class="portada__contenido">
@@ -1786,7 +1795,7 @@ var ESCENA = (function(){
     cajas.forEach(function(c){
       var r = c.getBoundingClientRect();
       if(r.bottom < -200 || r.top > vh + 200) return;
-      var vy = (r.top + r.height / 2 - vh / 2) * (vh > window.innerWidth ? -0.04 : -0.10);
+      var vy = (r.top + r.height / 2 - vh / 2) * (vh > window.innerWidth ? -0.04 : -0.05);
       c.style.setProperty('--vy', vy.toFixed(1) + 'px');
     });
   }
