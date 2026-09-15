@@ -569,7 +569,7 @@ html.animar .corona .flor{ animation-delay:calc(var(--retraso,0s) + 1.55s * var(
    fecha, y la pista "Tocá el sello para abrir". Se abre tocando el sello
    (o con Enter); si nadie hace nada, se abre sola a los 8 s. Con WebP, en
    vez de la corona dibujada hay un jardín de láminas: copas de ombú arriba
-   y cortaderas, cardo, rosas, jacarandá y malvón abajo.
+   y cortaderas, amancay, rosas, jacarandá y malvón abajo.
    Estados: html.sobre → cerrada; .sobre-visible → contenido a la vista;
    .abierto → abriéndose; después el overlay se saca. ─────────────── */
 html.sobre{ --retraso:.8s; }
@@ -616,7 +616,7 @@ html.con-escena .sobre__copa, html.con-escena .sobre__planta, html.con-escena .s
 .sobre__planta{ bottom:0; width:auto; transform-origin:50% 100%; }
 .sobre__planta--cortadera-izq{ right:min(44%,300px); bottom:-2%; height:clamp(150px,30vh,290px); }
 .sobre__planta--cortadera-der{ left:min(44%,300px);  bottom:-2%; height:clamp(150px,30vh,290px); transform:scaleX(-1); }
-.sobre__planta--cardo{     right:min(24%,150px); bottom:-1%; height:clamp(120px,22vh,200px); }
+.sobre__planta--amancay{   right:min(24%,150px); bottom:-1%; height:clamp(150px,28vh,260px); }
 .sobre__planta--jacaranda{ left:min(20%,130px);  bottom:-2%; height:clamp(150px,32vh,300px); }
 .sobre__planta--rosas{     right:5%; bottom:-3%; height:clamp(120px,22vh,200px); }
 .sobre__planta--malvon{    left:6%; bottom:-3%; height:clamp(130px,24vh,210px); }
@@ -628,7 +628,7 @@ html.sobre-visible .sobre__pasto.cargada{ opacity:.6; animation:asomar 1.4s ease
 html.sobre-visible .sobre__planta.cargada{ opacity:1; animation:brotar-planta 1.6s var(--suave) var(--d,0s) both, mecer 8s ease-in-out calc(var(--d,0s) + 1.6s) infinite; }
 html.sobre-visible .sobre__planta--cortadera-izq.cargada{ --d:.3s; opacity:.75; animation-name:brotar-planta, mecer-cortadera; animation-duration:1.6s, 6s; }
 html.sobre-visible .sobre__planta--cortadera-der.cargada{ --d:.45s; opacity:.75; animation-name:brotar-der-planta, mecer-cortadera-der; animation-duration:1.6s, 6.8s; }
-html.sobre-visible .sobre__planta--cardo.cargada{ --d:.7s; animation-duration:1.6s, 9s; }
+html.sobre-visible .sobre__planta--amancay.cargada{ --d:.7s; animation-duration:1.6s, 9s; }
 html.sobre-visible .sobre__planta--jacaranda.cargada{ --d:.9s; animation-duration:1.6s, 8.4s; }
 html.sobre-visible .sobre__planta--rosas.cargada{ --d:1.15s; animation-duration:1.6s, 7.2s; }
 html.sobre-visible .sobre__planta--malvon.cargada{ --d:1.3s; animation-duration:1.6s, 7.8s; }
@@ -758,7 +758,7 @@ html.con-escena .lamina-caja{ display:block; }
 html.animar .lamina{ animation:mecer 8s ease-in-out infinite; }
 html.animar .lamina-caja--der .lamina{ animation-duration:9.5s; animation-delay:-3s; }
 html.animar .lamina--ombu{ animation:susurrar 12s ease-in-out infinite; transform-origin:30% 0; }
-html.animar .lamina--cardo{ animation-duration:10s; animation-delay:-5s; }
+html.animar .lamina--amancay{ animation-duration:10s; animation-delay:-5s; }
 html.animar .lamina--cortadera{ animation:mecer-cortadera 6s ease-in-out infinite; }
 html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-out -2s infinite; }
 .lamina--cortadera-der{ transform:scaleX(-1); }
@@ -773,7 +773,6 @@ html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-o
   .lamina-caja--izq{ left:-1%; }
   .lamina-caja--der{ right:-1%; justify-content:flex-end; }
   .lamina-caja--izq .lamina, .lamina-caja--der .lamina{ width:auto; height:auto; max-width:100%; max-height:100%; }
-  #confirmar .lamina-caja--izq{ height:min(clamp(150px,24vh,220px), 60%); }   /* el cardo es ancho */
   .lamina-caja--arriba-izq{ left:-6%; top:0; width:380px; }
 }
 @media (max-width:859px){
@@ -1172,7 +1171,7 @@ footer :focus-visible{ outline-color:var(--crema); }
     <img class="sobre__copa sobre__copa--izq" data-src="escena/ombu-izq.webp" alt="" decoding="async">
     <div class="sobre__pasto"></div>
     <img class="sobre__planta sobre__planta--cortadera-izq" data-src="escena/cortadera.webp" alt="" decoding="async">
-    <img class="sobre__planta sobre__planta--cardo" data-src="escena/cardo.webp" alt="" decoding="async">
+    <img class="sobre__planta sobre__planta--amancay" data-src="escena/amancay.webp" alt="" decoding="async">
     <img class="sobre__planta sobre__planta--rosas" data-src="escena/rosas.webp" alt="" decoding="async">
     <svg class="sobre__rama" viewBox="0 0 300 620" aria-hidden="true"><g><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/><path class="flor" pathLength="1" d="M143.2 515.1Q150.2 502.3 162.9 495.2M162.9 495.2Q175.3 502.9 182.6 492Q172.2 483.9 162.9 495.2ZM162.9 495.2Q159.4 509.4 172.1 513Q176.5 500.6 162.9 495.2ZM162.9 495.2Q148.3 496.3 148.8 509.4Q162 509.8 162.9 495.2ZM162.9 495.2Q157.4 481.7 145 486.2Q148.8 498.8 162.9 495.2ZM162.9 495.2Q174 485.8 165.9 475.4Q155.1 482.9 162.9 495.2ZM159.3 495.2a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0ZM87.7 374.9Q73.6 378.8 59.7 374.7M59.7 374.7Q56.7 361.3 44.6 363.5Q46 375.8 59.7 374.7ZM59.7 374.7Q71.5 367.7 65.6 356.8Q54.4 362 59.7 374.7ZM59.7 374.7Q69.9 383.8 78.5 374.8Q70.1 365.7 59.7 374.7ZM59.7 374.7Q54.2 387.2 65.3 392.6Q71.4 381.8 59.7 374.7ZM59.7 374.7Q46 373.3 44.4 385.6Q56.5 388 59.7 374.7ZM56.1 374.7a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0ZM92.3 217.5Q106.5 214.3 120.3 219M120.3 219Q122.5 231.7 133.9 230.1Q133.1 218.5 120.3 219ZM120.3 219Q108.9 225 114 235.4Q124.7 231.1 120.3 219ZM120.3 219Q111 210.1 102.7 218.1Q110.2 226.9 120.3 219ZM120.3 219Q125.9 207.5 115.7 202Q109.6 211.8 120.3 219ZM120.3 219Q133 220.8 135 209.4Q123.8 206.7 120.3 219ZM116.7 219a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0ZM155.2 84.2Q143 76.2 136.8 63.1M136.8 63.1Q143.8 53.4 135.3 46.7Q128.1 54.8 136.8 63.1ZM136.8 63.1Q148.2 66.8 151.9 56.6Q142 52.3 136.8 63.1ZM136.8 63.1Q136.8 75 147.6 75.4Q148.6 64.7 136.8 63.1ZM136.8 63.1Q125.4 66.8 128.4 77.2Q138.9 74.9 136.8 63.1ZM136.8 63.1Q129.7 53.4 120.8 59.4Q126.2 68.7 136.8 63.1ZM133.2 63.1a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0Z"/></g></svg>
   </div>
@@ -1421,8 +1420,8 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ CONFIRMACIÓN ═══════════════ -->
 <section id="confirmar" class="seccion-alterna">
-  <!-- cardo (Jacob Sturm, Deutschlands Flora, 1796): la flor violeta de la pampa, discreta -->
-  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--cardo" src="escena/cardo.webp" alt="" loading="lazy" decoding="async"></span>
+  <!-- amancay (Alstroemeria aurea, Witte 1868): la flor de la Patagonia, discreta -->
+  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--amancay" src="escena/amancay.webp" alt="" loading="lazy" decoding="async"></span>
   <svg class="rama-fondo der" aria-hidden="true" viewBox="0 0 300 620"><use href="#rama-arco"/></svg>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">

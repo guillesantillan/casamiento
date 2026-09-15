@@ -121,7 +121,7 @@ viejos) no se muestra y el sitio queda igual que antes.
 | `rosas.webp` | Pierre-Joseph Redouté, *Choix des plus belles fleurs* (1827) |
 | `cortadera.webp` | *Cortaderia selloana*, dibujo a línea (dominio público) |
 | `pasto.webp` | *Trisetum flavescens*, *Flora Londinensis* (1777) |
-| `cardo.webp` | *Cirsium acaule*, *Flora Batava* vol. 20 (c. 1898) |
+| `amancay.webp` | *Alstroemeria aurea*, Heinrich Witte, *Flora* (1868) |
 | `jazmin.webp` | *Jasminum officinale*, *The Botanical Magazine* pl. 31 (1787) |
 | `lavanda.webp` | *Lavandula vera*, Köhler, *Medizinal-Pflanzen* (1887) |
 | `malvon.webp` | *Pelargonium*, *The Botanical Magazine* pl. 493 (1800) |
