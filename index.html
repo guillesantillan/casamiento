@@ -827,8 +827,8 @@ html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-o
 @media (max-width:859px){
   /* en celular el texto ocupa todo el ancho: cada sección termina con una franja
      propia donde van las láminas, chicas, sin pisar el contenido */
-  html.con-escena section{ padding-bottom:calc(clamp(64px,9vw,88px) + 84px); }
-  .lamina-caja--izq, .lamina-caja--der{ width:auto; height:136px; bottom:-6px; }
+  html.con-escena section{ padding-bottom:calc(clamp(64px,9vw,88px) + 100px); }
+  .lamina-caja--izq, .lamina-caja--der{ width:auto; height:162px; bottom:-6px; }
   .lamina-caja--izq{ left:1%; }
   .lamina-caja--der{ right:1%; }
   .lamina-caja--izq .lamina, .lamina-caja--der .lamina{ width:auto; height:100%; }
@@ -844,8 +844,8 @@ html.animar .lamina-caja--arriba-der .lamina{ animation:susurrar-der 13s ease-in
 @media (min-width:860px){ .lamina-caja--arriba-der{ right:-6%; top:0; width:380px; } }
 @media (max-width:859px){
   /* en celular, las flores de "Nosotros" van debajo del texto, no encima */
-  html.con-escena section.seccion-nosotros{ padding-bottom:176px; }
-  .seccion-nosotros .lamina-caja--izq, .seccion-nosotros .lamina-caja--der{ height:150px; bottom:-4px; }
+  html.con-escena section.seccion-nosotros{ padding-bottom:190px; }
+  .seccion-nosotros .lamina-caja--izq, .seccion-nosotros .lamina-caja--der{ height:162px; bottom:-4px; }
   .seccion-nosotros .lamina-caja--arriba-der{ opacity:.09; }
 }
 /* mariposa que cruza la sección de vez en cuando */
@@ -861,6 +861,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 
 /* ── Nosotros ────────────────────────────────────────────────── */
 .seccion-nosotros{ padding-block:clamp(48px,7vw,72px); background:var(--crema-hondo); }
+@media (min-width:860px){ .seccion-nosotros{ padding-top:clamp(72px,8vw,96px); } }
 .nosotros{ max-width:620px; margin-inline:auto; text-align:center; }
 .nosotros .divisor{ margin:0 auto 22px; }
 .nosotros__texto{
@@ -963,6 +964,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 
 /* ── Cronograma ──────────────────────────────────────────────── */
 .linea-tiempo{ max-width:620px; margin-inline:auto; position:relative; padding-left:0; }
+@media (min-width:860px){ .linea-tiempo{ width:fit-content; width:-moz-fit-content; } }   /* centrado de verdad: ancho = renglón más largo */
 .linea-tiempo::before{
   content:""; position:absolute;
   left:89px; top:20px; bottom:20px;
@@ -1427,6 +1429,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ EL EVENTO ═══════════════ -->
 <section id="evento">
+  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--malvon" src="escena/malvon.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--der"><img class="lamina lamina--jacaranda" src="escena/jacaranda.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--arriba-izq"><img class="lamina lamina--ombu-izq" src="escena/ombu-izq.webp" alt="" loading="lazy" decoding="async"></span>
   <svg class="cruce cruce--1" viewBox="-18 -18 36 36" aria-hidden="true"><g class="vaiven"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-9.9 -9.9 -15.4 -2.2 -9.9 1.6 C-13.2 6.1 -5.5 7.7 0 1.6Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8"/><path d="M-6.6 -2.8 a2 2 0 1 0 .1 0" fill="#c79a98" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-9.9 -9.9 -15.4 -2.2 -9.9 1.6 C-13.2 6.1 -5.5 7.7 0 1.6Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-6.6 -2.8 a2 2 0 1 0 .1 0" fill="#c79a98" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -3.8 v7.7" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></svg>
@@ -1473,6 +1476,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 <section id="confirmar" class="seccion-alterna">
   <!-- amancay (Alstroemeria aurea, Witte 1868): la flor de la Patagonia, discreta -->
   <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--amancay" src="escena/amancay.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--der lamina-caja--tenue"><img class="lamina lamina--jazmin" src="escena/jazmin.webp" alt="" loading="lazy" decoding="async"></span>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Contanos si venís</p>
@@ -1542,6 +1546,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 <!-- ═══════════════ REGALOS ═══════════════ -->
 <section id="regalos">
   <span class="lamina-caja lamina-caja--izq"><img class="lamina lamina--rosas" src="escena/rosas.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--der lamina-caja--tenue"><img class="lamina lamina--lavanda" src="escena/lavanda.webp" alt="" loading="lazy" decoding="async"></span>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Si querés hacernos un regalo</p>
@@ -1591,7 +1596,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ CRONOGRAMA ═══════════════ -->
 <section id="cronograma" class="seccion-alterna">
-  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--malvon" src="escena/malvon.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--ceibo" src="escena/ceibo.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--der lamina-caja--tenue"><img class="lamina lamina--cortadera-der" src="escena/cortadera.webp" alt="" loading="lazy" decoding="async"></span>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
@@ -1683,6 +1688,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ PREGUNTAS ═══════════════ -->
 <section id="preguntas">
+  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--amancay" src="escena/amancay.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--der lamina-caja--tenue"><img class="lamina lamina--pasionaria" src="escena/pasionaria.webp" alt="" loading="lazy" decoding="async"></span>
   <svg class="cruce cruce--2" viewBox="-18 -18 36 36" aria-hidden="true"><g class="vaiven"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-8.1 -8.1 -12.6 -1.8 -8.1 1.3 C-10.8 5 -4.5 6.3 0 1.3Z" fill="#d9b7b3" stroke="#9c7a45" stroke-width=".8"/><path d="M-5.4 -2.2 a1.6 1.6 0 1 0 .1 0" fill="#c9a46a" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-8.1 -8.1 -12.6 -1.8 -8.1 1.3 C-10.8 5 -4.5 6.3 0 1.3Z" fill="#d9b7b3" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-5.4 -2.2 a1.6 1.6 0 1 0 .1 0" fill="#c9a46a" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -3.1 v6.3" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></svg>
   <div class="envoltorio">
