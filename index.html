@@ -659,9 +659,9 @@ html.con-escena .sobre__rama{ display:none; }
    pantalla; en cada hoja, lo más alto va afuera y lo bajo cerca de la costura */
 .sobre__copa, .sobre__planta, .sobre__pasto{ display:none; position:absolute; pointer-events:none; opacity:0; }
 html.con-escena .sobre__copa, html.con-escena .sobre__planta, html.con-escena .sobre__pasto{ display:block; }
-.sobre__copa{ top:-6%; height:clamp(150px,27vh,250px); width:auto; }
-.sobre__copa--izq{ right:3%; }
-.sobre__copa--der{ left:3%; transform:scaleX(-1); }
+.sobre__copa{ top:-4%; height:clamp(120px,22vh,210px); width:auto; }   /* la misma copa a los dos lados, en espejo */
+.sobre__copa--izq{ right:2%; transform:scaleX(-1); }
+.sobre__copa--der{ left:2%; }
 .sobre__planta{ bottom:0; width:auto; transform-origin:50% 100%; }
 .sobre__planta--cortadera-izq{ right:min(40%,300px); bottom:-2%; height:clamp(150px,30vh,290px); }
 .sobre__planta--cortadera-der{ left:min(40%,300px);  bottom:-2%; height:clamp(150px,30vh,290px); transform:scaleX(-1); }
@@ -669,11 +669,18 @@ html.con-escena .sobre__copa, html.con-escena .sobre__planta, html.con-escena .s
 .sobre__planta--jacaranda{ left:min(20%,130px);  bottom:-2%; height:clamp(150px,32vh,300px); }
 .sobre__planta--rosas{     right:5%; bottom:-3%; height:clamp(120px,22vh,200px); }
 .sobre__planta--malvon{    left:6%; bottom:-3%; height:clamp(130px,24vh,210px); }
-.sobre__pasto{ left:0; right:0; bottom:-4px; height:clamp(44px,7vh,60px); background:url("escena/pasto.webp") repeat-x center bottom / auto 100%; }
+.sobre__pasto{
+  left:0; right:0; bottom:0; height:clamp(70px,11vh,110px);
+  background:
+    url("escena/pasto.webp") no-repeat 22% bottom / auto 55%,
+    linear-gradient(180deg, rgba(61,81,64,0) 0%, rgba(61,81,64,.045) 100%);
+}
+.sobre__hoja--der .sobre__pasto{ background-position:78% bottom, 0 0; }
 /* aparecen cuando la imagen cargó (así también funciona con señal lenta), en orden, y luego se mecen */
 html.sobre-visible .sobre__copa.cargada{ opacity:.22; animation:asomar 2.2s ease-out both, susurrar 12s ease-in-out 2.2s infinite; transform-origin:40% 0; }
-html.sobre-visible .sobre__copa--der.cargada{ animation:asomar 2.2s ease-out .3s both, susurrar-der 13s ease-in-out -4s infinite; transform-origin:60% 0; }
-html.sobre-visible .sobre__pasto.cargada{ opacity:.6; animation:asomar 1.4s ease-out .2s both; }
+html.sobre-visible .sobre__copa--izq.cargada{ animation:asomar 2.2s ease-out both, susurrar-der 12s ease-in-out 2.2s infinite; transform-origin:60% 0; }
+html.sobre-visible .sobre__copa--der.cargada{ animation:asomar 2.2s ease-out .3s both, susurrar 13s ease-in-out -4s infinite; }
+html.sobre-visible .sobre__pasto.cargada{ opacity:.55; animation:asomar 1.4s ease-out .2s both; }
 html.sobre-visible .sobre__planta.cargada{ opacity:1; animation:brotar-planta 1.6s var(--suave) var(--d,0s) both, mecer 8s ease-in-out calc(var(--d,0s) + 1.6s) infinite; }
 html.sobre-visible .sobre__planta--cortadera-izq.cargada{ --d:.3s; opacity:.75; animation-name:brotar-planta, mecer-cortadera; animation-duration:1.6s, 6s; }
 html.sobre-visible .sobre__planta--cortadera-der.cargada{ --d:.45s; opacity:.75; animation-name:brotar-der-planta, mecer-cortadera-der; animation-duration:1.6s, 6.8s; }
@@ -746,8 +753,18 @@ html.sobre-visible .sobre__rama path{ stroke-dasharray:1; stroke-dashoffset:1; a
 html.sobre-visible .sobre__rama .hoja{ animation-duration:2.2s; animation-delay:1.3s; }
 html.sobre-visible .sobre__rama .flor{ animation-duration:1.6s; animation-delay:2.6s; }
 html.sobre-visible .sobre__sello-caja{ animation:sellar 1.1s var(--suave) .9s both; }
-html.sobre-visible .sobre__sello{ animation:respirar 3.6s ease-in-out 1.6s infinite; }
+html.sobre-visible .sobre__sello{ animation:respirar 3.6s ease-in-out 1.6s infinite; transition:transform .35s var(--suave), box-shadow .35s ease, filter .35s ease; }
+/* tres latidos del anillo dorado, para invitar a tocar */
+html.sobre-visible .sobre__sello::after{ animation:latir 2.2s ease-out 2.4s 3; }
+@keyframes latir{ 0%{ transform:scale(1); opacity:.85; } 60%{ transform:scale(1.28); opacity:0; } 100%{ transform:scale(1.28); opacity:0; } }
+@media (hover:hover){
+  html.sobre-visible .sobre__sello:hover{
+    animation:none; transform:translateY(-2px) scale(1.04); filter:brightness(1.06);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.34), inset 0 -3px 8px rgba(0,0,0,.28), 0 20px 36px -12px rgba(44,50,41,.7), 0 3px 6px rgba(44,50,41,.25);
+  }
+}
 html.sobre-visible .sobre__nombres{ animation:subir 1.4s var(--suave) 1.7s both; }
+@media (min-width:860px){ .sobre__nombres{ font-size:44px; margin-bottom:30px; } .sobre__fecha{ font-size:12px; } }
 html.sobre-visible .sobre__fecha{ animation:subir 1.4s var(--suave) 1.9s both; }
 html.sobre-visible .sobre__pista{ animation:aparecer 1.2s var(--suave) 2.9s both; }
 /* al tocar, el sello se hunde apenas */
@@ -1223,7 +1240,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 <div class="sobre" id="sobre" aria-label="Invitación">
   <div class="sobre__hoja sobre__hoja--izq">
     <!-- el jardín de la tapa (solo con WebP; si no, queda la corona dibujada) -->
-    <img class="sobre__copa sobre__copa--izq" data-src="escena/ombu-izq.webp" alt="" decoding="async">
+    <img class="sobre__copa sobre__copa--izq" data-src="escena/ombu-der.webp" alt="" decoding="async">
     <div class="sobre__pasto"></div>
     <img class="sobre__planta sobre__planta--cortadera-izq" data-src="escena/cortadera.webp" alt="" decoding="async">
     <img class="sobre__planta sobre__planta--amancay" data-src="escena/amancay.webp" alt="" decoding="async">
