@@ -250,6 +250,7 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
 @media (max-width:859px){
   /* en celular, las flores tienen su propia franja debajo del botón */
   .portada{ padding-bottom:230px; }
+  html.con-escena .portada .hojita{ display:none; }   /* las flores hacen de adorno */
 }
 /* el borde inferior de la portada se funde con el fondo de "Nosotros" (las flores no se ven cortadas) */
 .portada::after{
@@ -264,12 +265,12 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
 .escena__pampa{ left:12%; top:27%; width:125%; opacity:0; }
 .escena__pampa.cargada{ opacity:.85; }
 .escena__casa{ left:-6%; top:19%; width:112%; }
-.escena__cortadera--izq{ left:-16%; bottom:2%; width:54%; }
-.escena__cortadera--der{ right:-16%; bottom:2%; width:54%; }
-.escena__ceibo{ left:-4%; bottom:2%; width:48%; }
-.escena__pasionaria{ left:32%; bottom:-2%; width:34%; }
-.escena__jacaranda{ right:-5%; bottom:1%; width:52%; }
-.escena__rosas{ right:27%; bottom:-3%; width:36%; }
+.escena__cortadera--izq{ left:-14%; bottom:0; width:46%; }
+.escena__cortadera--der{ right:-14%; bottom:0; width:46%; }
+.escena__ceibo{ left:-4%; bottom:0; width:40%; }
+.escena__pasionaria{ left:29%; bottom:-2%; width:27%; }
+.escena__jacaranda{ right:-4%; bottom:0; width:44%; }
+.escena__rosas{ right:25%; bottom:-3%; width:30%; }
 @media (min-width:860px){
   .escena{ transform-origin:14% 8%; }
   .escena__ombu--izq{ left:-16%; top:-24%; width:50%; }
@@ -617,13 +618,13 @@ html.con-escena .sobre__copa, html.con-escena .sobre__planta, html.con-escena .s
 .sobre__planta--cortadera-der{ left:min(44%,300px);  bottom:-2%; height:clamp(150px,30vh,290px); transform:scaleX(-1); }
 .sobre__planta--cardo{     right:min(24%,150px); bottom:-1%; height:clamp(120px,22vh,200px); }
 .sobre__planta--jacaranda{ left:min(20%,130px);  bottom:-2%; height:clamp(150px,32vh,300px); }
-.sobre__planta--rosas{     right:0; bottom:-3%; height:clamp(120px,22vh,200px); }
-.sobre__planta--malvon{    left:2%; bottom:-3%; height:clamp(130px,24vh,210px); }
+.sobre__planta--rosas{     right:5%; bottom:-3%; height:clamp(120px,22vh,200px); }
+.sobre__planta--malvon{    left:6%; bottom:-3%; height:clamp(130px,24vh,210px); }
 .sobre__pasto{ left:0; right:0; bottom:-4px; height:clamp(44px,7vh,60px); background:url("escena/pasto.webp") repeat-x center bottom / auto 100%; }
 /* aparecen cuando la imagen cargó (así también funciona con señal lenta), en orden, y luego se mecen */
 html.sobre-visible .sobre__copa.cargada{ opacity:.22; animation:asomar 2.2s ease-out both, susurrar 12s ease-in-out 2.2s infinite; transform-origin:40% 0; }
 html.sobre-visible .sobre__copa--der.cargada{ animation:asomar 2.2s ease-out .3s both, susurrar-der 13s ease-in-out -4s infinite; transform-origin:60% 0; }
-html.sobre-visible .sobre__pasto.cargada{ opacity:.8; animation:asomar 1.4s ease-out .2s both; }
+html.sobre-visible .sobre__pasto.cargada{ opacity:.6; animation:asomar 1.4s ease-out .2s both; }
 html.sobre-visible .sobre__planta.cargada{ opacity:1; animation:brotar-planta 1.6s var(--suave) var(--d,0s) both, mecer 8s ease-in-out calc(var(--d,0s) + 1.6s) infinite; }
 html.sobre-visible .sobre__planta--cortadera-izq.cargada{ --d:.3s; opacity:.75; animation-name:brotar-planta, mecer-cortadera; animation-duration:1.6s, 6s; }
 html.sobre-visible .sobre__planta--cortadera-der.cargada{ --d:.45s; opacity:.75; animation-name:brotar-der-planta, mecer-cortadera-der; animation-duration:1.6s, 6.8s; }
@@ -780,8 +781,8 @@ html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-o
      propia donde van las láminas, chicas, sin pisar el contenido */
   html.con-escena section{ padding-bottom:calc(clamp(64px,9vw,88px) + 84px); }
   .lamina-caja--izq, .lamina-caja--der{ width:auto; height:136px; bottom:-6px; }
-  .lamina-caja--izq{ left:-3%; }
-  .lamina-caja--der{ right:-3%; }
+  .lamina-caja--izq{ left:1%; }
+  .lamina-caja--der{ right:1%; }
   .lamina-caja--izq .lamina, .lamina-caja--der .lamina{ width:auto; height:100%; }
   .lamina-caja--arriba-izq{ opacity:.18; }
   footer .lamina-caja--izq, footer .lamina-caja--der{ height:110px; }
