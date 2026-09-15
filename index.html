@@ -115,6 +115,7 @@ body::after{
   @keyframes dibujar{ to{ stroke-dashoffset:0; } }
 }
 .corona .flor{ stroke:var(--dorado); }
+html.con-escena .corona{ display:none; }   /* con las láminas, la corona dibujada sobra */
 .divisor{ display:block; width:46px; height:auto; margin:20px auto 0; color:var(--dorado); }
 .rama-fondo{
   position:absolute; bottom:-30px; width:min(300px,44vw); height:auto;
@@ -786,8 +787,8 @@ html.con-escena .lamina-caja{ display:block; }
 .lamina-caja--izq{ left:2%; bottom:-2%; width:min(38vw,240px); }
 .lamina-caja--der{ right:2%; bottom:-2%; width:min(38vw,240px); }
 .lamina-caja--arriba-izq{ left:-14%; top:0; width:min(60vw,360px); opacity:.35; }
-.lamina-caja{ opacity:.8; }
-.lamina-caja--tenue{ opacity:.5; }
+.lamina-caja{ opacity:.9; }
+.lamina-caja--tenue{ opacity:.7; }
 html.animar .lamina{ animation:mecer 8s ease-in-out infinite; }
 html.animar .lamina-caja--der .lamina{ animation-duration:9.5s; animation-delay:-3s; }
 html.animar .lamina--ombu{ animation:susurrar 12s ease-in-out infinite; transform-origin:30% 0; }
@@ -874,18 +875,20 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 .grilla-lugares--una{ max-width:580px; }
 .tarjeta__nota{ font-size:16px; margin-top:14px !important; }
 
-/* nota debajo de las tarjetas (dress code, etc.) */
-.nota-evento{
-  max-width:560px; margin:32px auto 0;
-  text-align:center; color:var(--tinta-suave); text-wrap:balance;
+/* dress code: última línea de la tarjeta, separada por una rayita */
+.tarjeta__dress{
+  margin:26px auto 0 !important; padding-top:20px; position:relative;
+  display:flex; flex-direction:column; align-items:center; gap:4px;
 }
-.nota-evento strong{ font-weight:400; color:var(--tinta); }
+.tarjeta__dress::before{ content:""; position:absolute; top:0; left:50%; width:40px; height:1px; background:var(--verde-claro); transform:translateX(-50%); }
+.tarjeta__dress-rot{ font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--tinta-suave); }
+.tarjeta__dress-valor{ font-family:var(--serif); font-style:italic; font-size:21px; color:var(--verde); }
 
 .tarjeta{
   background:var(--blanco);
   border:1px solid var(--linea);
   border-radius:3px;
-  padding:clamp(30px,4.5vw,44px) clamp(24px,4vw,36px);
+  padding:clamp(30px,4.5vw,44px) clamp(24px,4vw,36px) clamp(26px,4vw,36px);
   text-align:center;
 }
 
@@ -994,7 +997,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
   background:var(--blanco);
   border:1px solid var(--linea);
   border-radius:3px;
-  padding:clamp(28px,4.5vw,40px) 24px;
+  padding:clamp(28px,4.5vw,40px) 24px clamp(34px,5vw,44px);
 }
 .caja-alias .rot{
   font-size:13px; letter-spacing:.22em; text-transform:uppercase;
@@ -1030,8 +1033,9 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 .caja-alias__acciones{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:22px; }
 .caja-alias__acciones .boton-copiar{ margin-top:0; }
 .caja-alias__acciones .boton-mapa{ margin-top:0; }
-.ayuda-copiado{ margin:12px 0 0; font-size:15px; color:var(--verde-medio); min-height:1.4em; }
-.ayuda-copiado[hidden]{ display:block; visibility:hidden; } /* reserva el lugar: nada salta */
+/* el aviso aparece en el aire de abajo de la tarjeta (posición absoluta: nada salta) */
+.ayuda-copiado{ position:absolute; left:16px; right:16px; bottom:13px; margin:0; font-size:14px; color:var(--verde-medio); text-align:center; }
+.ayuda-copiado[hidden]{ display:none; }
 
 /* CBU plegado */
 .cbu{ margin-top:18px; text-align:center; }
@@ -1055,7 +1059,8 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
   .tarjeta__acciones > *, .caja-alias__acciones > *, .despues__enlaces > *{ flex:1 1 100%; }
 }
 
-.nota-chica{ font-size:15px; color:var(--tinta-suave); margin-top:28px; font-style:italic; text-wrap:balance; }
+.nota-chica, .bloque-regalo > .nota-chica{ font-size:15px; color:var(--tinta-suave); margin:30px 0 0; font-style:italic; text-wrap:balance; }
+.bloque-regalo .contacto{ margin-top:14px; }
 
 /* ── Confirmación ────────────────────────────────────────────── */
 .caja-form{
@@ -1147,7 +1152,7 @@ footer{
 }
 footer > *{ position:relative; }
 footer .rama-fondo{ position:absolute; bottom:auto; top:-6%; right:-70px; height:112%; width:auto; color:var(--crema); opacity:.2; }
-footer .lamina-caja{ position:absolute; opacity:.5; }
+footer .lamina-caja{ position:absolute; opacity:.6; }
 footer .monograma{ display:block; width:68px; height:68px; margin:0 auto 22px; color:rgba(250,247,241,.9); }
 footer h2{ font-size:clamp(30px,6vw,42px); font-style:italic; font-weight:400; }
 footer .pie__firma{
@@ -1441,14 +1446,11 @@ footer :focus-visible{ outline-color:var(--crema); }
           <a class="boton-mapa js-agendar" href="#" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-calendario"/></svg>Agendar</a>
         </div>
         <p class="agendar-alt js-agendar-alt" hidden></p>
+        <!-- ✏️ EDITAR: dress code (o borrá estas tres líneas) -->
+        <p class="tarjeta__dress"><span class="tarjeta__dress-rot">Dress code</span><span class="tarjeta__dress-valor">Elegante sport</span></p>
       </article>
 
     </div>
-
-    <!-- ✏️ EDITAR: dress code (o borrá este párrafo) -->
-    <p class="nota-evento revelar">
-      <strong>Dress code:</strong> elegante sport.
-    </p>
   </div>
 </section>
 
@@ -1456,7 +1458,6 @@ footer :focus-visible{ outline-color:var(--crema); }
 <section id="confirmar" class="seccion-alterna">
   <!-- amancay (Alstroemeria aurea, Witte 1868): la flor de la Patagonia, discreta -->
   <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--amancay" src="escena/amancay.webp" alt="" loading="lazy" decoding="async"></span>
-  <svg class="rama-fondo der" aria-hidden="true" viewBox="0 0 300 620"><use href="#rama-arco"/></svg>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Contanos si venís</p>

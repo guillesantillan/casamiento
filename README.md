@@ -28,7 +28,7 @@ marca explica qué se puede cambiar ahí al lado. Las principales:
 | Texto "Nosotros" | sección debajo de la portada |
 | Qué muestra el sitio después del casamiento | `data-gracias` y `data-album` en el `<time>` de la portada (ver más abajo) |
 | Lugar, dirección y link de Google Maps | tarjeta "Ceremonia y fiesta" (la dirección y el botón llevan el mismo link: cambiá los dos) |
-| Dress code | párrafo debajo de la tarjeta |
+| Dress code | última línea de la tarjeta de "El evento" |
 | Fecha límite para confirmar | sección Confirmar, arriba del formulario |
 | Alias y titular de la cuenta | sección Regalos. El titular tiene que ser el nombre exacto que muestra el banco al transferir |
 | CBU (opcional) | bloque comentado en Regalos, listo para descomentar |
