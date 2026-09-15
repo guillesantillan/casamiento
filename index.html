@@ -217,6 +217,30 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   overflow:hidden;
 }
 
+/* ── Pista de scroll ─────────────────────────────────────────────── */
+.pista-scroll{
+  position:fixed; left:50%; bottom:max(16px, env(safe-area-inset-bottom, 0px) + 10px); z-index:40;
+  transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  padding:8px 16px 6px; border-radius:999px;
+  background:rgba(250,247,241,.82); box-shadow:0 2px 12px rgba(44,50,41,.10);
+  color:var(--verde-medio); text-decoration:none;
+  font-size:10px; letter-spacing:.26em; text-transform:uppercase;
+  opacity:0; visibility:hidden; transition:opacity .6s ease, visibility 0s .6s;
+  -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+}
+.pista-scroll svg{ width:18px; height:18px; }
+.pista-scroll path{ fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+/* visible cuando la portada ya entró y todavía no se scrolleó */
+html.lista:not(.scrolleado) .pista-scroll{ opacity:1; visibility:visible; transition:opacity 1.2s ease calc(var(--retraso,0s) + 2.2s * var(--ritmo,1)), visibility 0s; }
+html.animar .pista-scroll svg{ animation:flotar 2.2s ease-in-out infinite; }
+@media (prefers-reduced-motion:reduce){ .pista-scroll svg{ animation:none; } }
+@media (max-width:859px){
+  /* en celular, solo la flechita en un círculo chico (tapa lo menos posible) */
+  .pista-scroll{ padding:8px; gap:0; }
+  .pista-scroll span{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+}
+
 /* ── Escena ilustrada de fondo ──────────────────────────────────── */
 .escena{
   position:absolute; top:0; left:0; right:0; bottom:0; overflow:hidden;
@@ -262,31 +286,28 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
 /* posiciones en celular (porcentajes de la portada) */
 .escena__ombu--izq{ left:-44%; top:-5%; width:108%; }
 .escena__ombu--der{ right:-28%; top:-3%; width:82%; }
-.escena__pampa{ left:12%; top:27%; width:125%; opacity:0; }
-.escena__pampa.cargada{ opacity:.85; }
-.escena__casa{ left:-6%; top:19%; width:112%; }
-.escena__cortadera--izq{ left:-14%; bottom:0; width:46%; }
-.escena__cortadera--der{ right:-14%; bottom:0; width:46%; }
-.escena__ceibo{ left:-4%; bottom:0; width:40%; }
-.escena__pasionaria{ left:29%; bottom:-2%; width:27%; }
-.escena__jacaranda{ right:-4%; bottom:0; width:44%; }
-.escena__rosas{ right:25%; bottom:-3%; width:30%; }
+.escena__casa{ left:0; top:3%; width:100%; }
+.escena__cortadera--izq{ left:0; bottom:0; width:40%; }
+.escena__cortadera--der{ right:0; bottom:0; width:40%; }
+.escena__ceibo{ left:1%; bottom:0; width:38%; }
+.escena__pasionaria{ left:30%; bottom:-1%; width:26%; }
+.escena__jacaranda{ right:1%; bottom:0; width:42%; }
+.escena__rosas{ right:26%; bottom:-2%; width:29%; }
 @media (min-width:860px){
   .escena{ transform-origin:14% 8%; }
   .escena__ombu--izq{ left:-16%; top:-24%; width:50%; }
   .escena__ombu--der{ right:-12%; top:-16%; width:46%; }
-  .escena__pampa{ left:40%; top:34%; width:60%; }
-  .escena__casa{ left:5%; top:24%; width:42%; }
-  .escena__cortadera--izq{ left:-4%; bottom:0; width:16%; }
-  .escena__cortadera--der{ right:-4%; bottom:0; width:16%; }
-  .escena__ceibo{ left:-2%; bottom:0; width:14%; }
-  .escena__pasionaria{ left:11%; bottom:-3%; width:8%; }
-  .escena__jacaranda{ right:-1%; bottom:-1%; width:17%; }
-  .escena__rosas{ right:14%; bottom:-4%; width:10%; }
+  .escena__casa{ left:50%; top:24%; width:44%; }
+  .escena__cortadera--izq{ left:0; bottom:0; width:15%; }
+  .escena__cortadera--der{ right:0; bottom:0; width:15%; }
+  .escena__ceibo{ left:1%; bottom:0; width:14%; }
+  .escena__pasionaria{ left:12%; bottom:-2%; width:8%; }
+  .escena__jacaranda{ right:1%; bottom:0; width:17%; }
+  .escena__rosas{ right:15%; bottom:-3%; width:10%; }
   .escena__pasto{ height:100px; }
   .escena__velo{
     background:
-      radial-gradient(ellipse 60% 88% at 72% 46%, rgba(250,247,241,.95) 0%, rgba(250,247,241,.75) 45%, rgba(250,247,241,0) 72%),
+      radial-gradient(ellipse 60% 88% at 72% 46%, rgba(250,247,241,.86) 0%, rgba(250,247,241,.62) 45%, rgba(250,247,241,0) 72%),
       linear-gradient(180deg, rgba(250,247,241,0) 0%, rgba(250,247,241,.2) 55%, rgba(250,247,241,.8) 100%);
   }
 }
@@ -307,8 +328,18 @@ html.animar .petalo--4{ animation-delay:-9s; animation-duration:17s; }
 html.animar .petalo--5{ animation-delay:-11s; animation-duration:14s; }
 @keyframes aletear{ to{ transform:scaleX(.22); } }
 @keyframes volar{
-  0%{ transform:translate(0,0); } 20%{ transform:translate(70px,-40px); } 45%{ transform:translate(160px,10px); }
-  65%{ transform:translate(90px,60px); } 85%{ transform:translate(-40px,30px); } 100%{ transform:translate(-90px,-20px); }
+  0%{ transform:translate(0,0); } 20%{ transform:translate(45px,-30px); } 45%{ transform:translate(100px,6px); }
+  65%{ transform:translate(60px,40px); } 85%{ transform:translate(-25px,20px); } 100%{ transform:translate(-60px,-15px); }
+}
+/* dónde se posan (coordenadas del viewBox 1200×800): en celular solo se ve la franja
+   central (x 470–730), así que van sobre el jardín de abajo; en PC, a los costados */
+.posada--1{ transform:translate(500px,690px); }
+.posada--2{ transform:translate(700px,640px); }
+.posada--3{ transform:translate(600px,760px); }
+@media (min-width:860px){
+  .posada--1{ transform:translate(150px,560px); }
+  .posada--2{ transform:translate(1060px,520px); }
+  .posada--3{ transform:translate(560px,760px); }
 }
 @keyframes soplar{ 0%{ stroke-dashoffset:1.32; opacity:0; } 15%{ opacity:.75; } 50%{ opacity:.6; } 70%{ stroke-dashoffset:-.32; opacity:0; } 100%{ stroke-dashoffset:-.32; opacity:0; } }
 @keyframes caer{ 0%{ transform:translate(0,0) rotate(0); opacity:0; } 8%{ opacity:.9; } 90%{ opacity:.8; } 100%{ transform:translate(-70px,460px) rotate(260deg); opacity:0; } }
@@ -336,7 +367,6 @@ html.sobre.escena-intro{ --retraso:6.8s; }   /* la portada espera a la escena */
 html.escena-intro .escena{ animation:alejar-escena 7s cubic-bezier(.2,.65,.2,1) both; }
 html.escena-intro .escena__cielo{ opacity:0; animation:aparecer 1.6s ease-out .5s both; }
 html.escena-intro .escena__ombu{ opacity:1; animation:deriva 7s cubic-bezier(.2,.65,.2,1) both; }
-html.escena-intro .escena__pampa{ opacity:0; animation:aparecer-pampa 1.8s ease-out 1.6s both; }
 html.escena-intro .escena__casa{ opacity:0; animation:llegar 2s var(--suave) 2.2s both; }
 html.escena-intro .escena__pasto{ opacity:1; animation:subir-pasto 1.6s var(--suave) 3.1s both; }
 html.escena-intro .escena__cortadera--izq{ opacity:1; animation:brotar-izq 1.8s var(--suave) 3.3s both; }
@@ -350,7 +380,6 @@ html.escena-intro .escena__vida{ opacity:0; animation:aparecer 1.6s ease-out 5.2
 html.escena-intro .escena__velo{ opacity:0; animation:aparecer 1.8s ease-out 5.9s both; }
 @keyframes alejar-escena{ from{ transform:scale(2.7); } to{ transform:none; } }
 @keyframes deriva{ from{ transform:translateY(-2.5%); } to{ transform:none; } }
-@keyframes aparecer-pampa{ to{ opacity:.85; } }
 @keyframes llegar{ from{ opacity:0; transform:translateY(7%); } to{ opacity:1; transform:none; } }
 @keyframes subir-pasto{ from{ transform:translateY(100%); } to{ transform:none; } }
 @keyframes brotar-izq{ from{ transform:translateY(35%) scaleY(.4); } to{ transform:none; } }
@@ -368,6 +397,10 @@ html.escena-intro .escena__ombu--der{ animation-name:deriva-der; }
   width:min(400px,92vw);
   margin:0 auto;
   padding:6% 0;
+}
+@media (max-width:859px){
+  /* con la escena, la foto baja para que la casa asome por arriba */
+  html.con-escena .portada__foto{ width:min(340px,80vw); margin-top:72px; }
 }
 .corona{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
@@ -614,8 +647,8 @@ html.con-escena .sobre__copa, html.con-escena .sobre__planta, html.con-escena .s
 .sobre__copa--izq{ right:3%; }
 .sobre__copa--der{ left:3%; transform:scaleX(-1); }
 .sobre__planta{ bottom:0; width:auto; transform-origin:50% 100%; }
-.sobre__planta--cortadera-izq{ right:min(44%,300px); bottom:-2%; height:clamp(150px,30vh,290px); }
-.sobre__planta--cortadera-der{ left:min(44%,300px);  bottom:-2%; height:clamp(150px,30vh,290px); transform:scaleX(-1); }
+.sobre__planta--cortadera-izq{ right:min(40%,300px); bottom:-2%; height:clamp(150px,30vh,290px); }
+.sobre__planta--cortadera-der{ left:min(40%,300px);  bottom:-2%; height:clamp(150px,30vh,290px); transform:scaleX(-1); }
 .sobre__planta--amancay{   right:min(24%,150px); bottom:-1%; height:clamp(150px,28vh,260px); }
 .sobre__planta--jacaranda{ left:min(20%,130px);  bottom:-2%; height:clamp(150px,32vh,300px); }
 .sobre__planta--rosas{     right:5%; bottom:-3%; height:clamp(120px,22vh,200px); }
@@ -750,8 +783,8 @@ html.sobre:not(.abierto).animar .portada__contenido{ transform:scale(1.06); tran
 .lamina-caja{ position:absolute; pointer-events:none; display:none; transform:translateY(var(--vy,0px)); will-change:transform; }
 html.con-escena .lamina-caja{ display:block; }
 .lamina{ display:block; width:100%; height:auto; transform-origin:50% 100%; }
-.lamina-caja--izq{ left:-6%; bottom:-2%; width:min(38vw,240px); }
-.lamina-caja--der{ right:-6%; bottom:-2%; width:min(38vw,240px); }
+.lamina-caja--izq{ left:2%; bottom:-2%; width:min(38vw,240px); }
+.lamina-caja--der{ right:2%; bottom:-2%; width:min(38vw,240px); }
 .lamina-caja--arriba-izq{ left:-14%; top:0; width:min(60vw,360px); opacity:.35; }
 .lamina-caja{ opacity:.8; }
 .lamina-caja--tenue{ opacity:.5; }
@@ -770,8 +803,8 @@ html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-o
     max-width:clamp(120px, calc(50vw - 340px), 300px);
     display:flex; align-items:flex-end;
   }
-  .lamina-caja--izq{ left:-1%; }
-  .lamina-caja--der{ right:-1%; justify-content:flex-end; }
+  .lamina-caja--izq{ left:2%; }
+  .lamina-caja--der{ right:2%; justify-content:flex-end; }
   .lamina-caja--izq .lamina, .lamina-caja--der .lamina{ width:auto; height:auto; max-width:100%; max-height:100%; }
   .lamina-caja--arriba-izq{ left:-6%; top:0; width:380px; }
 }
@@ -1251,7 +1284,6 @@ footer :focus-visible{ outline-color:var(--crema); }
     <!-- planos de profundidad: al scrollear se mueven a distinta velocidad -->
     <div class="escena__plano escena__plano--lejos">
       <div class="escena__cielo"></div>
-      <img class="escena__capa escena__pampa" data-src="escena/pampa.webp" alt="" decoding="async">
     </div>
     <div class="escena__plano escena__plano--medio">
       <img class="escena__capa escena__casa" data-src="escena/casa.webp" alt="" decoding="async">
@@ -1278,9 +1310,9 @@ footer :focus-visible{ outline-color:var(--crema); }
         <g class="petalos">
           <ellipse class="petalo petalo--1" cx="260" cy="120" rx="5" ry="3.2" fill="#d9b7b3" transform="rotate(20 260 120)"/><ellipse class="petalo petalo--2" cx="520" cy="60" rx="5" ry="3.2" fill="#d9b7b3" transform="rotate(-30 520 60)"/><ellipse class="petalo petalo--3" cx="880" cy="140" rx="5" ry="3.2" fill="#d9b7b3" transform="rotate(40 880 140)"/><ellipse class="petalo petalo--4" cx="1040" cy="80" rx="5" ry="3.2" fill="#d9b7b3" transform="rotate(-15 1040 80)"/><ellipse class="petalo petalo--5" cx="700" cy="40" rx="5" ry="3.2" fill="#d9b7b3" transform="rotate(10 700 40)"/>
         </g>
-        <g transform="translate(330 360)"><g class="vuelo vuelo--1"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-10.8 -10.8 -16.8 -2.4 -10.8 1.8 C-14.4 6.6 -6 8.4 0 1.8Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8"/><path d="M-7.2 -3 a2.2 2.2 0 1 0 .1 0" fill="#c79a98" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-10.8 -10.8 -16.8 -2.4 -10.8 1.8 C-14.4 6.6 -6 8.4 0 1.8Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-7.2 -3 a2.2 2.2 0 1 0 .1 0" fill="#c79a98" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -4.2 v8.4" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></g>
-        <g transform="translate(860 430)"><g class="vuelo vuelo--2"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-9 -9 -14 -2 -9 1.5 C-12 5.5 -5 7 0 1.5Z" fill="#d9b7b3" stroke="#9c7a45" stroke-width=".8"/><path d="M-6 -2.5 a1.8 1.8 0 1 0 .1 0" fill="#c9a46a" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-9 -9 -14 -2 -9 1.5 C-12 5.5 -5 7 0 1.5Z" fill="#d9b7b3" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-6 -2.5 a1.8 1.8 0 1 0 .1 0" fill="#c9a46a" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -3.5 v7" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></g>
-        <g transform="translate(600 520)"><g class="vuelo vuelo--3"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-7.2 -7.2 -11.2 -1.6 -7.2 1.2 C-9.6 4.4 -4 5.6 0 1.2Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8"/><path d="M-4.8 -2 a1.4 1.4 0 1 0 .1 0" fill="#c79a98" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-7.2 -7.2 -11.2 -1.6 -7.2 1.2 C-9.6 4.4 -4 5.6 0 1.2Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-4.8 -2 a1.4 1.4 0 1 0 .1 0" fill="#c79a98" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -2.8 v5.6" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></g>
+        <g class="posada posada--1"><g class="vuelo vuelo--1"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-10.8 -10.8 -16.8 -2.4 -10.8 1.8 C-14.4 6.6 -6 8.4 0 1.8Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8"/><path d="M-7.2 -3 a2.2 2.2 0 1 0 .1 0" fill="#c79a98" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-10.8 -10.8 -16.8 -2.4 -10.8 1.8 C-14.4 6.6 -6 8.4 0 1.8Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-7.2 -3 a2.2 2.2 0 1 0 .1 0" fill="#c79a98" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -4.2 v8.4" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></g>
+        <g class="posada posada--2"><g class="vuelo vuelo--2"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-9 -9 -14 -2 -9 1.5 C-12 5.5 -5 7 0 1.5Z" fill="#d9b7b3" stroke="#9c7a45" stroke-width=".8"/><path d="M-6 -2.5 a1.8 1.8 0 1 0 .1 0" fill="#c9a46a" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-9 -9 -14 -2 -9 1.5 C-12 5.5 -5 7 0 1.5Z" fill="#d9b7b3" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-6 -2.5 a1.8 1.8 0 1 0 .1 0" fill="#c9a46a" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -3.5 v7" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></g>
+        <g class="posada posada--3"><g class="vuelo vuelo--3"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-7.2 -7.2 -11.2 -1.6 -7.2 1.2 C-9.6 4.4 -4 5.6 0 1.2Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8"/><path d="M-4.8 -2 a1.4 1.4 0 1 0 .1 0" fill="#c79a98" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-7.2 -7.2 -11.2 -1.6 -7.2 1.2 C-9.6 4.4 -4 5.6 0 1.2Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-4.8 -2 a1.4 1.4 0 1 0 .1 0" fill="#c79a98" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -2.8 v5.6" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></g>
       </svg>
     </div>
   </div>
@@ -1352,6 +1384,8 @@ footer :focus-visible{ outline-color:var(--crema); }
     <svg class="hojita hojita--desktop" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
     </div>
   </div>
+  <!-- pista para bajar: aparece al terminar la entrada y se va con el primer scroll. ✏️ EDITAR: texto -->
+  <a class="pista-scroll" href="#nosotros" aria-label="Bajar"><span>Deslizá</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10l6 6 6-6"/></svg></a>
 </div>
 
 <!-- ═══════════════ NOSOTROS ═══════════════ -->
@@ -2108,6 +2142,22 @@ function parametro(nombre){
   function alScrollear(){ barra.classList.toggle('pegada', window.scrollY > 12); }
   window.addEventListener('scroll', alScrollear, { passive:true });
   alScrollear();
+})();
+
+
+/* ── Pista de scroll: se va con el primer scroll (o al tocarla) ─── */
+(function(){
+  var raiz = document.documentElement, pista = document.querySelector('.pista-scroll');
+  if(!pista) return;
+  function irse(){
+    if(/\bscrolleado\b/.test(raiz.className)) return;
+    raiz.className += ' scrolleado';
+    window.removeEventListener('scroll', mirar);
+  }
+  function mirar(){ if((window.scrollY || window.pageYOffset || 0) > 40) irse(); }
+  window.addEventListener('scroll', mirar, { passive:true });
+  pista.addEventListener('click', irse);
+  mirar();
 })();
 
 

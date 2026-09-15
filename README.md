@@ -114,7 +114,6 @@ viejos) no se muestra y el sitio queda igual que antes.
 |---|---|
 | `ombu-izq.webp`, `ombu-der.webp` | fotograbados de ombúes, *El Jardín Botánico de Buenos Aires* (1898), vía Wikimedia Commons / BHL |
 | `casa.webp` | *Crotta House*, dibujo de John Preston Neale (1823), *Views of the Seats of Noblemen and Gentlemen* |
-| `pampa.webp` | Emeric Essex Vidal, *Estancia on the River San Pedro*, *Picturesque Illustrations of Buenos Ayres* (1820) |
 | `ceibo.webp` | *Erythrina crista-galli*, *Favourite Flowers of Garden and Greenhouse* (1896) |
 | `jacaranda.webp` | *Jacaranda mimosifolia*, *Curtis's Botanical Magazine* t. 2327 (1822) |
 | `pasionaria.webp` | *Passiflora caerulea*, *The Botanical Magazine* pl. 28 (1787) |
@@ -131,7 +130,7 @@ Las mismas láminas reaparecen, tenues y meciéndose, en las demás secciones
 descargadas), y hay mariposas vectoriales que cruzan de vez en cuando.
 
 Para cambiar una capa: reemplazá el archivo con el mismo nombre (WebP con
-transparencia, salvo `pampa.webp`), ~500–800 px de ancho. Las posiciones
+transparencia), ~500–800 px de ancho. Las posiciones
 de cada capa están en el CSS (`.escena__…`), en porcentajes de la portada,
 con valores distintos para celular y desktop.
 
