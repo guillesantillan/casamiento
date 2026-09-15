@@ -68,6 +68,8 @@
   --tinta-suave:  #5d655a;
   --linea:        #ddd5c5;
   --blanco:       #fffefb;
+  --tr-etiqueta: .26em;   /* rótulos de sección ("NOS CASAMOS", "CUÁNDO Y DÓNDE") */
+  --tr-dato:     .2em;    /* datos en mayúsculas chicas (fechas, "ALIAS", "DÍAS") */
   --dorado:       #9c7a45;   /* acento cálido: solo adornos y texto grande (3,7:1) */
 
   --serif: "Cormorant Garamond", "Cormorant respaldo Times", "Cormorant respaldo Georgia", Georgia, "Times New Roman", serif;
@@ -148,7 +150,7 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   font-family:var(--sans);
   font-size:13px;
   font-weight:400;
-  letter-spacing:.28em;
+  letter-spacing:var(--tr-etiqueta);
   text-transform:uppercase;
   color:var(--verde-medio);
   margin:0 0 14px;
@@ -226,6 +228,11 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   position:relative;
   overflow:hidden;
 }
+/* pantallas muy anchas: la portada crece con la pantalla */
+@media (min-width:1600px){
+  .portada{ min-height:clamp(760px,82vh,920px); }
+  .portada__contenido{ max-width:1160px; }
+}
 
 /* ── Pista de scroll ─────────────────────────────────────────────── */
 .pista-scroll{
@@ -235,7 +242,7 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   padding:8px 16px 6px; border-radius:999px;
   background:rgba(250,247,241,.82); box-shadow:0 2px 12px rgba(44,50,41,.10);
   color:var(--verde-medio); text-decoration:none;
-  font-size:10px; letter-spacing:.26em; text-transform:uppercase;
+  font-size:10px; letter-spacing:var(--tr-dato); text-transform:uppercase;
   opacity:0; visibility:hidden; transition:opacity .6s ease, visibility 0s .6s;
   -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
 }
@@ -272,6 +279,9 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
 .escena__pasto{
   left:0; right:0; bottom:-6px; height:78px;
   background:url("escena/pasto.webp") repeat-x center bottom / auto 100%;
+  /* el pasto se funde por arriba: hace de piso, no de cerco */
+  -webkit-mask-image:linear-gradient(180deg, rgba(0,0,0,0) 0%, #000 45%, #000 100%);
+  mask-image:linear-gradient(180deg, rgba(0,0,0,0) 0%, #000 45%, #000 100%);
 }
 .escena__cortadera--der, .escena__ombu--der{ transform:scaleX(-1); }
 .escena__vida{ position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; transition:opacity 1.5s ease; }
@@ -288,8 +298,8 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
 }
 /* el borde inferior de la portada se funde con el fondo de "Nosotros" (las flores no se ven cortadas) */
 .portada::after{
-  content:""; position:absolute; left:0; right:0; bottom:0; height:72px; pointer-events:none; z-index:0;
-  background:linear-gradient(180deg, rgba(242,237,226,0) 0%, var(--crema-hondo) 100%);
+  content:""; position:absolute; left:0; right:0; bottom:0; height:120px; pointer-events:none; z-index:0;
+  background:linear-gradient(180deg, rgba(242,237,226,0) 0%, rgba(242,237,226,.55) 55%, var(--crema-hondo) 100%);
 }
 .escena.viva .escena__velo{ opacity:1; }
 
@@ -297,12 +307,12 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
 .escena__ombu--izq{ left:-44%; top:-5%; width:108%; }
 .escena__ombu--der{ right:-28%; top:-3%; width:82%; }
 .escena__casa{ left:0; top:1%; width:100%; }
-.escena__cortadera--izq{ left:0; bottom:0; width:40%; }
-.escena__cortadera--der{ right:0; bottom:0; width:40%; }
-.escena__ceibo{ left:1%; bottom:0; width:38%; }
-.escena__pasionaria{ left:30%; bottom:-1%; width:26%; }
-.escena__jacaranda{ right:1%; bottom:0; width:42%; }
-.escena__rosas{ right:26%; bottom:-2%; width:29%; }
+.escena__cortadera--izq{ left:0; bottom:0; width:38%; }
+.escena__cortadera--der{ right:0; bottom:0; width:38%; }
+.escena__ceibo{ left:2%; bottom:0; width:40%; }
+.escena__pasionaria{ left:37%; bottom:-1%; width:26%; }
+.escena__jacaranda{ display:none; }   /* en celular el jardín lleva cinco plantas; el jacarandá va solo en PC */
+.escena__rosas{ right:4%; bottom:-2%; width:34%; }
 @media (min-width:860px){
   .escena{ transform-origin:14% 8%; }
   .escena__ombu--izq{ left:-16%; top:-24%; width:50%; }
@@ -312,7 +322,7 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
   .escena__cortadera--der{ right:0; bottom:0; width:15%; }
   .escena__ceibo{ left:1%; bottom:0; width:14%; }
   .escena__pasionaria{ left:12%; bottom:-2%; width:8%; }
-  .escena__jacaranda{ right:1%; bottom:0; width:17%; }
+  .escena__jacaranda{ display:block; right:1%; bottom:0; width:17%; }
   .escena__rosas{ right:15%; bottom:-3%; width:10%; }
   .escena__pasto{ height:100px; }
   .escena__velo{
@@ -470,7 +480,7 @@ html.escena-intro .escena__ombu--der{ animation-name:deriva-der; }
 }
 
 .portada__intro{
-  font-size:13px; letter-spacing:.3em; text-transform:uppercase;
+  font-size:13px; letter-spacing:var(--tr-etiqueta); text-transform:uppercase;
   color:var(--verde-medio); margin:0 0 28px;
   display:flex; align-items:center; justify-content:center; gap:16px;
 }
@@ -491,7 +501,7 @@ html.escena-intro .escena__ombu--der{ animation-name:deriva-der; }
 
 .portada__fecha{
   margin-top:22px;
-  font-size:14px; letter-spacing:.22em; text-transform:uppercase;
+  font-size:14px; letter-spacing:var(--tr-dato); text-transform:uppercase;
   color:var(--tinta-suave);
 }
 .portada__fecha strong{ font-weight:400; color:var(--tinta); }
@@ -507,6 +517,7 @@ html.escena-intro .escena__ombu--der{ animation-name:deriva-der; }
   color:var(--verde);
 }
 .regresiva{
+  font-variant-numeric:tabular-nums;   /* todos los dígitos miden lo mismo: nada se mueve al cambiar */
   display:flex; justify-content:center; align-items:flex-start;
   gap:clamp(6px,2.5vw,18px);
   margin-top:26px;
@@ -531,12 +542,12 @@ html.escena-intro .escena__ombu--der{ animation-name:deriva-der; }
 }
 .regresiva__rot{
   display:block; margin-top:8px;
-  font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+  font-size:12px; letter-spacing:var(--tr-dato); text-transform:uppercase;
   color:var(--tinta-suave);
 }
 .regresiva__intro{
   margin:22px 0 0;
-  font-size:13px; letter-spacing:.3em; text-transform:uppercase;
+  font-size:13px; letter-spacing:var(--tr-etiqueta); text-transform:uppercase;
   color:var(--verde-medio);
 }
 .regresiva__intro + .regresiva{ margin-top:12px; }
@@ -711,7 +722,7 @@ html.sobre-visible .sobre__planta--malvon.cargada{ --d:1.3s; animation-duration:
 }
 .sobre__fecha{
   margin:26px 0 0;
-  font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+  font-size:11px; letter-spacing:var(--tr-dato); text-transform:uppercase;
   color:var(--tinta-suave); opacity:0;
 }
 
@@ -743,7 +754,7 @@ html.sobre-visible .sobre__planta--malvon.cargada{ --d:1.3s; animation-duration:
 /* pista para abrir, debajo de la fecha */
 .sobre__pista{
   margin:22px 0 0; text-align:center; pointer-events:none;
-  font-size:11px; letter-spacing:.24em; text-transform:uppercase;
+  font-size:11px; letter-spacing:var(--tr-dato); text-transform:uppercase;
   color:var(--verde-medio); opacity:0;
 }
 
@@ -795,6 +806,7 @@ html.sobre:not(.abierto).animar .portada__contenido{ transform:scale(1.06); tran
   display:flex; flex-direction:column; align-items:center; gap:14px;
   margin-top:28px;
 }
+@media (max-width:480px){ .portada__acciones .boton-principal{ width:100%; max-width:360px; text-align:center; } }
 .boton-principal{
   display:inline-block;
   font-size:16px; font-weight:400; letter-spacing:.08em;
@@ -887,7 +899,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
   text-wrap:balance;
 }
 .nosotros__firma{
-  margin:18px 0 0; font-size:13px; letter-spacing:.28em; text-transform:uppercase;
+  margin:18px 0 0; font-size:13px; letter-spacing:var(--tr-etiqueta); text-transform:uppercase;
   color:var(--verde-medio);
 }
 
@@ -914,7 +926,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
   display:flex; flex-direction:column; align-items:center; gap:4px;
 }
 .tarjeta__dress::before{ content:""; position:absolute; top:0; left:50%; width:40px; height:1px; background:var(--verde-claro); transform:translateX(-50%); }
-.tarjeta__dress-rot{ font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--tinta-suave); }
+.tarjeta__dress-rot{ font-size:11px; letter-spacing:var(--tr-dato); text-transform:uppercase; color:var(--tinta-suave); }
 .tarjeta__dress-valor{ font-family:var(--serif); font-style:italic; font-size:21px; color:var(--verde); }
 
 .tarjeta{
@@ -926,7 +938,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 }
 
 /* marco interior de tarjetón, con puntitos dorados en las esquinas */
-.tarjeta,.caja-alias,.caja-form{ position:relative; }
+.tarjeta,.caja-alias,.caja-form{ position:relative; box-shadow:0 1px 2px rgba(44,50,41,.04), 0 14px 34px -20px rgba(44,50,41,.22); }
 .tarjeta::before,.caja-alias::before,.caja-form::before{
   content:""; position:absolute; top:7px; left:7px; right:7px; bottom:7px;
   border:1px solid var(--verde-claro); border-radius:2px; pointer-events:none; opacity:.7;
@@ -956,7 +968,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
   color:var(--dorado); margin:0 0 4px;
 }
 .tarjeta .dia{
-  font-size:13px; letter-spacing:.2em; text-transform:uppercase;
+  font-size:13px; letter-spacing:var(--tr-dato); text-transform:uppercase;
   color:var(--tinta-suave); margin:0 0 20px;
 }
 .tarjeta p{ margin:0 0 6px; color:var(--tinta-suave); }
@@ -1034,7 +1046,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
   padding:clamp(28px,4.5vw,40px) 24px clamp(34px,5vw,44px);
 }
 .caja-alias .rot{
-  font-size:13px; letter-spacing:.22em; text-transform:uppercase;
+  font-size:13px; letter-spacing:var(--tr-dato); text-transform:uppercase;
   color:var(--verde-medio); margin:0 0 12px;
 }
 /* el alias va en la sans, sin ambigüedad entre l / I / 1, y con aire entre letras */
@@ -1193,7 +1205,7 @@ footer .pie__firma{
   margin:14px 0 0; font-family:var(--serif); font-style:italic; font-size:22px;
   letter-spacing:0; text-transform:none; color:rgba(250,247,241,.85);
 }
-footer p{ margin:16px 0 0; font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:rgba(250,247,241,.8); }
+footer p{ margin:16px 0 0; font-size:13px; letter-spacing:var(--tr-dato); text-transform:uppercase; color:rgba(250,247,241,.8); }
 footer :focus-visible{ outline-color:var(--crema); }
 
 /* ── Aparición suave al hacer scroll ─────────────────────────── */
