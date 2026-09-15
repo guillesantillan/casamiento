@@ -202,6 +202,15 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   transition:color .2s, border-color .2s;
 }
 .barra a:hover,.barra a:focus-visible{ color:var(--verde); border-bottom-color:var(--verde-medio); }
+.solo-angosto{ display:none; }
+@media (max-width:480px){
+  /* que los cinco ítems entren en una pantalla de 360 px: letra y aire un poco
+     menores, "Evento" y "Horario" en vez de "El evento" y "Cronograma" */
+  .barra nav{ gap:10px; padding:10px 12px; }
+  .barra a{ font-size:10.5px; letter-spacing:.08em; }
+  .solo-ancho{ display:none; }
+  .solo-angosto{ display:inline; }
+}
 
 /* ── Portada ─────────────────────────────────────────────────── */
 .portada{
@@ -237,8 +246,8 @@ html.lista:not(.scrolleado) .pista-scroll{ opacity:1; visibility:visible; transi
 html.animar .pista-scroll svg{ animation:flotar 2.2s ease-in-out infinite; }
 @media (prefers-reduced-motion:reduce){ .pista-scroll svg{ animation:none; } }
 @media (max-width:859px){
-  /* en celular, solo la flechita en un círculo chico (tapa lo menos posible) */
-  .pista-scroll{ padding:8px; gap:0; }
+  /* en celular, solo la flechita en un círculo chico, en la esquina (no tapa el botón) */
+  .pista-scroll{ padding:8px; gap:0; left:auto; right:14px; transform:none; }
   .pista-scroll span{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
 }
 
@@ -287,7 +296,7 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
 /* posiciones en celular (porcentajes de la portada) */
 .escena__ombu--izq{ left:-44%; top:-5%; width:108%; }
 .escena__ombu--der{ right:-28%; top:-3%; width:82%; }
-.escena__casa{ left:0; top:3%; width:100%; }
+.escena__casa{ left:0; top:1%; width:100%; }
 .escena__cortadera--izq{ left:0; bottom:0; width:40%; }
 .escena__cortadera--der{ right:0; bottom:0; width:40%; }
 .escena__ceibo{ left:1%; bottom:0; width:38%; }
@@ -364,21 +373,21 @@ html.animar .escena.meciendo .escena__ombu--der{ transform-origin:65% 0; animati
 /* ── La intro de la escena (al abrirse la invitación) ─────────────
    La cámara arranca dentro del ombú y se aleja; las capas entran en
    orden. Con esto, la portada espera --retraso (ver más abajo). */
-html.sobre.escena-intro{ --retraso:6.8s; }   /* la portada espera a la escena */
-html.escena-intro .escena{ animation:alejar-escena 7s cubic-bezier(.2,.65,.2,1) both; }
-html.escena-intro .escena__cielo{ opacity:0; animation:aparecer 1.6s ease-out .5s both; }
-html.escena-intro .escena__ombu{ opacity:1; animation:deriva 7s cubic-bezier(.2,.65,.2,1) both; }
-html.escena-intro .escena__casa{ opacity:0; animation:llegar 2s var(--suave) 2.2s both; }
-html.escena-intro .escena__pasto{ opacity:1; animation:subir-pasto 1.6s var(--suave) 3.1s both; }
-html.escena-intro .escena__cortadera--izq{ opacity:1; animation:brotar-izq 1.8s var(--suave) 3.3s both; }
-html.escena-intro .escena__cortadera--der{ opacity:1; animation:brotar-der 1.8s var(--suave) 3.5s both; }
-html.escena-intro .escena__flor{ animation:brotar-flor 1.5s var(--suave) both; }   /* sin opacity acá: al pasar a la brisa, quedaría en 0 */
-html.escena-intro .escena__ceibo{ animation-delay:3.8s; }
-html.escena-intro .escena__pasionaria{ animation-delay:4.15s; }
-html.escena-intro .escena__jacaranda{ animation-delay:4.4s; }
-html.escena-intro .escena__rosas{ animation-delay:4.7s; }
-html.escena-intro .escena__vida{ opacity:0; animation:aparecer 1.6s ease-out 5.2s both; }
-html.escena-intro .escena__velo{ opacity:0; animation:aparecer 1.8s ease-out 5.9s both; }
+html.sobre.escena-intro{ --retraso:3s; }   /* la portada arranca cuando la cámara ya casi llegó */
+html.escena-intro .escena{ animation:alejar-escena 4.2s cubic-bezier(.2,.65,.2,1) both; }
+html.escena-intro .escena__cielo{ opacity:0; animation:aparecer 1.2s ease-out .3s both; }
+html.escena-intro .escena__ombu{ opacity:1; animation:deriva 4.2s cubic-bezier(.2,.65,.2,1) both; }
+html.escena-intro .escena__casa{ opacity:0; animation:llegar 1.4s var(--suave) 1.3s both; }
+html.escena-intro .escena__pasto{ opacity:1; animation:subir-pasto 1.2s var(--suave) 1.9s both; }
+html.escena-intro .escena__cortadera--izq{ opacity:1; animation:brotar-izq 1.4s var(--suave) 2s both; }
+html.escena-intro .escena__cortadera--der{ opacity:1; animation:brotar-der 1.4s var(--suave) 2.15s both; }
+html.escena-intro .escena__flor{ animation:brotar-flor 1.3s var(--suave) both; }   /* sin opacity acá: al pasar a la brisa, quedaría en 0 */
+html.escena-intro .escena__ceibo{ animation-delay:2.3s; }
+html.escena-intro .escena__pasionaria{ animation-delay:2.55s; }
+html.escena-intro .escena__jacaranda{ animation-delay:2.8s; }
+html.escena-intro .escena__rosas{ animation-delay:3s; }
+html.escena-intro .escena__vida{ opacity:0; animation:aparecer 1.4s ease-out 3.2s both; }
+html.escena-intro .escena__velo{ opacity:0; animation:aparecer 1.4s ease-out 3.3s both; }
 @keyframes alejar-escena{ from{ transform:scale(2.7); } to{ transform:none; } }
 @keyframes deriva{ from{ transform:translateY(-2.5%); } to{ transform:none; } }
 @keyframes llegar{ from{ opacity:0; transform:translateY(7%); } to{ opacity:1; transform:none; } }
@@ -401,7 +410,13 @@ html.escena-intro .escena__ombu--der{ animation-name:deriva-der; }
 }
 @media (max-width:859px){
   /* con la escena, la foto baja para que la casa asome por arriba */
-  html.con-escena .portada__foto{ width:min(340px,80vw); margin-top:72px; }
+  html.con-escena .portada__foto{ width:min(300px,70vw); margin-top:44px; }
+  /* portada compacta: el botón entra en la primera pantalla o casi */
+  .portada{ padding-top:clamp(20px,4vh,40px); }
+  .portada__contenido{ gap:22px; }
+  .portada h1{ font-size:clamp(40px,11vw,72px); }
+  .regresiva{ margin-top:18px; }
+  .portada__acciones{ margin-top:22px; }
 }
 .corona{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
@@ -786,7 +801,7 @@ html.con-escena .lamina-caja{ display:block; }
 .lamina{ display:block; width:100%; height:auto; transform-origin:50% 100%; }
 .lamina-caja--izq{ left:2%; bottom:-2%; width:min(38vw,240px); }
 .lamina-caja--der{ right:2%; bottom:-2%; width:min(38vw,240px); }
-.lamina-caja--arriba-izq{ left:-14%; top:0; width:min(60vw,360px); opacity:.35; }
+.lamina-caja--arriba-izq{ left:-14%; top:0; width:min(60vw,360px); opacity:.16; }
 .lamina-caja{ opacity:.9; }
 .lamina-caja--tenue{ opacity:.7; }
 html.animar .lamina{ animation:mecer 8s ease-in-out infinite; }
@@ -817,13 +832,13 @@ html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-o
   .lamina-caja--izq{ left:1%; }
   .lamina-caja--der{ right:1%; }
   .lamina-caja--izq .lamina, .lamina-caja--der .lamina{ width:auto; height:100%; }
-  .lamina-caja--arriba-izq{ opacity:.18; }
+  .lamina-caja--arriba-izq{ opacity:.1; }
   footer .lamina-caja--izq, footer .lamina-caja--der{ height:110px; }
 }
 /* "Nosotros": jazmín y lavanda a los costados (distintas de las de la portada), ombú tenue arriba */
 .seccion-nosotros{ position:relative; overflow:hidden; }
 .nosotros{ position:relative; z-index:1; }
-.lamina-caja--arriba-der{ right:-16%; top:0; width:min(60vw,360px); opacity:.3; }
+.lamina-caja--arriba-der{ right:-16%; top:0; width:min(60vw,360px); opacity:.14; }
 html.animar .lamina-caja--arriba-der .lamina{ animation:susurrar-der 13s ease-in-out -4s infinite; transform-origin:70% 0; }
 .lamina--ombu-der{ transform:scaleX(-1); }
 @media (min-width:860px){ .lamina-caja--arriba-der{ right:-6%; top:0; width:380px; } }
@@ -831,7 +846,7 @@ html.animar .lamina-caja--arriba-der .lamina{ animation:susurrar-der 13s ease-in
   /* en celular, las flores de "Nosotros" van debajo del texto, no encima */
   html.con-escena section.seccion-nosotros{ padding-bottom:176px; }
   .seccion-nosotros .lamina-caja--izq, .seccion-nosotros .lamina-caja--der{ height:150px; bottom:-4px; }
-  .seccion-nosotros .lamina-caja--arriba-der{ opacity:.16; }
+  .seccion-nosotros .lamina-caja--arriba-der{ opacity:.09; }
 }
 /* mariposa que cruza la sección de vez en cuando */
 .cruce{ position:absolute; top:22%; left:0; width:34px; height:34px; pointer-events:none; opacity:0; }
@@ -1268,10 +1283,10 @@ footer :focus-visible{ outline-color:var(--crema); }
 <header class="barra" id="barra">
   <a class="barra__logo" href="#" aria-label="Volver arriba"><svg aria-hidden="true" viewBox="0 0 64 64"><use href="#monograma"/></svg></a>
   <nav aria-label="Secciones del sitio">
-    <a href="#evento">El evento</a>
+    <a href="#evento"><span class="solo-ancho">El </span>evento</a>
     <a href="#confirmar">Confirmar</a>
     <a href="#regalos">Regalos</a>
-    <a href="#cronograma">Cronograma</a>
+    <a href="#cronograma"><span class="solo-ancho">Cronograma</span><span class="solo-angosto">Horario</span></a>
     <a href="#preguntas">Preguntas</a>
   </nav>
 </header>
@@ -1783,7 +1798,7 @@ var ESCENA = (function(){
     if(ESCENA.caja && /\bcon-escena\b/.test(raiz.className) && ESCENA.claveLista()){
       raiz.className += ' escena-intro';
       ESCENA.caja.classList.add('viva');
-      setTimeout(function(){ ESCENA.caja.classList.add('meciendo'); }, 7600);   /* al terminar la intro, la brisa */
+      setTimeout(function(){ ESCENA.caja.classList.add('meciendo'); }, 4600);   /* al terminar la intro, la brisa */
     }else if(ESCENA.caja){
       setTimeout(function(){ ESCENA.caja.classList.add('viva'); ESCENA.caja.classList.add('meciendo'); }, 1500);
     }
