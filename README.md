@@ -72,32 +72,57 @@ Cualquier commit en `main` se publica solo en 1–2 minutos.
 Para comprobar que ya está: abrí la URL del sitio con `?x=1` al final (evita
 la caché del navegador).
 
-## Formulario de confirmación (Google Forms)
+## Formulario de confirmación (propio + Apps Script)
 
-El RSVP es un Google Form embebido en un `<iframe>`. El sitio no recibe ni
-guarda respuestas: quedan en el formulario y en su planilla de Drive.
+El RSVP es un formulario de la propia página (nombre, si viene, cuántos son,
+acompañantes, restricciones alimentarias y mensaje). Al enviarlo, la página
+hace un `POST` a un **web app de Google Apps Script** (`apps-script/Codigo.gs`)
+que agrega una fila en una planilla de Google Sheets y, si querés, te avisa
+por mail. El script **solo agrega filas**: no lee ni devuelve datos, y la
+planilla sigue siendo privada de tu cuenta.
 
-Configuración recomendada del formulario (⚙️ Configuración):
+Si el envío falla (sin señal, script caído) o `data-endpoint` está vacío, el
+botón arma la confirmación como mensaje de WhatsApp: nunca se pierde una.
 
-- **Presentación → Mensaje de confirmación**: un cierre propio (por ejemplo
-  "¡Listo! Te esperamos el 9 de enero. Si querés hacernos un regalo, el alias
-  está más abajo").
-- **Respuestas → Guardar el progreso**: apagado (si no, aparece un "Acceder a
-  Google" que confunde).
-- **Respuestas → Mostrar resumen de respuestas a los encuestados**: **apagado**
-  (si no, quien responde ve los nombres de todos los invitados).
-- **Respuestas → Permitir editar la respuesta**: apagado.
-- **Recibir correos de respuestas nuevas**: prendido.
-- En la pregunta "¿Vas a venir?", la opción "No" puede ir directo a **Enviar
-  formulario** en vez de a una sección vacía.
-- Tipografía (Personalizar tema → Estilo de texto → Más fuentes): encabezado
-  **Cormorant Garamond**, pregunta y texto **Jost**, tamaños grandes; color
-  `#3d5140`.
+### Ponerlo en marcha (una sola vez, 10 minutos)
 
-Como no se puede saber desde afuera cuánto mide cada pantalla del formulario,
-las alturas del `<iframe>` están escritas a mano en `data-alturas-celular` y
-`data-alturas-desktop` (píxeles por pantalla: 1.ª, 2.ª, 3.ª…). Si cambiás
-preguntas o secciones, medí de nuevo y ajustalas.
+1. **Planilla**: creá un Google Sheets vacío. De su URL copiá el id (lo que va
+   entre `/d/` y `/edit`).
+2. **Script**: entrá a [script.google.com](https://script.google.com) → *Nuevo
+   proyecto* → borrá lo que hay y pegá el contenido de `apps-script/Codigo.gs`
+   → guardá (ponele nombre, por ejemplo "Confirmaciones casamiento").
+3. **Propiedades** (⚙️ *Configuración del proyecto* → *Propiedades del script*
+   → *Agregar propiedad*):
+   - `SHEET_ID`: el id de la planilla.
+   - `TOKEN`: una clave cualquiera (por ejemplo `jess-guille-2027`). Tiene
+     que ser **la misma** que `data-clave` en el `<form>` de `index.html`.
+   - `AVISO_EMAIL` (opcional): tu mail, para recibir un aviso por confirmación.
+4. **Probar**: en el editor elegí la función `probar` y tocá ▶ *Ejecutar*. La
+   primera vez pide permisos (planilla y mail): aceptalos. Tiene que aparecer
+   una fila de prueba en la planilla (después borrala).
+5. **Desplegar**: *Implementar* → *Nueva implementación* → tipo *Aplicación
+   web* → *Ejecutar como*: **Yo** · *Quién tiene acceso*: **Cualquier usuario**
+   → *Implementar*. Copiá la URL que termina en `/exec`.
+6. **Conectar**: en `index.html`, en el `<form id="formulario">`, pegá esa URL
+   en `data-endpoint`. Commit y push. Probá desde el celular.
+
+Si más adelante cambiás el código del script: *Implementar* → *Administrar
+implementaciones* → ✏️ → *Versión: Nueva* → *Implementar*. **Si no creás
+versión nueva, la URL sigue sirviendo el código viejo.**
+
+### Columnas de la planilla
+
+`Fecha · Nombre · Asiste · Personas · Acompañantes · Restricciones · Mensaje · Invitación`
+(la última es el nombre que venía en el link `?para=`, si lo había). La hoja
+se llama "Respuestas" y se crea sola con la primera confirmación.
+
+### Seguridad, en corto
+
+La URL del script es pública (está en la página), pero lo único que hace es
+agregar una fila. Contra el spam hay una clave compartida, un campo trampa
+para bots, un tiempo mínimo en la página y validación de largos y valores;
+las celdas se guardan como texto (nada de fórmulas). El peor caso posible es
+tener que borrar filas basura.
 
 ## Escena ilustrada de la portada (`escena/`)
 
@@ -149,16 +174,17 @@ con `?v=2` al final para que la vuelva a leer.
   `<symbol>` SVG en un bloque al principio del `<body>` y se usan con
   `<use href="#…">`. Los estilos de trazo van como atributos en los símbolos
   porque el CSS del documento no alcanza a las copias que genera `<use>`.
-- **Formulario**: cartel de "Cargando…" detrás del iframe, aviso a los 6 s si
-  no cargó, scroll al tope del formulario en cada recarga (Siguiente/Enviar),
-  y altura por pantalla según el número de carga.
+- **Formulario**: validación en la página, envío con `fetch` (POST de texto
+  plano, sin preflight), 15 s de espera máxima, y respaldo por WhatsApp con
+  el mensaje ya armado si algo falla. El nombre viene puesto si el link trae
+  `?para=`.
 - **Agendar**: genera un `.ics` en iPhone/Mac y abre Google Calendar en el
   resto, a partir del `<time>` de la portada.
 - **Copiar alias**: `navigator.clipboard` con respaldo `execCommand` para
   navegadores viejos. "Enviar por WhatsApp" arma el mensaje con el alias y el
   titular que estén en la página.
 - Sin `localStorage`, sin cookies, sin scripts de terceros. Los únicos pedidos
-  externos son las fuentes de Google y el iframe de Forms.
+  externos son las fuentes de Google y el envío de la confirmación al script.
 - **Entrada animada**: la primera vez en cada sesión, la página aparece como
   una invitación cerrada (dos hojas con un jardín de láminas —o la corona
   dibujada, sin WebP—, el sello J&G, nombres y fecha, y la pista "Tocá el

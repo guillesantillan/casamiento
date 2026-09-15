@@ -1096,46 +1096,70 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 .nota-chica, .bloque-regalo > .nota-chica{ font-size:15px; color:var(--tinta-suave); margin:30px 0 0; font-style:italic; text-wrap:balance; }
 .bloque-regalo .contacto{ margin-top:14px; }
 
-/* ── Confirmación ────────────────────────────────────────────── */
+/* ── Confirmación (formulario propio) ─────────────────────────── */
 .caja-form{
   max-width:720px; margin-inline:auto;
   background:var(--blanco);
   border:1px solid var(--linea);
   border-radius:3px;
-  padding:clamp(20px,3vw,28px);
+  padding:clamp(24px,4vw,40px) clamp(20px,4vw,36px);
 }
-.caja-form iframe{ width:100%; border:0; display:block; height:680px; position:relative; z-index:1; transition:height .35s ease; }
-@media (max-width:560px){ .caja-form iframe{ height:780px; } }
-@media (prefers-reduced-motion:reduce){ .caja-form iframe{ transition:none; } }
-
-/* Mientras Google tarda en cargar el formulario, se ve esto detrás del
-   iframe (el iframe es transparente hasta que carga). */
-.caja-form{ position:relative; }
-.cargando-form{
-  position:absolute; top:clamp(20px,3vw,28px); right:clamp(20px,3vw,28px); bottom:clamp(20px,3vw,28px); left:clamp(20px,3vw,28px);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:14px; text-align:center;
-  color:var(--tinta-suave);
-  padding:24px;
+.formulario{ display:flex; flex-direction:column; gap:22px; position:relative; z-index:1; }
+.formulario[hidden], .solo-si[hidden], .formulario__gracias[hidden], .formulario__respaldo[hidden]{ display:none; }
+.campo{ display:flex; flex-direction:column; gap:8px; margin:0; padding:0; border:0; min-width:0; }
+.campo label, .campo legend{
+  font-size:12px; letter-spacing:var(--tr-dato); text-transform:uppercase;
+  color:var(--verde-medio); padding:0;
 }
-.cargando-form .hojita{ margin:0; animation:latido 1.6s ease-in-out infinite; }
-.cargando-form p{ margin:0; }
-.cargando-form .boton-mapa{ margin-top:6px; display:none; }
-.cargando-form.tarda .boton-mapa{ display:inline-block; }
-.caja-form.cargado .cargando-form{ display:none; }
-/* en celular la caja se abre casi al borde: Google Forms necesita ancho */
-@media (max-width:560px){
-  .caja-form{ padding:14px 12px; margin-inline:-16px; }
-  .cargando-form{ top:14px; right:12px; bottom:14px; left:12px; }
+.campo .opcional{ text-transform:none; letter-spacing:0; color:var(--tinta-suave); }
+.campo input[type="text"], .campo select, .campo textarea{
+  width:100%; box-sizing:border-box;
+  font:inherit; font-size:17px; color:var(--tinta);
+  background:var(--crema); border:1px solid var(--linea); border-radius:3px;
+  padding:12px 14px;
+  transition:border-color .2s, box-shadow .2s;
+  -webkit-appearance:none; appearance:none;
 }
-@keyframes latido{ 0%,100%{ opacity:.45; } 50%{ opacity:1; } }
-@media (prefers-reduced-motion:reduce){ .cargando-form .hojita{ animation:none; } }
-
-.alternativa{
-  text-align:center; margin-top:18px;
-  font-size:15px; color:var(--tinta-suave);
+.campo select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235a7058' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 12px center; background-size:18px; padding-right:40px;
 }
-.alternativa a{ color:var(--verde-medio); }
+.campo textarea{ resize:vertical; min-height:88px; line-height:1.5; }
+.campo input::placeholder, .campo textarea::placeholder{ color:#a9a49a; }
+.campo input:focus, .campo select:focus, .campo textarea:focus{
+  outline:none; border-color:var(--verde-medio); box-shadow:0 0 0 3px rgba(90,112,88,.14);
+}
+.campo.invalido input, .campo.invalido select{ border-color:#b0603f; }
+.campo--mitad{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.campo--mitad > div{ display:flex; flex-direction:column; gap:8px; min-width:0; }
+@media (max-width:560px){ .campo--mitad{ grid-template-columns:1fr; } }
+.solo-si{ display:flex; flex-direction:column; gap:22px; }
+/* "¿Vas a venir?": dos opciones grandes, fáciles de tocar */
+.campo--opciones .opcion{
+  display:flex; align-items:center; gap:12px; cursor:pointer;
+  font-size:17px; color:var(--tinta); text-transform:none; letter-spacing:0;
+  padding:12px 14px; border:1px solid var(--linea); border-radius:3px; background:var(--crema);
+  transition:border-color .2s, background .2s;
+}
+.campo--opciones .opcion + .opcion{ margin-top:8px; }
+.campo--opciones .opcion input{ width:18px; height:18px; margin:0; accent-color:var(--verde); flex:none; }
+.campo--opciones .opcion:has(input:checked){ border-color:var(--verde-medio); background:#f6f4ec; }
+.campo--opciones.invalido .opcion{ border-color:#b0603f; }
+.campo--sitio{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+.formulario__acciones{ display:flex; justify-content:center; margin-top:4px; }
+.formulario__acciones .boton-copiar{ margin-top:0; min-width:240px; }
+.formulario__acciones .boton-copiar[disabled]{ opacity:.6; cursor:default; }
+@media (max-width:480px){ .formulario__acciones .boton-copiar{ width:100%; } }
+.formulario__error{ margin:-8px 0 0; text-align:center; font-size:15px; color:#b0603f; }
+.formulario__gracias, .formulario__respaldo{ text-align:center; position:relative; }
+.formulario__gracias .divisor{ margin:0 auto 18px; }
+.formulario__gracias-titulo{ margin:0; font-family:var(--serif); font-style:italic; font-size:clamp(24px,4vw,30px); color:var(--verde); }
+.formulario__gracias-texto{ margin:12px 0 0; color:var(--tinta-suave); }
+.formulario__respaldo p{ margin:0 0 18px; color:var(--tinta-suave); text-wrap:balance; }
+.formulario__respaldo p strong{ font-weight:400; color:var(--tinta); }
+.formulario__respaldo .boton-mapa{ margin-top:0; }
+.formulario__reintento{ margin:18px 0 0 !important; font-size:15px; }
+.formulario__reintento a{ color:var(--verde-medio); }
 
 /* Después de confirmar: el "paso siguiente" siempre visible bajo el formulario */
 .despues{
@@ -1494,53 +1518,83 @@ footer :focus-visible{ outline-color:var(--crema); }
     <!-- ✏️ EDITAR: fecha límite para confirmar (provisoria) -->
     <p class="limite revelar">Te pedimos confirmar antes del <strong>9 de diciembre de 2026</strong>.</p>
 
-    <div class="caja-form revelar" id="caja-form">
-      <!-- Esto se ve mientras Google carga el formulario. Si a los 6 s no
-           cargó, aparece el botón para abrirlo aparte. -->
-      <div class="cargando-form" id="cargando-form" aria-live="polite">
-        <svg class="hojita" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
-        <p>Cargando el formulario…</p>
-        <!-- ✏️ EDITAR: mismo link del formulario que abajo -->
-        <a class="boton-mapa" href="https://docs.google.com/forms/d/e/1FAIpQLSfxuow3PamYp5UG-qH-qAlO76OdIuo0nG3qOszzrj6l-1Vn4g/viewform" target="_blank" rel="noopener">¿Tarda mucho? Abrilo aparte</a>
+    <!-- ════════════════════════════════════════════════════════
+         Formulario de confirmación propio. Las respuestas van a una
+         planilla de Google a través de un script de Apps Script (ver
+         apps-script/Codigo.gs y el README, sección "Formulario").
+         ✏️ EDITAR: data-endpoint = la URL "/exec" del script desplegado;
+                    data-clave  = la misma clave que pusiste en TOKEN.
+         Mientras data-endpoint esté vacío, el botón manda la confirmación
+         por WhatsApp (así el sitio nunca queda sin forma de confirmar).
+         ════════════════════════════════════════════════════════ -->
+    <form class="caja-form formulario revelar" id="formulario" novalidate
+          data-endpoint=""
+          data-clave="jess-guille-2027">
+
+      <div class="campo">
+        <label for="f-nombre">Nombre y apellido</label>
+        <input id="f-nombre" name="nombre" type="text" required maxlength="80" autocomplete="name" placeholder="Como te conocemos">
       </div>
 
-      <!-- ════════════════════════════════════════════════════════
-           Formulario de confirmación (Google Forms).
-           Si alguna vez lo reemplazás, cambiá solo la URL del src
-           (y los otros dos links al formulario de esta sección).
+      <fieldset class="campo campo--opciones">
+        <legend>¿Vas a venir?</legend>
+        <label class="opcion"><input type="radio" name="asiste" value="si" required><span>Sí, ahí estamos</span></label>
+        <label class="opcion"><input type="radio" name="asiste" value="no"><span>No voy a poder</span></label>
+      </fieldset>
 
-           ✏️ Dos cosas para hacer EN GOOGLE FORMS, no acá:
-           1. Configuración → Presentación → Mensaje de confirmación:
-              escribí algo como "¡Listo! Te esperamos el 9 de enero.
-              Si querés hacernos un regalo, el alias está más abajo."
-           2. Configuración → Respuestas → desactivá "Permitir guardar
-              el progreso" (es lo que muestra el "Acceder a Google"
-              arriba del formulario y confunde).
-           ════════════════════════════════════════════════════════ -->
-      <!-- ✏️ ALTURAS: cuánto mide el iframe en cada pantalla del formulario,
-           en píxeles, separadas por coma: 1.ª pantalla, 2.ª, 3.ª… (la última
-           se repite). Medidas para este formulario: "¿Vas a venir?" → rama
-           "Sí" (la más larga) → pantalla final, con unos 60 px de margen para
-           que nunca aparezca la barra de scroll interna. Si cambiás el
-           formulario, ajustá estos números. -->
-      <iframe
-        id="iframe-form"
-        src="https://docs.google.com/forms/d/e/1FAIpQLSfxuow3PamYp5UG-qH-qAlO76OdIuo0nG3qOszzrj6l-1Vn4g/viewform?embedded=true"
-        title="Formulario de confirmación de asistencia"
-        loading="lazy"
-        width="100%"
-        data-alturas-celular="780,1400,600"
-        data-alturas-desktop="680,1120,600">Cargando el formulario…</iframe>
+      <div class="solo-si" id="solo-si" hidden>
+        <div class="campo campo--mitad">
+          <div>
+            <label for="f-personas">¿Cuántos son en total?</label>
+            <select id="f-personas" name="personas">
+              <option value="1">1 (solo yo)</option><option value="2">2</option><option value="3">3</option>
+              <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+            </select>
+          </div>
+          <div>
+            <label for="f-acompanantes">¿Con quién venís?</label>
+            <input id="f-acompanantes" name="acompanantes" type="text" maxlength="200" placeholder="Nombres, si venís acompañado">
+          </div>
+        </div>
+        <div class="campo">
+          <label for="f-restricciones">Restricciones alimentarias <span class="opcional">(opcional)</span></label>
+          <input id="f-restricciones" name="restricciones" type="text" maxlength="200" placeholder="Vegetariano, celíaco, alergias…">
+        </div>
+      </div>
+
+      <div class="campo">
+        <label for="f-mensaje">Un mensaje para nosotros <span class="opcional">(opcional)</span></label>
+        <textarea id="f-mensaje" name="mensaje" rows="3" maxlength="500"></textarea>
+      </div>
+
+      <!-- campo trampa para bots: los invitados no lo ven -->
+      <div class="campo campo--sitio" aria-hidden="true"><label for="f-sitio">Sitio web</label><input id="f-sitio" name="sitio" type="text" tabindex="-1" autocomplete="off"></div>
+
+      <p class="formulario__error" id="form-error" role="alert" hidden></p>
+      <div class="formulario__acciones">
+        <button class="boton-copiar" type="submit" id="form-enviar">Enviar confirmación</button>
+      </div>
+    </form>
+
+    <!-- lo que se ve después de enviar -->
+    <div class="caja-form formulario__gracias" id="form-gracias" hidden aria-live="polite">
+      <svg class="divisor" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
+      <!-- ✏️ EDITAR: los dos mensajes de cierre -->
+      <p class="formulario__gracias-titulo" data-si="¡Listo! Te esperamos el 9 de enero." data-no="Gracias por avisarnos. Te vamos a extrañar."></p>
+      <p class="formulario__gracias-texto">Si algo cambia, escribinos por WhatsApp y lo corregimos.</p>
     </div>
 
-    <p class="alternativa">
-      ¿No te carga el formulario?
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfxuow3PamYp5UG-qH-qAlO76OdIuo0nG3qOszzrj6l-1Vn4g/viewform" target="_blank" rel="noopener">Abrilo en una pestaña nueva</a>.
-    </p>
+    <!-- si el envío falla (sin señal, o el script no responde), la confirmación va por WhatsApp -->
+    <div class="caja-form formulario__respaldo" id="form-respaldo" hidden aria-live="polite">
+      <p><strong>No pudimos enviar tu confirmación.</strong> Tocá el botón y nos llega por WhatsApp, ya armada:</p>
+      <!-- ✏️ EDITAR: número de WhatsApp (549 + área + número) -->
+      <a class="boton-mapa" id="form-whatsapp" href="https://wa.me/5491137737433" target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-whatsapp"/></svg>Confirmar por WhatsApp</a>
+      <p class="formulario__reintento"><a href="#" id="form-reintentar">Volver a intentar</a></p>
+    </div>
 
     <!-- ✏️ EDITAR: qué sigue después de confirmar -->
     <div class="despues revelar">
-      <p><strong>¿Ya confirmaste?</strong> Gracias. Esto es lo que te puede servir ahora:</p>
+      <p><strong>Después de confirmar</strong>, esto te puede servir:</p>
       <div class="despues__enlaces">
         <a class="boton-mapa js-agendar" href="#" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-calendario"/></svg>Agendar</a>
         <a class="boton-mapa" href="#evento">Cómo llegar</a>
@@ -2101,64 +2155,112 @@ function parametro(nombre){
 })();
 
 
-/* ── Formulario embebido: carga, aviso si tarda, y scroll al tope ── */
+/* ── Formulario de confirmación: valida, envía al script y muestra el cierre ── */
 (function(){
-  var caja    = document.getElementById('caja-form');
-  var iframe  = document.getElementById('iframe-form');
-  var cartel  = document.getElementById('cargando-form');
-  if(!caja || !iframe || !cartel) return;
+  var form = document.getElementById('formulario');
+  if(!form) return;
+  var endpoint = (form.getAttribute('data-endpoint') || '').trim();
+  var clave = form.getAttribute('data-clave') || '';
+  var soloSi = document.getElementById('solo-si');
+  var error = document.getElementById('form-error');
+  var boton = document.getElementById('form-enviar');
+  var gracias = document.getElementById('form-gracias');
+  var respaldo = document.getElementById('form-respaldo');
+  var cargado = Date.now();
 
-  var cargas = 0;
+  /* si el link trae ?para=Nombre, el nombre ya viene puesto */
+  var invitacion = parametro('para').trim().replace(/\s+/g, ' ');
+  var nombreInput = form.querySelector('[name="nombre"]');
+  if(invitacion && /^[A-Za-z\u00C0-\u017F' .\-]{2,40}$/.test(invitacion) && nombreInput && !nombreInput.value) nombreInput.value = invitacion;
 
-  /* altura del iframe según la pantalla del formulario (ver data-alturas-*
-     en el HTML): la 1.ª es corta, la 2.ª larga, la final corta */
-  function ajustarAlto(n){
-    var esCelular = window.matchMedia && window.matchMedia('(max-width:560px)').matches;
-    var lista = (iframe.getAttribute(esCelular ? 'data-alturas-celular' : 'data-alturas-desktop') || '')
-      .split(',').map(function(x){ return parseInt(x, 10); }).filter(function(x){ return x > 0; });
-    if(!lista.length) return;
-    var alto = lista[Math.min(n, lista.length) - 1];
-    iframe.style.height = alto + 'px';
+  /* las preguntas de cantidad y comida solo si viene */
+  function mostrarSoloSi(){
+    var v = form.querySelector('[name="asiste"]:checked');
+    soloSi.hidden = !(v && v.value === 'si');
+  }
+  var radios = form.querySelectorAll('[name="asiste"]');
+  for(var i = 0; i < radios.length; i++) radios[i].addEventListener('change', mostrarSoloSi);
+  mostrarSoloSi();
+
+  function valor(nombre){ var el = form.querySelector('[name="' + nombre + '"]'); return el ? el.value.trim() : ''; }
+  function marcar(el, mal){ var campo = el.closest ? el.closest('.campo') : null; if(campo) campo.classList.toggle('invalido', !!mal); }
+
+  function datos(){
+    var asiste = form.querySelector('[name="asiste"]:checked');
+    return {
+      k: clave,
+      seg: Math.round((Date.now() - cargado) / 1000),
+      nombre: valor('nombre'),
+      asiste: asiste ? asiste.value : '',
+      personas: valor('personas'),
+      acompanantes: valor('acompanantes'),
+      restricciones: valor('restricciones'),
+      mensaje: valor('mensaje'),
+      sitio: valor('sitio'),
+      invitacion: invitacion
+    };
   }
 
-  /* si cambia el ancho (rotar el teléfono), se recalcula con la misma pantalla */
-  var esperaResize;
-  window.addEventListener('resize', function(){
-    clearTimeout(esperaResize);
-    esperaResize = setTimeout(function(){ if(cargas) ajustarAlto(cargas); }, 200);
-  });
+  function validar(d){
+    var ok = true;
+    marcar(nombreInput, d.nombre.length < 2); if(d.nombre.length < 2) ok = false;
+    var fs = form.querySelector('.campo--opciones'); fs.classList.toggle('invalido', !d.asiste); if(!d.asiste) ok = false;
+    error.hidden = ok; error.textContent = ok ? '' : 'Completá tu nombre y decinos si venís.';
+    return ok;
+  }
 
-  iframe.addEventListener('load', function(){
-    cargas++;
-    caja.classList.add('cargado');
-    ajustarAlto(cargas);
-
-    /* Google Forms recarga el iframe en cada "Siguiente", "Atrás" y
-       "Enviar". Después de la primera carga, llevamos la página al
-       borde superior del formulario para que se vea el principio de la
-       pantalla nueva y no un pedazo del medio. */
-    if(cargas > 1){
-      caja.scrollIntoView({ block:'start' });
+  /* el mismo mensaje, armado para WhatsApp (respaldo si el envío falla) */
+  function armarWhatsApp(d){
+    var t = 'Hola! Confirmo asistencia al casamiento.\nNombre: ' + d.nombre + '\nVoy: ' + (d.asiste === 'si' ? 'sí' : 'no');
+    if(d.asiste === 'si'){
+      t += '\nSomos: ' + (d.personas || '1');
+      if(d.acompanantes) t += '\nCon: ' + d.acompanantes;
+      if(d.restricciones) t += '\nRestricciones: ' + d.restricciones;
     }
+    if(d.mensaje) t += '\n' + d.mensaje;
+    var a = document.getElementById('form-whatsapp');
+    a.href = a.href.split('?')[0] + '?text=' + encodeURIComponent(t);
+  }
+
+  function mostrar(cual){
+    form.hidden = cual !== 'form';
+    gracias.hidden = cual !== 'gracias';
+    respaldo.hidden = cual !== 'respaldo';
+    (cual === 'form' ? form : (cual === 'gracias' ? gracias : respaldo)).scrollIntoView({ block:'center', behavior:'smooth' });
+  }
+
+  function agradecer(d){
+    var titulo = gracias.querySelector('.formulario__gracias-titulo');
+    titulo.textContent = titulo.getAttribute(d.asiste === 'si' ? 'data-si' : 'data-no');
+    mostrar('gracias');
+  }
+
+  function fallar(d){ armarWhatsApp(d); mostrar('respaldo'); }
+
+  document.getElementById('form-reintentar').addEventListener('click', function(e){ e.preventDefault(); mostrar('form'); });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var d = datos();
+    if(!validar(d)) return;
+    if(!endpoint || !window.fetch){ fallar(d); return; }   /* sin script configurado (o navegador muy viejo): por WhatsApp */
+
+    boton.disabled = true; boton.textContent = 'Enviando…';
+    var listo = false;
+    var reloj = setTimeout(function(){ if(!listo){ listo = true; boton.disabled = false; boton.textContent = 'Enviar confirmación'; fallar(d); } }, 15000);
+    fetch(endpoint, { method:'POST', body:JSON.stringify(d), headers:{ 'Content-Type':'text/plain;charset=utf-8' } })
+      .then(function(r){ return r.json(); })
+      .then(function(r){
+        if(listo) return; listo = true; clearTimeout(reloj);
+        boton.disabled = false; boton.textContent = 'Enviar confirmación';
+        if(r && r.ok) agradecer(d); else fallar(d);
+      })
+      .catch(function(){
+        if(listo) return; listo = true; clearTimeout(reloj);
+        boton.disabled = false; boton.textContent = 'Enviar confirmación';
+        fallar(d);
+      });
   });
-
-  /* Si el formulario está a la vista y en 6 s no cargó, ofrecemos
-     abrirlo aparte. El iframe es lazy: arrancamos a contar cuando se
-     acerca a la pantalla. */
-  function empezarAContar(){
-    setTimeout(function(){
-      if(!caja.classList.contains('cargado')) cartel.classList.add('tarda');
-    }, 6000);
-  }
-
-  if('IntersectionObserver' in window){
-    var obs = new IntersectionObserver(function(entradas){
-      if(entradas[0].isIntersecting){ empezarAContar(); obs.disconnect(); }
-    }, { rootMargin:'300px 0px' });
-    obs.observe(caja);
-  }else{
-    empezarAContar();
-  }
 })();
 
 
