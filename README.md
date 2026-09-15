@@ -1,6 +1,6 @@
 # Sitio del casamiento
 
-Sitio estático de una sola página, publicado gratis en GitHub Pages:
+Sitio estático de una sola página, publicado en GitHub Pages:
 **https://guillesantillan.github.io/casamiento/**
 
 Todo el sitio es **un archivo**: `index.html` (HTML + CSS + JS, sin
@@ -8,39 +8,7 @@ dependencias, sin build). Lo acompañan `og.jpg` (la imagen que muestra
 WhatsApp al pegar el link) y `foto-portada.webp` / `foto-portada.jpg` (la foto
 de la portada, recortada en vertical a 800×1013).
 
-> Este repositorio es público. Todo lo que está acá lo puede ver cualquiera.
-> No guardes acá claves, contraseñas ni datos que no quieras que se vean en el
-> sitio mismo.
-
 ---
-
-## Cómo editar textos y datos
-
-Abrí `index.html` con cualquier editor de texto y buscá `✏️ EDITAR`. Cada
-marca explica qué se puede cambiar ahí al lado. Las principales:
-
-| Qué | Dónde está |
-|---|---|
-| Título de la pestaña y texto de la tarjeta de WhatsApp | `<head>`, arriba de todo |
-| Fecha y hora del evento | el `<time id="fecha-evento">` de la portada. El atributo `datetime` es **la única fuente** para la cuenta de días y para "Agendar"; `data-fin`, `data-titulo` y `data-lugar` son lo que se guarda en el calendario |
-| Nombres, frase de apertura, botones de la portada | portada |
-| Foto de la portada | reemplazá `foto-portada.webp` y `foto-portada.jpg` por otras con el mismo nombre, vertical, ~800 px de ancho y menos de 200 KB |
-| Texto "Nosotros" | sección debajo de la portada |
-| Qué muestra el sitio después del casamiento | `data-gracias` y `data-album` en el `<time>` de la portada (ver más abajo) |
-| Lugar, dirección y link de Google Maps | tarjeta "Ceremonia y fiesta" (la dirección y el botón llevan el mismo link: cambiá los dos) |
-| Dress code | última línea de la tarjeta de "El evento" |
-| Fecha límite para confirmar | sección Confirmar, arriba del formulario |
-| Alias y titular de la cuenta | sección Regalos. El titular tiene que ser el nombre exacto que muestra el banco al transferir |
-| CBU (opcional) | bloque comentado en Regalos, listo para descomentar |
-| Número de WhatsApp de contacto | dos links `wa.me/...` (Regalos y final de Preguntas) |
-| Cronograma | bloques `.hito`; el ícono de cada uno se elige con `href="#ic-..."` (la lista está en el bloque de símbolos al principio del `<body>`) |
-| Preguntas frecuentes | bloques `<details>` |
-| Iniciales del monograma y firma del pie | símbolo `#monograma` y `<footer>` |
-| Colores | variables al principio del `<style>` (`--verde`, `--crema`, `--dorado`…) |
-
-Si cambia la **dirección del sitio** (nombre del repo o dominio propio), hay
-que actualizar a mano las dos URLs absolutas del `<head>` (`og:url` y
-`og:image`): WhatsApp las lee sin ejecutar JavaScript.
 
 ## Link personalizado por invitado
 
@@ -62,69 +30,17 @@ regresiva, la confirmación y el cronograma, y si `data-album` tiene un link
 (Google Photos, por ejemplo) el botón principal pasa a ser "Ver las fotos".
 Para ver cómo queda antes de tiempo: `…/casamiento/?vista=gracias`.
 
-## Cómo publicar un cambio
-
-Cualquier commit en `main` se publica solo en 1–2 minutos.
-
-- Desde la web: abrí `index.html` en GitHub, lápiz ✏️, editá, **Commit changes**.
-- Desde la compu: `git pull`, editás, `git commit -am "…"`, `git push`.
-
-Para comprobar que ya está: abrí la URL del sitio con `?x=1` al final (evita
-la caché del navegador).
-
 ## Formulario de confirmación (propio + Apps Script)
 
 El RSVP es un formulario de la propia página (nombre, si viene, cuántos son,
 acompañantes, restricciones alimentarias y mensaje). Al enviarlo, la página
-hace un `POST` a un **web app de Google Apps Script** (`apps-script/Codigo.gs`)
-que agrega una fila en una planilla de Google Sheets y, si querés, te avisa
+hace un `POST` a un **web app de Google Apps Script**
+que agrega una fila en una planilla de Google Sheets y, te avisa
 por mail. El script **solo agrega filas**: no lee ni devuelve datos, y la
 planilla sigue siendo privada de tu cuenta.
 
 Si el envío falla (sin señal, script caído) o `data-endpoint` está vacío, el
-botón arma la confirmación como mensaje de WhatsApp: nunca se pierde una.
-
-### Ponerlo en marcha (una sola vez, 10 minutos)
-
-1. **Planilla**: creá un Google Sheets vacío. De su URL copiá el id (lo que va
-   entre `/d/` y `/edit`).
-2. **Script**: entrá a [script.google.com](https://script.google.com) → *Nuevo
-   proyecto* → borrá lo que hay y pegá el contenido de `apps-script/Codigo.gs`
-   → guardá (ponele nombre, por ejemplo "Confirmaciones casamiento").
-3. **Propiedades** (⚙️ *Configuración del proyecto* → *Propiedades del script*
-   → *Agregar propiedad*):
-   - `SHEET_ID`: el id de la planilla.
-   - `TOKEN`: una clave cualquiera (por ejemplo `jess-guille-2027`). Tiene
-     que ser **la misma** que `data-clave` en el `<form>` de `index.html`.
-   - `AVISO_EMAIL` (opcional): tu mail, para recibir un aviso por confirmación.
-4. **Probar**: en el editor elegí la función `probar` y tocá ▶ *Ejecutar*. La
-   primera vez pide permisos (planilla y mail): aceptalos. Tiene que aparecer
-   una fila de prueba en la planilla (después borrala).
-5. **Desplegar**: *Implementar* → *Nueva implementación* → tipo *Aplicación
-   web* → *Ejecutar como*: **Yo** · *Quién tiene acceso*: **Cualquier usuario**
-   → *Implementar*. Copiá la URL que termina en `/exec`.
-6. **Conectar**: en `index.html`, en el `<form id="formulario">`, pegá esa URL
-   en `data-endpoint`. Commit y push. Probá desde el celular.
-
-Si más adelante cambiás el código del script: *Implementar* → *Administrar
-implementaciones* → ✏️ → *Versión: Nueva* → *Implementar*. **Si no creás
-versión nueva, la URL sigue sirviendo el código viejo.**
-
-### Columnas de la planilla
-
-`Fecha · Nombre · Asiste · Personas · Acompañantes · Restricciones · Mensaje · Invitación`
-(la última es el nombre que venía en el link `?para=`, si lo había). La hoja
-se llama "Respuestas" y se crea sola con la primera confirmación.
-
-### Seguridad, en corto
-
-La URL del script es pública (está en la página), pero lo único que hace es
-agregar una fila. Contra el spam hay una clave compartida, un campo trampa
-para bots, un tiempo mínimo en la página y validación de largos y valores;
-las celdas se guardan como texto (nada de fórmulas), y hay un freno global de
-40 envíos por minuto para que una inundación no agote la cuota diaria. El
-peor caso posible es tener que borrar filas basura. La planilla tiene que
-seguir siendo privada (no la compartas "con el link").
+botón arma la confirmación como mensaje de WhatsApp.
 
 ## Escena ilustrada de la portada (`escena/`)
 
@@ -135,7 +51,7 @@ al abrirse, la cámara "se aleja" desde el ombú y las capas van entrando
 (casa, pasto, cortaderas, flores), después las mariposas, el viento y los
 pétalos (vectoriales), y al final la foto y los textos. Si las imágenes no
 llegaron a tiempo, la escena aparece suave más tarde; sin WebP (iPhones muy
-viejos) no se muestra y el sitio queda igual que antes.
+viejos) no se muestra.
 
 | Archivo | Origen |
 |---|---|
@@ -197,10 +113,3 @@ con `?v=2` al final para que la vuelva a leer.
   Para volver a verla: abrí el link en una pestaña nueva.
 - `<meta name="robots" content="noindex">`: el sitio no aparece en buscadores;
   los invitados llegan por el link.
-
-## Seguridad
-
-No hay servidor ni secretos: lo único que "protege" el sitio es la cuenta de
-GitHub (activá la verificación en dos pasos) y la cuenta de Google donde vive
-el formulario. Cualquiera con el link puede responder el formulario; las
-respuestas se revisan a mano.
