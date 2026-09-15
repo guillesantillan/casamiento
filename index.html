@@ -276,6 +276,7 @@ html.animar .escena__plano--cerca{  transform:translateY(calc(var(--sy,0px) * .1
 html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.06)); }
 .escena__capa{ position:absolute; display:block; height:auto; opacity:0; transition:opacity 1.2s ease; }
 .escena__capa.cargada{ opacity:1; }
+.escena__ombu.cargada{ opacity:.55; }   /* las copas son una sombra de follaje, no tinta */
 .escena__pasto{
   left:0; right:0; bottom:-6px; height:78px;
   background:url("escena/pasto.webp") repeat-x center bottom / auto 100%;
@@ -293,7 +294,7 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
 }
 @media (max-width:859px){
   /* en celular, las flores tienen su propia franja debajo del botón */
-  .portada{ padding-bottom:230px; }
+  .portada{ padding-bottom:190px; }
   html.con-escena .portada .hojita{ display:none; }   /* las flores hacen de adorno */
 }
 /* el borde inferior de la portada se funde con el fondo de "Nosotros" (las flores no se ven cortadas) */
@@ -307,23 +308,23 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
 .escena__ombu--izq{ left:-44%; top:-5%; width:108%; }
 .escena__ombu--der{ right:-28%; top:-3%; width:82%; }
 .escena__casa{ left:0; top:1%; width:100%; }
-.escena__cortadera--izq{ left:0; bottom:0; width:38%; }
-.escena__cortadera--der{ right:0; bottom:0; width:38%; }
-.escena__ceibo{ left:2%; bottom:0; width:40%; }
-.escena__pasionaria{ left:37%; bottom:-1%; width:26%; }
+.escena__cortadera--izq{ left:0; bottom:0; width:30%; }
+.escena__cortadera--der{ right:0; bottom:0; width:30%; }
+.escena__ceibo{ left:3%; bottom:0; width:33%; }
+.escena__pasionaria{ left:36%; bottom:-1%; width:21%; }
 .escena__jacaranda{ display:none; }   /* en celular el jardín lleva cinco plantas; el jacarandá va solo en PC */
-.escena__rosas{ right:4%; bottom:-2%; width:34%; }
+.escena__rosas{ right:6%; bottom:-2%; width:27%; }
 @media (min-width:860px){
   .escena{ transform-origin:14% 8%; }
   .escena__ombu--izq{ left:-16%; top:-24%; width:50%; }
   .escena__ombu--der{ right:-12%; top:-16%; width:46%; }
   .escena__casa{ left:50%; top:24%; width:44%; }
-  .escena__cortadera--izq{ left:0; bottom:0; width:15%; }
-  .escena__cortadera--der{ right:0; bottom:0; width:15%; }
-  .escena__ceibo{ left:1%; bottom:0; width:14%; }
-  .escena__pasionaria{ left:12%; bottom:-2%; width:8%; }
-  .escena__jacaranda{ display:block; right:1%; bottom:0; width:17%; }
-  .escena__rosas{ right:15%; bottom:-3%; width:10%; }
+  .escena__cortadera--izq{ left:1%; bottom:0; width:12%; }
+  .escena__cortadera--der{ right:1%; bottom:0; width:12%; }
+  .escena__ceibo{ left:2%; bottom:0; width:11%; }
+  .escena__pasionaria{ left:11%; bottom:-2%; width:6.5%; }
+  .escena__jacaranda{ display:block; right:2%; bottom:0; width:13%; }
+  .escena__rosas{ right:13%; bottom:-3%; width:8%; }
   .escena__pasto{ height:100px; }
   .escena__velo{
     background:
@@ -339,6 +340,7 @@ html.animar .ala--der{ transform-origin:0% 50%; animation-delay:.05s; }
 html.animar .vuelo{ animation:volar 26s ease-in-out infinite alternate; }
 html.animar .vuelo--2{ animation-duration:31s; animation-delay:-9s; }
 html.animar .vuelo--3{ animation-duration:23s; animation-delay:-15s; }
+.racha, .petalos{ display:none; }   /* ráfagas y pétalos: de más; quedan solo las mariposas */
 html.animar .racha{ stroke-dasharray:.32 .68; stroke-dashoffset:1.32; opacity:0; animation:soplar 7s ease-in-out infinite; }
 html.animar .racha--2{ animation-delay:3.4s; }
 html.animar .petalo{ opacity:0; animation:caer 13s linear infinite; }
@@ -386,7 +388,7 @@ html.animar .escena.meciendo .escena__ombu--der{ transform-origin:65% 0; animati
 html.sobre.escena-intro{ --retraso:3s; }   /* la portada arranca cuando la cámara ya casi llegó */
 html.escena-intro .escena{ animation:alejar-escena 4.2s cubic-bezier(.2,.65,.2,1) both; }
 html.escena-intro .escena__cielo{ opacity:0; animation:aparecer 1.2s ease-out .3s both; }
-html.escena-intro .escena__ombu{ opacity:1; animation:deriva 4.2s cubic-bezier(.2,.65,.2,1) both; }
+html.escena-intro .escena__ombu{ opacity:.55; animation:deriva 4.2s cubic-bezier(.2,.65,.2,1) both; }
 html.escena-intro .escena__casa{ opacity:0; animation:llegar 1.4s var(--suave) 1.3s both; }
 html.escena-intro .escena__pasto{ opacity:1; animation:subir-pasto 1.2s var(--suave) 1.9s both; }
 html.escena-intro .escena__cortadera--izq{ opacity:1; animation:brotar-izq 1.4s var(--suave) 2s both; }
@@ -407,6 +409,7 @@ html.escena-intro .escena__velo{ opacity:0; animation:aparecer 1.4s ease-out 3.3
 @keyframes brotar-flor{ 0%{ opacity:0; transform:translateY(22%) scale(.9); } 65%{ opacity:1; transform:translateY(-2%) scale(1.03); } 100%{ opacity:1; transform:none; } }
 .escena__cortadera{ transform-origin:50% 100%; }
 .escena__flor{ transform-origin:50% 100%; }
+.escena__flor.cargada, .escena__cortadera.cargada{ opacity:.92; }
 /* el ombú derecho está espejado: su animación conserva el espejo */
 html.escena-intro .escena__ombu--der{ animation-name:deriva-der; }
 @keyframes deriva-der{ from{ transform:scaleX(-1) translateY(-2.5%); } to{ transform:scaleX(-1); } }
@@ -674,12 +677,11 @@ html.con-escena .sobre__copa, html.con-escena .sobre__planta, html.con-escena .s
 .sobre__copa--izq{ right:2%; transform:scaleX(-1); }
 .sobre__copa--der{ left:2%; }
 .sobre__planta{ bottom:0; width:auto; transform-origin:50% 100%; }
-.sobre__planta--cortadera-izq{ right:min(40%,300px); bottom:-2%; height:clamp(150px,30vh,290px); }
-.sobre__planta--cortadera-der{ left:min(40%,300px);  bottom:-2%; height:clamp(150px,30vh,290px); transform:scaleX(-1); }
-.sobre__planta--amancay{   right:min(24%,150px); bottom:-1%; height:clamp(150px,28vh,260px); }
-.sobre__planta--jacaranda{ left:min(20%,130px);  bottom:-2%; height:clamp(150px,32vh,300px); }
-.sobre__planta--rosas{     right:5%; bottom:-3%; height:clamp(120px,22vh,200px); }
-.sobre__planta--malvon{    left:6%; bottom:-3%; height:clamp(130px,24vh,210px); }
+.sobre__planta--cortadera-izq{ right:min(38%,280px); bottom:-2%; height:clamp(130px,26vh,240px); }
+.sobre__planta--cortadera-der{ left:min(38%,280px);  bottom:-2%; height:clamp(130px,26vh,240px); transform:scaleX(-1); }
+.sobre__planta--amancay{   right:min(22%,140px); bottom:-1%; height:clamp(130px,24vh,220px); }
+.sobre__planta--jacaranda{ left:min(10%,70px);  bottom:-2%; height:clamp(140px,27vh,250px); }
+.sobre__planta--rosas{     right:5%; bottom:-3%; height:clamp(110px,20vh,180px); }
 .sobre__pasto{
   left:0; right:0; bottom:0; height:clamp(70px,11vh,110px);
   background:
@@ -688,17 +690,16 @@ html.con-escena .sobre__copa, html.con-escena .sobre__planta, html.con-escena .s
 }
 .sobre__hoja--der .sobre__pasto{ background-position:78% bottom, 0 0; }
 /* aparecen cuando la imagen cargó (así también funciona con señal lenta), en orden, y luego se mecen */
-html.sobre-visible .sobre__copa.cargada{ opacity:.22; animation:asomar 2.2s ease-out both, susurrar 12s ease-in-out 2.2s infinite; transform-origin:40% 0; }
+html.sobre-visible .sobre__copa.cargada{ opacity:.15; animation:asomar 2.2s ease-out both, susurrar 12s ease-in-out 2.2s infinite; transform-origin:40% 0; }
 html.sobre-visible .sobre__copa--izq.cargada{ animation:asomar 2.2s ease-out both, susurrar-der 12s ease-in-out 2.2s infinite; transform-origin:60% 0; }
 html.sobre-visible .sobre__copa--der.cargada{ animation:asomar 2.2s ease-out .3s both, susurrar 13s ease-in-out -4s infinite; }
 html.sobre-visible .sobre__pasto.cargada{ opacity:.55; animation:asomar 1.4s ease-out .2s both; }
-html.sobre-visible .sobre__planta.cargada{ opacity:1; animation:brotar-planta 1.6s var(--suave) var(--d,0s) both, mecer 8s ease-in-out calc(var(--d,0s) + 1.6s) infinite; }
-html.sobre-visible .sobre__planta--cortadera-izq.cargada{ --d:.3s; opacity:.75; animation-name:brotar-planta, mecer-cortadera; animation-duration:1.6s, 6s; }
-html.sobre-visible .sobre__planta--cortadera-der.cargada{ --d:.45s; opacity:.75; animation-name:brotar-der-planta, mecer-cortadera-der; animation-duration:1.6s, 6.8s; }
+html.sobre-visible .sobre__planta.cargada{ opacity:.9; animation:brotar-planta 1.6s var(--suave) var(--d,0s) both, mecer 8s ease-in-out calc(var(--d,0s) + 1.6s) infinite; }
+html.sobre-visible .sobre__planta--cortadera-izq.cargada{ --d:.3s; opacity:.6; animation-name:brotar-planta, mecer-cortadera; animation-duration:1.6s, 6s; }
+html.sobre-visible .sobre__planta--cortadera-der.cargada{ --d:.45s; opacity:.6; animation-name:brotar-der-planta, mecer-cortadera-der; animation-duration:1.6s, 6.8s; }
 html.sobre-visible .sobre__planta--amancay.cargada{ --d:.7s; animation-duration:1.6s, 9s; }
 html.sobre-visible .sobre__planta--jacaranda.cargada{ --d:.9s; animation-duration:1.6s, 8.4s; }
 html.sobre-visible .sobre__planta--rosas.cargada{ --d:1.15s; animation-duration:1.6s, 7.2s; }
-html.sobre-visible .sobre__planta--malvon.cargada{ --d:1.3s; animation-duration:1.6s, 7.8s; }
 @keyframes asomar{ from{ opacity:0; } }
 @keyframes brotar-planta{ from{ opacity:0; transform:translateY(14%) scale(.94); } to{ transform:none; } }
 @keyframes brotar-der-planta{ from{ opacity:0; transform:scaleX(-1) translateY(14%) scale(.94); } to{ transform:scaleX(-1); } }
@@ -831,8 +832,8 @@ html.con-escena .lamina-caja{ display:block; }
 .lamina-caja--izq{ left:2%; bottom:-2%; width:min(38vw,240px); }
 .lamina-caja--der{ right:2%; bottom:-2%; width:min(38vw,240px); }
 .lamina-caja--arriba-izq{ left:-14%; top:0; width:min(60vw,360px); opacity:.16; }
-.lamina-caja{ opacity:.9; }
-.lamina-caja--tenue{ opacity:.7; }
+.lamina-caja{ opacity:.62; }
+.lamina-caja--tenue{ opacity:.5; }
 html.animar .lamina{ animation:mecer 8s ease-in-out infinite; }
 html.animar .lamina-caja--der .lamina{ animation-duration:9.5s; animation-delay:-3s; }
 html.animar .lamina--ombu{ animation:susurrar 12s ease-in-out infinite; transform-origin:30% 0; }
@@ -844,7 +845,7 @@ html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-o
   /* por altura (con tope del 78 % de la sección, así nunca se cortan) y con un
      ancho máximo que depende del espacio libre a los costados de la columna */
   .lamina-caja--izq, .lamina-caja--der{
-    width:auto; height:min(clamp(200px,36vh,320px), 78%); bottom:0;
+    width:auto; height:min(clamp(150px,26vh,240px), 70%); bottom:0;
     max-width:clamp(120px, calc(50vw - 340px), 300px);
     display:flex; align-items:flex-end;
   }
@@ -856,8 +857,9 @@ html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-o
 @media (max-width:859px){
   /* en celular el texto ocupa todo el ancho: cada sección termina con una franja
      propia donde van las láminas, chicas, sin pisar el contenido */
-  html.con-escena section{ padding-bottom:calc(clamp(64px,9vw,88px) + 100px); }
-  .lamina-caja--izq, .lamina-caja--der{ width:auto; height:162px; bottom:-6px; }
+  html.con-escena section{ padding-bottom:calc(clamp(64px,9vw,88px) + 64px); }
+  .lamina-caja--izq, .lamina-caja--der{ width:auto; height:124px; bottom:-6px; }
+  html.con-escena .lamina-caja--solo-pc{ display:none; }   /* en celular, una sola lámina por sección */
   .lamina-caja--izq{ left:1%; }
   .lamina-caja--der{ right:1%; }
   .lamina-caja--izq .lamina, .lamina-caja--der .lamina{ width:auto; height:100%; }
@@ -873,8 +875,8 @@ html.animar .lamina-caja--arriba-der .lamina{ animation:susurrar-der 13s ease-in
 @media (min-width:860px){ .lamina-caja--arriba-der{ right:-6%; top:0; width:380px; } }
 @media (max-width:859px){
   /* en celular, las flores de "Nosotros" van debajo del texto, no encima */
-  html.con-escena section.seccion-nosotros{ padding-bottom:190px; }
-  .seccion-nosotros .lamina-caja--izq, .seccion-nosotros .lamina-caja--der{ height:162px; bottom:-4px; }
+  html.con-escena section.seccion-nosotros{ padding-bottom:150px; }
+  .seccion-nosotros .lamina-caja--izq, .seccion-nosotros .lamina-caja--der{ height:124px; bottom:-4px; }
   .seccion-nosotros .lamina-caja--arriba-der{ opacity:.09; }
 }
 /* mariposa que cruza la sección de vez en cuando */
@@ -1198,7 +1200,7 @@ footer{
 }
 footer > *{ position:relative; }
 footer .rama-fondo{ position:absolute; bottom:auto; top:-6%; right:-70px; height:112%; width:auto; color:var(--crema); opacity:.2; }
-footer .lamina-caja{ position:absolute; opacity:.6; }
+footer .lamina-caja{ position:absolute; opacity:.45; }
 footer .monograma{ display:block; width:68px; height:68px; margin:0 auto 22px; color:rgba(250,247,241,.9); }
 footer h2{ font-size:clamp(30px,6vw,42px); font-style:italic; font-weight:400; }
 footer .pie__firma{
@@ -1264,7 +1266,6 @@ footer :focus-visible{ outline-color:var(--crema); }
     <div class="sobre__pasto"></div>
     <img class="sobre__planta sobre__planta--cortadera-der" data-src="escena/cortadera.webp" alt="" decoding="async">
     <img class="sobre__planta sobre__planta--jacaranda" data-src="escena/jacaranda.webp" alt="" decoding="async">
-    <img class="sobre__planta sobre__planta--malvon" data-src="escena/malvon.webp" alt="" decoding="async">
     <svg class="sobre__rama" viewBox="0 0 300 620" aria-hidden="true"><g transform="translate(300 0) scale(-1 1)"><path class="tallo" pathLength="1" d="M250 600C40 520 20 140 230 20"/><path class="hoja" pathLength="1" d="M203.3 575.3Q214.9 547.5 195.9 517.8Q185 551.3 203.3 575.3ZM161.7 538.4Q137 524 106.6 538.2Q136.9 552.6 161.7 538.4ZM128.8 492.5Q148.9 474.4 144.9 442.9Q123.1 466 128.8 492.5ZM104.4 439.7Q88.8 419.4 58.8 421Q79 443.1 104.4 439.7ZM88.9 381.9Q111.2 372.7 117.1 345.1Q92 358 88.9 381.9ZM82.4 321.4Q74.7 300.1 49.1 293.4Q60.1 317.4 82.4 321.4ZM84.9 260.1Q105.9 258.2 118.1 236.7Q93.7 241 84.9 260.1ZM96.8 200.2Q96 180.6 76.6 168.3Q79.4 191.1 96.8 200.2ZM118 143.6Q135.6 147.8 151.4 133.8Q130.5 130.5 118 143.6ZM148.8 92.5Q154.1 76.8 142.5 61.2Q137.8 80 148.8 92.5ZM189.3 48.8Q201.3 57.9 218 52.5Q203.2 43 189.3 48.8Z"/><path class="flor" pathLength="1" d="M143.2 515.1Q150.2 502.3 162.9 495.2M162.9 495.2Q175.3 502.9 182.6 492Q172.2 483.9 162.9 495.2ZM162.9 495.2Q159.4 509.4 172.1 513Q176.5 500.6 162.9 495.2ZM162.9 495.2Q148.3 496.3 148.8 509.4Q162 509.8 162.9 495.2ZM162.9 495.2Q157.4 481.7 145 486.2Q148.8 498.8 162.9 495.2ZM162.9 495.2Q174 485.8 165.9 475.4Q155.1 482.9 162.9 495.2ZM159.3 495.2a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0ZM87.7 374.9Q73.6 378.8 59.7 374.7M59.7 374.7Q56.7 361.3 44.6 363.5Q46 375.8 59.7 374.7ZM59.7 374.7Q71.5 367.7 65.6 356.8Q54.4 362 59.7 374.7ZM59.7 374.7Q69.9 383.8 78.5 374.8Q70.1 365.7 59.7 374.7ZM59.7 374.7Q54.2 387.2 65.3 392.6Q71.4 381.8 59.7 374.7ZM59.7 374.7Q46 373.3 44.4 385.6Q56.5 388 59.7 374.7ZM56.1 374.7a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0ZM92.3 217.5Q106.5 214.3 120.3 219M120.3 219Q122.5 231.7 133.9 230.1Q133.1 218.5 120.3 219ZM120.3 219Q108.9 225 114 235.4Q124.7 231.1 120.3 219ZM120.3 219Q111 210.1 102.7 218.1Q110.2 226.9 120.3 219ZM120.3 219Q125.9 207.5 115.7 202Q109.6 211.8 120.3 219ZM120.3 219Q133 220.8 135 209.4Q123.8 206.7 120.3 219ZM116.7 219a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0ZM155.2 84.2Q143 76.2 136.8 63.1M136.8 63.1Q143.8 53.4 135.3 46.7Q128.1 54.8 136.8 63.1ZM136.8 63.1Q148.2 66.8 151.9 56.6Q142 52.3 136.8 63.1ZM136.8 63.1Q136.8 75 147.6 75.4Q148.6 64.7 136.8 63.1ZM136.8 63.1Q125.4 66.8 128.4 77.2Q138.9 74.9 136.8 63.1ZM136.8 63.1Q129.7 53.4 120.8 59.4Q126.2 68.7 136.8 63.1ZM133.2 63.1a3.6 3.6 0 1 0 7.2 0a3.6 3.6 0 1 0 -7.2 0Z"/></g></svg>
   </div>
   <div class="sobre__velo"></div>
@@ -1442,7 +1443,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 <!-- ═══════════════ NOSOTROS ═══════════════ -->
 <section id="nosotros" class="seccion-nosotros">
   <span class="lamina-caja lamina-caja--izq"><img class="lamina lamina--jazmin" src="escena/jazmin.webp" alt="" loading="lazy" decoding="async"></span>
-  <span class="lamina-caja lamina-caja--der"><img class="lamina lamina--lavanda" src="escena/lavanda.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--der lamina-caja--solo-pc"><img class="lamina lamina--lavanda" src="escena/lavanda.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--arriba-der"><img class="lamina lamina--ombu-der" src="escena/ombu-der.webp" alt="" loading="lazy" decoding="async"></span>
   <div class="envoltorio">
     <div class="nosotros revelar">
@@ -1458,7 +1459,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ EL EVENTO ═══════════════ -->
 <section id="evento">
-  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--malvon" src="escena/malvon.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue lamina-caja--solo-pc"><img class="lamina lamina--malvon" src="escena/malvon.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--der"><img class="lamina lamina--jacaranda" src="escena/jacaranda.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--arriba-izq"><img class="lamina lamina--ombu-izq" src="escena/ombu-izq.webp" alt="" loading="lazy" decoding="async"></span>
   <svg class="cruce cruce--1" viewBox="-18 -18 36 36" aria-hidden="true"><g class="vaiven"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-9.9 -9.9 -15.4 -2.2 -9.9 1.6 C-13.2 6.1 -5.5 7.7 0 1.6Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8"/><path d="M-6.6 -2.8 a2 2 0 1 0 .1 0" fill="#c79a98" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-9.9 -9.9 -15.4 -2.2 -9.9 1.6 C-13.2 6.1 -5.5 7.7 0 1.6Z" fill="#c9a46a" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-6.6 -2.8 a2 2 0 1 0 .1 0" fill="#c79a98" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -3.8 v7.7" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></svg>
@@ -1505,7 +1506,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 <section id="confirmar" class="seccion-alterna">
   <!-- amancay (Alstroemeria aurea, Witte 1868): la flor de la Patagonia, discreta -->
   <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--amancay" src="escena/amancay.webp" alt="" loading="lazy" decoding="async"></span>
-  <span class="lamina-caja lamina-caja--der lamina-caja--tenue"><img class="lamina lamina--jazmin" src="escena/jazmin.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--der lamina-caja--tenue lamina-caja--solo-pc"><img class="lamina lamina--jazmin" src="escena/jazmin.webp" alt="" loading="lazy" decoding="async"></span>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Contanos si venís</p>
@@ -1574,7 +1575,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ REGALOS ═══════════════ -->
 <section id="regalos">
-  <span class="lamina-caja lamina-caja--izq"><img class="lamina lamina--rosas" src="escena/rosas.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--izq lamina-caja--solo-pc"><img class="lamina lamina--rosas" src="escena/rosas.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--der lamina-caja--tenue"><img class="lamina lamina--lavanda" src="escena/lavanda.webp" alt="" loading="lazy" decoding="async"></span>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
@@ -1626,7 +1627,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 <!-- ═══════════════ CRONOGRAMA ═══════════════ -->
 <section id="cronograma" class="seccion-alterna">
   <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--ceibo" src="escena/ceibo.webp" alt="" loading="lazy" decoding="async"></span>
-  <span class="lamina-caja lamina-caja--der lamina-caja--tenue"><img class="lamina lamina--cortadera-der" src="escena/cortadera.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--der lamina-caja--tenue lamina-caja--solo-pc"><img class="lamina lamina--cortadera-der" src="escena/cortadera.webp" alt="" loading="lazy" decoding="async"></span>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Hora por hora</p>
@@ -1717,7 +1718,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ PREGUNTAS ═══════════════ -->
 <section id="preguntas">
-  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--amancay" src="escena/amancay.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue lamina-caja--solo-pc"><img class="lamina lamina--amancay" src="escena/amancay.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--der lamina-caja--tenue"><img class="lamina lamina--pasionaria" src="escena/pasionaria.webp" alt="" loading="lazy" decoding="async"></span>
   <svg class="cruce cruce--2" viewBox="-18 -18 36 36" aria-hidden="true"><g class="vaiven"><g class="mariposa"><g class="ala ala--izq"><path d="M0 0 C-8.1 -8.1 -12.6 -1.8 -8.1 1.3 C-10.8 5 -4.5 6.3 0 1.3Z" fill="#d9b7b3" stroke="#9c7a45" stroke-width=".8"/><path d="M-5.4 -2.2 a1.6 1.6 0 1 0 .1 0" fill="#c9a46a" opacity=".7"/></g><g class="ala ala--der"><path d="M0 0 C-8.1 -8.1 -12.6 -1.8 -8.1 1.3 C-10.8 5 -4.5 6.3 0 1.3Z" fill="#d9b7b3" stroke="#9c7a45" stroke-width=".8" transform="scale(-1 1)"/><path d="M-5.4 -2.2 a1.6 1.6 0 1 0 .1 0" fill="#c9a46a" opacity=".7" transform="scale(-1 1)"/></g><path d="M0 -3.1 v6.3" stroke="#3d5140" stroke-width="1.2" stroke-linecap="round"/></g></g></svg>
   <div class="envoltorio">
