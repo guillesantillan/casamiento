@@ -122,8 +122,8 @@ viejos) no se muestra y el sitio queda igual que antes.
 | `pasto.webp` | *Trisetum flavescens*, *Flora Londinensis* (1777) |
 | `amancay.webp` | *Alstroemeria aurea*, Heinrich Witte, *Flora* (1868) |
 | `jazmin.webp` | *Jasminum officinale*, *The Botanical Magazine* pl. 31 (1787) |
-| `lavanda.webp` | *Lavandula vera*, Köhler, *Medizinal-Pflanzen* (1887) |
-| `malvon.webp` | *Pelargonium*, *The Botanical Magazine* pl. 493 (1800) |
+| `rosa-pontiana.webp`, `rosa-burgundiaca.webp`, `rosa-regalis.webp`, `rosa-centifolia.webp`, `rosa-purpurea.webp`, `rosa-sertulata.webp` | Pierre-Joseph Redouté, *Les Roses* (1817–1824) |
+| `mariposa-izq.webp`, `mariposa-der.webp` | *Aporia crataegi*, W. F. Kirby, *British and European Butterflies and Moths* (1882), en dos mitades para aletear |
 
 Las mismas láminas reaparecen, tenues y meciéndose, en las demás secciones
 (`.lamina-caja` en el HTML de cada sección; no pesan más porque ya están
