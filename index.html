@@ -866,9 +866,10 @@ html.animar .lamina-caja--arriba-der .lamina{ animation:susurrar-der 13s ease-in
   .seccion-nosotros .lamina-caja--arriba-der{ opacity:.09; }
 }
 /* mariposa que cruza la sección de vez en cuando */
-.cruce{ position:absolute; top:22%; left:0; width:34px; height:34px; pointer-events:none; opacity:0; }
+/* cruzan por la franja de arriba de la sección (el título), nunca por detrás de las tarjetas */
+.cruce{ position:absolute; top:clamp(24px,5%,60px); left:0; width:34px; height:34px; pointer-events:none; opacity:0; }
 html.animar .cruce{ animation:cruzar 34s linear infinite; }
-html.animar .cruce--2{ top:60%; animation-duration:41s; animation-delay:-19s; }
+html.animar .cruce--2{ top:clamp(40px,8%,90px); animation-duration:41s; animation-delay:-19s; }
 html.animar .cruce .vaiven{ animation:vaiven 4.2s ease-in-out infinite; }
 html.animar .cruce .ala{ transform-box:fill-box; animation:aletear .95s ease-in-out infinite alternate; }
 html.animar .cruce .ala--izq{ transform-origin:100% 50%; }
