@@ -121,6 +121,7 @@ viejos) no se muestra y el sitio queda igual que antes.
 | `rosas.webp` | Pierre-Joseph Redouté, *Choix des plus belles fleurs* (1827) |
 | `cortadera.webp` | *Cortaderia selloana*, dibujo a línea (dominio público) |
 | `pasto.webp` | *Trisetum flavescens*, *Flora Londinensis* (1777) |
+| `cardo.webp` | *Cirsium heterophyllum*, Jacob Sturm, *Deutschlands Flora in Abbildungen* (1796) |
 
 Las mismas láminas reaparecen, tenues y meciéndose, en las demás secciones
 (`.lamina-caja` en el HTML de cada sección; no pesan más porque ya están

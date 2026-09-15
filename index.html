@@ -251,6 +251,11 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
   /* en celular, las flores tienen su propia franja debajo del botón */
   .portada{ padding-bottom:230px; }
 }
+/* el borde inferior de la portada se funde con el fondo de "Nosotros" (las flores no se ven cortadas) */
+.portada::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:72px; pointer-events:none; z-index:0;
+  background:linear-gradient(180deg, rgba(242,237,226,0) 0%, var(--crema-hondo) 100%);
+}
 .escena.viva .escena__velo{ opacity:1; }
 
 /* posiciones en celular (porcentajes de la portada) */
@@ -720,13 +725,26 @@ html.con-escena .lamina-caja{ display:block; }
 html.animar .lamina{ animation:mecer 8s ease-in-out infinite; }
 html.animar .lamina-caja--der .lamina{ animation-duration:9.5s; animation-delay:-3s; }
 html.animar .lamina--ombu{ animation:susurrar 12s ease-in-out infinite; transform-origin:30% 0; }
+html.animar .lamina--cardo{ animation-duration:10s; animation-delay:-5s; }
 html.animar .lamina--cortadera{ animation:mecer-cortadera 6s ease-in-out infinite; }
 html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-out -2s infinite; }
 .lamina--cortadera-der{ transform:scaleX(-1); }
 @media (min-width:860px){
-  .lamina-caja--izq{ left:-2%; width:220px; }
-  .lamina-caja--der{ right:-2%; width:220px; }
+  /* el ancho depende del espacio libre a los costados de la columna de texto */
+  .lamina-caja--izq{ left:-2%; width:clamp(120px, calc(50vw - 330px), 220px); }
+  .lamina-caja--der{ right:-2%; width:clamp(120px, calc(50vw - 330px), 220px); }
   .lamina-caja--arriba-izq{ left:-6%; top:-10%; width:380px; }
+}
+@media (max-width:859px){
+  /* en celular el texto ocupa todo el ancho: cada sección termina con una franja
+     propia donde van las láminas, chicas, sin pisar el contenido */
+  html.con-escena section{ padding-bottom:calc(clamp(64px,9vw,88px) + 84px); }
+  .lamina-caja--izq, .lamina-caja--der{ width:auto; height:136px; bottom:-6px; }
+  .lamina-caja--izq{ left:-3%; }
+  .lamina-caja--der{ right:-3%; }
+  .lamina-caja--izq .lamina, .lamina-caja--der .lamina{ width:auto; height:100%; }
+  .lamina-caja--arriba-izq{ opacity:.18; }
+  footer .lamina-caja--izq, footer .lamina-caja--der{ height:110px; }
 }
 /* "Nosotros": flores, ombú y pasto a los costados, con el texto en el medio */
 .seccion-nosotros{ position:relative; overflow:hidden; }
@@ -742,9 +760,8 @@ html.animar .lamina-caja--arriba-der .lamina{ animation:susurrar-der 13s ease-in
 @media (min-width:860px){ .lamina-caja--arriba-der{ right:-6%; top:-14%; width:380px; } }
 @media (max-width:859px){
   /* en celular, las flores de "Nosotros" van debajo del texto, no encima */
-  section.seccion-nosotros{ padding-bottom:170px; }
-  .seccion-nosotros .lamina-caja--izq{ width:34vw; left:-4%; bottom:-2%; }
-  .seccion-nosotros .lamina-caja--der{ width:30vw; right:-3%; bottom:-2%; }
+  html.con-escena section.seccion-nosotros{ padding-bottom:196px; }
+  .seccion-nosotros .lamina-caja--izq, .seccion-nosotros .lamina-caja--der{ height:160px; bottom:-4px; }
   .seccion-nosotros .lamina-caja--arriba-der{ opacity:.16; }
 }
 /* mariposa que cruza la sección de vez en cuando */
@@ -1357,6 +1374,8 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ CONFIRMACIÓN ═══════════════ -->
 <section id="confirmar" class="seccion-alterna">
+  <!-- cardo (Jacob Sturm, Deutschlands Flora, 1796): la flor violeta de la pampa, discreta -->
+  <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--cardo" src="escena/cardo.webp" alt="" loading="lazy" decoding="async"></span>
   <svg class="rama-fondo der" aria-hidden="true" viewBox="0 0 300 620"><use href="#rama-arco"/></svg>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
@@ -1748,7 +1767,7 @@ var ESCENA = (function(){
     cajas.forEach(function(c){
       var r = c.getBoundingClientRect();
       if(r.bottom < -200 || r.top > vh + 200) return;
-      var vy = (r.top + r.height / 2 - vh / 2) * -0.10;
+      var vy = (r.top + r.height / 2 - vh / 2) * (vh > window.innerWidth ? -0.04 : -0.10);
       c.style.setProperty('--vy', vy.toFixed(1) + 'px');
     });
   }
