@@ -121,8 +121,10 @@ se llama "Respuestas" y se crea sola con la primera confirmación.
 La URL del script es pública (está en la página), pero lo único que hace es
 agregar una fila. Contra el spam hay una clave compartida, un campo trampa
 para bots, un tiempo mínimo en la página y validación de largos y valores;
-las celdas se guardan como texto (nada de fórmulas). El peor caso posible es
-tener que borrar filas basura.
+las celdas se guardan como texto (nada de fórmulas), y hay un freno global de
+40 envíos por minuto para que una inundación no agote la cuota diaria. El
+peor caso posible es tener que borrar filas basura. La planilla tiene que
+seguir siendo privada (no la compartas "con el link").
 
 ## Escena ilustrada de la portada (`escena/`)
 

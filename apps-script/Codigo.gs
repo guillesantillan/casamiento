@@ -31,6 +31,7 @@ function doPost(e) {
     if (token && d.k !== token) return responder({ ok: false, error: 'clave' });
     if (d.sitio) return responder({ ok: true });                       // un bot llenó el campo oculto: fingimos éxito
     if (!(Number(d.seg) >= 3)) return responder({ ok: false, error: 'rapido' });
+    if (!hayLugar()) return responder({ ok: false, error: 'ocupado' });   // freno global: no más de 40 envíos por minuto
 
     /* validación: largos máximos y valores permitidos */
     var nombre = limpiar(d.nombre, 80);
@@ -80,6 +81,20 @@ function doPost(e) {
 /* Si alguien abre la URL en el navegador, no ve nada útil. */
 function doGet() {
   return ContentService.createTextOutput('ok').setMimeType(ContentService.MimeType.TEXT);
+}
+
+/* Límite global: si alguien inunda el script, deja de guardar por un rato
+   en vez de agotar la cuota diaria; los invitados reales ven el respaldo por WhatsApp. */
+function hayLugar() {
+  try {
+    var cache = CacheService.getScriptCache();
+    var clave = 'envios-' + Math.floor(Date.now() / 60000);
+    var n = Number(cache.get(clave) || 0) + 1;
+    cache.put(clave, String(n), 120);
+    return n <= 40;
+  } catch (err) {
+    return true;
+  }
 }
 
 function responder(obj) {
