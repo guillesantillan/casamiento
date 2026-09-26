@@ -26,7 +26,7 @@ sitio se ve normal. Sin el parámetro no pasa nada.
 
 Pasadas unas horas del fin del evento (`data-fin`), el sitio cambia solo:
 "Nos casamos" pasa a ser el texto de `data-gracias`, se ocultan la cuenta
-regresiva, la confirmación y el cronograma, y si `data-album` tiene un link
+regresiva, y la confirmación, y si `data-album` tiene un link
 (Google Photos, por ejemplo) el botón principal pasa a ser "Ver las fotos".
 Para ver cómo queda antes de tiempo: `…/casamiento/?vista=gracias`.
 
@@ -57,7 +57,6 @@ viejos) no se muestra.
 |---|---|
 | `ombu-izq.webp`, `ombu-der.webp` | fotograbados de ombúes, *El Jardín Botánico de Buenos Aires* (1898), vía Wikimedia Commons / BHL |
 | `casa.webp` | *Crotta House*, dibujo de John Preston Neale (1823), *Views of the Seats of Noblemen and Gentlemen* |
-| `ceibo.webp` | *Erythrina crista-galli*, *Favourite Flowers of Garden and Greenhouse* (1896) |
 | `jacaranda.webp` | *Jacaranda mimosifolia*, *Curtis's Botanical Magazine* t. 2327 (1822) |
 | `pasionaria.webp` | *Passiflora caerulea*, *The Botanical Magazine* pl. 28 (1787) |
 | `rosas.webp` | Pierre-Joseph Redouté, *Choix des plus belles fleurs* (1827) |
