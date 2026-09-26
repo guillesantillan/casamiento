@@ -42,7 +42,7 @@ function doPost(e) {
     if (asiste === 'Sí') {
       personas = parseInt(d.personas, 10);
       if (isNaN(personas)) personas = 1;
-      personas = Math.min(Math.max(personas, 1), 10);
+      personas = Math.min(Math.max(personas, 1), 3);
     }
     var fila = [
       new Date(),

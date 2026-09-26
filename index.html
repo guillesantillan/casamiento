@@ -708,6 +708,8 @@ html.sobre-visible .sobre__planta--rosa-b.cargada{ --d:.8s; animation-duration:1
   font-size:clamp(26px,6vw,34px); color:var(--verde);
   opacity:0;
 }
+/* el & recto y dorado, igual que en la portada */
+.sobre__nombres .amp{ display:inline-block; margin:0 .16em; font-style:normal; font-weight:300; font-size:.8em; color:var(--dorado); }
 .sobre__fecha{
   margin:26px 0 0;
   font-size:11px; letter-spacing:var(--tr-dato); text-transform:uppercase;
@@ -1257,7 +1259,7 @@ footer :focus-visible{ outline-color:var(--crema); }
   </div>
   <div class="sobre__velo"></div>
   <div class="sobre__centro">
-    <p class="sobre__nombres">Jess &amp; Guille</p>
+    <p class="sobre__nombres">Jess<span class="amp">&amp;</span>Guille</p>
     <span class="sobre__sello-caja"><button class="sobre__sello" type="button" aria-label="Abrir la invitación"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#monograma"/></svg></button></span>
     <p class="sobre__fecha">Sábado 9 de enero de 2027</p>
     <p class="sobre__pista">Tocá el sello para abrir</p>
@@ -1282,7 +1284,7 @@ footer :focus-visible{ outline-color:var(--crema); }
     <circle cx="32" cy="32" r="30.5" fill="none" stroke="currentColor" stroke-width="1"/>
     <circle cx="32" cy="32" r="27" fill="none" stroke="currentColor" stroke-width=".6" opacity=".6"/>
     <!-- ✏️ EDITAR: iniciales del monograma -->
-    <text x="32" y="41" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="27" fill="currentColor">J<tspan font-style="italic" font-size="15" dy="-3">&amp;</tspan><tspan dy="3">G</tspan></text>
+    <text x="32" y="41" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="27" fill="currentColor">J<tspan font-weight="300" font-size="17" dy="-2">&amp;</tspan><tspan dy="2">G</tspan></text>
   </symbol>
   <symbol id="ic-whatsapp" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z"/><path d="M9 8.6c.2 2.6 3.2 5.6 5.8 5.8l1.4-1.4-2-1.1-1 .9c-1-.4-2-1.4-2.4-2.4l.9-1-1.1-2L9 8.6Z"/></symbol>
   <symbol id="ic-calendario" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><path d="M9 14.5l2 2 4-4"/></symbol>
@@ -1521,7 +1523,6 @@ footer :focus-visible{ outline-color:var(--crema); }
             <label for="f-personas">¿Cuántos son en total?</label>
             <select id="f-personas" name="personas">
               <option value="1">1 (solo yo)</option><option value="2">2</option><option value="3">3</option>
-              <option value="4">4</option><option value="5">5</option><option value="6">6</option>
             </select>
           </div>
           <div>
