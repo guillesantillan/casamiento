@@ -27,8 +27,10 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="Jess &amp; Guille · 9 de enero de 2027">
+<meta property="og:site_name" content="Jess &amp; Guille">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#3d5140">
+<meta name="theme-color" content="#f2ede2">
 <!-- ícono de la pestaña: una hojita, embebida (no necesita archivo aparte) -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3c5 3.6 7 7.3 7 11s-2 7.4-7 11c-5-3.6-7-7.3-7-11s2-7.4 7-11Z' fill='%233d5140'/%3E%3Cpath d='M16 3v22' stroke='%23faf7f1' stroke-width='1.5'/%3E%3C/svg%3E">
 
@@ -38,8 +40,8 @@
      "print" (no frena la pantalla) y al terminar de bajar pasa a "all".
      Mientras tanto se ven las fuentes de respaldo definidas más abajo.
      Solo se piden los pesos que el sitio usa. -->
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@400&display=swap" rel="stylesheet"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Jost:wght@400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Jost:wght@400&display=swap" rel="stylesheet"></noscript>
 
 <style>
 /* ═══════════════════════════════════════════════════════════════
@@ -95,6 +97,7 @@ body{
 }
 
 img{ max-width:100%; height:auto; display:block; }
+.junto{ white-space:nowrap; }   /* lo que no se corta al final de un renglón */
 
 /* grano de papel, muy sutil, sobre toda la página (para sacarlo: borrá este bloque) */
 body::after{
@@ -129,6 +132,7 @@ html.con-escena .corona{ display:none; }   /* con las láminas, la corona dibuja
 h1,h2,h3{ font-family:var(--serif); font-weight:400; line-height:1.15; margin:0; text-wrap:balance; }
 
 a{ color:var(--verde); }
+a, button, summary, label{ -webkit-tap-highlight-color:rgba(61,81,64,.12); }
 
 /* foco visible para quien navega con teclado */
 :focus-visible{ outline:2px solid var(--verde); outline-offset:3px; }
@@ -154,6 +158,7 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
   text-transform:uppercase;
   color:var(--verde-medio);
   margin:0 0 14px;
+  text-wrap:balance;
 }
 
 .encabezado-seccion h2{
@@ -166,7 +171,7 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
 /* ── Navegación ──────────────────────────────────────────────── */
 .barra{
   position:sticky; top:0; z-index:50;
-  background:rgba(250,247,241,.93);
+  background:rgba(250,247,241,.97);
   backdrop-filter:blur(10px);
   -webkit-backdrop-filter:blur(10px);
   border-bottom:1px solid transparent;
@@ -208,15 +213,17 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
 @media (max-width:480px){
   /* que los ítems entren en una pantalla de 360 px: letra y aire un poco
      menores, "Evento" en vez de "El evento" */
-  .barra nav{ gap:10px; padding:10px 12px; }
-  .barra a{ font-size:10.5px; letter-spacing:.08em; }
+  .barra nav{ gap:10px; padding:2px 12px; }
+  .barra a{ font-size:11.5px; letter-spacing:.08em; padding:14px 0 12px; }
   .solo-ancho{ display:none; }
   .solo-angosto{ display:inline; }
 }
+@media (max-width:859px){ .barra{ -webkit-backdrop-filter:none; backdrop-filter:none; } }
 
 /* ── Portada ─────────────────────────────────────────────────── */
 .portada{
   min-height:clamp(480px,80vh,760px);
+  min-height:clamp(480px,80svh,760px);
   display:flex; flex-direction:column;
   align-items:center; justify-content:center;
   text-align:center;
@@ -230,7 +237,7 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
 }
 /* pantallas muy anchas: la portada crece con la pantalla */
 @media (min-width:1600px){
-  .portada{ min-height:clamp(760px,82vh,920px); }
+  .portada{ min-height:clamp(720px,76vh,860px); }
   .portada__contenido{ max-width:1160px; }
 }
 
@@ -254,8 +261,7 @@ html.animar .pista-scroll svg{ animation:flotar 2.2s ease-in-out infinite; }
 @media (prefers-reduced-motion:reduce){ .pista-scroll svg{ animation:none; } }
 @media (max-width:859px){
   /* en celular, solo la flechita en un círculo chico, en la esquina (no tapa el botón) */
-  .pista-scroll{ padding:8px; gap:0; left:auto; right:14px; transform:none; }
-  .pista-scroll span{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+  .pista-scroll{ display:none; }
 }
 
 /* ── Escena ilustrada de fondo ──────────────────────────────────── */
@@ -295,8 +301,8 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
 @media (max-width:859px){
   /* en celular, las flores tienen su propia franja debajo del botón */
   .portada{ padding-bottom:190px; }
-  html.con-escena .portada .hojita{ display:none; }   /* las flores hacen de adorno */
 }
+html.con-escena .portada .hojita{ display:none; }   /* las flores hacen de adorno (y Nosotros abre con la misma hojita) */
 /* el borde inferior de la portada se funde con el fondo de "Nosotros" (las flores no se ven cortadas) */
 .portada::after{
   content:""; position:absolute; left:0; right:0; bottom:0; height:120px; pointer-events:none; z-index:0;
@@ -312,11 +318,17 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
 .escena__rosa-2{ left:27%; bottom:-2%; width:23%; }
 .escena__rosa-3{ right:24%; bottom:-1%; width:25%; }
 .escena__rosa-4{ right:2%;  bottom:0;   width:29%; }
+@media (max-width:859px){
+  .escena__rosa-1{ width:min(30%,124px); } .escena__rosa-2{ width:min(23%,96px); }
+  .escena__rosa-3{ width:min(25%,104px); } .escena__rosa-4{ width:min(29%,120px); }
+}
 @media (min-width:860px){
   .escena{ transform-origin:14% 8%; }
   .escena__ombu--izq{ left:-16%; top:-24%; width:50%; }
   .escena__ombu--der{ right:-12%; top:-16%; width:46%; }
-  .escena__casa{ left:50%; top:24%; width:44%; }
+  /* la casa va abajo, entre la foto y el texto: se ve entera y no ensucia la cuenta regresiva */
+  .escena__casa{ left:39%; top:auto; bottom:8%; width:22%; --op-casa:.8; }
+  .escena__casa.cargada{ opacity:.8; }
   .escena__rosa-1{ left:2%;  bottom:0;   width:11%; }
   .escena__rosa-2{ left:11%; bottom:-2%; width:8%; }
   .escena__rosa-3{ right:11%; bottom:-2%; width:9%; }
@@ -324,7 +336,7 @@ html.animar .escena__plano--frente{ transform:translateY(calc(var(--sy,0px) * -.
   .escena__pasto{ height:100px; }
   .escena__velo{
     background:
-      radial-gradient(ellipse 60% 88% at 72% 46%, rgba(250,247,241,.86) 0%, rgba(250,247,241,.62) 45%, rgba(250,247,241,0) 72%),
+      radial-gradient(ellipse 46% 70% at 66% 44%, rgba(250,247,241,.9) 0%, rgba(250,247,241,.7) 50%, rgba(250,247,241,0) 78%),
       linear-gradient(180deg, rgba(250,247,241,0) 0%, rgba(250,247,241,.2) 55%, rgba(250,247,241,.8) 100%);
   }
 }
@@ -397,7 +409,7 @@ html.escena-intro .escena__vida{ opacity:0; animation:aparecer 1.4s ease-out 3.2
 html.escena-intro .escena__velo{ opacity:0; animation:aparecer 1.4s ease-out 3.3s both; }
 @keyframes alejar-escena{ from{ transform:scale(2.7); } to{ transform:none; } }
 @keyframes deriva{ from{ transform:translateY(-2.5%); } to{ transform:none; } }
-@keyframes llegar{ from{ opacity:0; transform:translateY(7%); } to{ opacity:1; transform:none; } }
+@keyframes llegar{ from{ opacity:0; transform:translateY(7%); } to{ opacity:var(--op-casa,1); transform:none; } }
 @keyframes subir-pasto{ from{ transform:translateY(100%); } to{ transform:none; } }
 @keyframes brotar-izq{ from{ transform:translateY(35%) scaleY(.4); } to{ transform:none; } }
 @keyframes brotar-der{ from{ transform:scaleX(-1) translateY(35%) scaleY(.4); } to{ transform:scaleX(-1); } }
@@ -471,8 +483,9 @@ html.escena-intro .escena__ombu--der{ animation-name:deriva-der; }
 .portada__texto{ max-width:560px; margin-inline:auto; }
 /* en pantallas anchas: foto a la izquierda, textos a la derecha */
 @media (min-width:860px){
-  .portada__contenido{ grid-template-columns:minmax(0,42%) minmax(0,1fr); gap:56px; }
+  .portada__contenido{ max-width:1120px; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:clamp(48px,5vw,88px); }
   .portada__foto{ width:100%; }
+  .arco{ width:min(74%,360px); }
   .portada h1{ font-size:clamp(48px,6.4vw,88px); }   /* que entre en la columna */
 }
 
@@ -514,7 +527,6 @@ html.escena-intro .escena__ombu--der{ animation-name:deriva-der; }
   color:var(--verde);
 }
 .regresiva{
-  font-variant-numeric:tabular-nums;   /* todos los dígitos miden lo mismo: nada se mueve al cambiar */
   display:flex; justify-content:center; align-items:flex-start;
   gap:clamp(6px,2.5vw,18px);
   margin-top:26px;
@@ -531,15 +543,17 @@ html.escena-intro .escena__ombu--der{ animation-name:deriva-der; }
   font-size:clamp(34px,8vw,50px);
   line-height:1;
   color:var(--verde);
-  font-variant-numeric:tabular-nums;
+  /* cifras de caja alta y de ancho parejo (Cormorant trae las "antiguas", que saltan
+     de altura y hacen que el 1 parezca una I); nada se mueve al cambiar */
+  font-variant-numeric:lining-nums tabular-nums;
 }
 @media (prefers-reduced-motion:no-preference){
-  .regresiva__num.tic{ animation:tic .5s ease-out; }
-  @keyframes tic{ from{ opacity:.3; } to{ opacity:1; } }
+  .regresiva__num.tic{ animation:tic .9s ease-out; }
+  @keyframes tic{ from{ opacity:.7; } to{ opacity:1; } }
 }
 .regresiva__rot{
   display:block; margin-top:8px;
-  font-size:12px; letter-spacing:var(--tr-dato); text-transform:uppercase;
+  font-size:13px; letter-spacing:var(--tr-dato); text-transform:uppercase;
   color:var(--tinta-suave);
 }
 .regresiva__intro{
@@ -675,15 +689,15 @@ html.con-escena .sobre__copa, html.con-escena .sobre__planta, html.con-escena .s
 .sobre__pasto{
   left:0; right:0; bottom:0; height:clamp(70px,11vh,110px);
   background:
-    url("escena/pasto.webp") no-repeat 22% bottom / auto 55%,
+    url("escena/pasto.webp") repeat-x center bottom / auto 70%,
     linear-gradient(180deg, rgba(61,81,64,0) 0%, rgba(61,81,64,.045) 100%);
 }
-.sobre__hoja--der .sobre__pasto{ background-position:78% bottom, 0 0; }
+.sobre__hoja--der .sobre__pasto{ background-position:right bottom, 0 0; }
 /* aparecen cuando la imagen cargó (así también funciona con señal lenta), en orden, y luego se mecen */
 html.sobre-visible .sobre__copa.cargada{ opacity:.15; animation:asomar 2.2s ease-out both, susurrar 12s ease-in-out 2.2s infinite; transform-origin:40% 0; }
 html.sobre-visible .sobre__copa--izq.cargada{ animation:asomar 2.2s ease-out both, susurrar-der 12s ease-in-out 2.2s infinite; transform-origin:60% 0; }
 html.sobre-visible .sobre__copa--der.cargada{ animation:asomar 2.2s ease-out .3s both, susurrar 13s ease-in-out -4s infinite; }
-html.sobre-visible .sobre__pasto.cargada{ opacity:.55; animation:asomar 1.4s ease-out .2s both; }
+html.sobre-visible .sobre__pasto.cargada{ opacity:.35; animation:asomar 1.4s ease-out .2s both; }
 html.sobre-visible .sobre__planta.cargada{ opacity:.9; animation:brotar-planta 1.6s var(--suave) var(--d,0s) both, mecer 8s ease-in-out calc(var(--d,0s) + 1.6s) infinite; }
 html.sobre-visible .sobre__planta--rosa-a.cargada{ --d:.5s; animation-duration:1.6s, 8.4s; }
 html.sobre-visible .sobre__planta--rosa-b.cargada{ --d:.8s; animation-duration:1.6s, 7.2s; }
@@ -697,6 +711,7 @@ html.sobre-visible .sobre__planta--rosa-b.cargada{ --d:.8s; animation-duration:1
   background:radial-gradient(ellipse 70% 60% at 50% 45%, rgba(250,247,241,.55), rgba(61,81,64,0) 60%, rgba(61,81,64,.10) 100%);
 }
 
+html.sobre:not(.abierto) #sobre{ cursor:pointer; }
 .sobre__centro{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
   text-align:center; pointer-events:none; width:min(90vw,420px);
@@ -712,7 +727,7 @@ html.sobre-visible .sobre__planta--rosa-b.cargada{ --d:.8s; animation-duration:1
 .sobre__nombres .amp{ display:inline-block; margin:0 .16em; font-style:normal; font-weight:300; font-size:.8em; color:var(--dorado); }
 .sobre__fecha{
   margin:26px 0 0;
-  font-size:11px; letter-spacing:var(--tr-dato); text-transform:uppercase;
+  font-size:12px; letter-spacing:var(--tr-dato); text-transform:uppercase;
   color:var(--tinta-suave); opacity:0;
 }
 
@@ -744,7 +759,7 @@ html.sobre-visible .sobre__planta--rosa-b.cargada{ --d:.8s; animation-duration:1
 /* pista para abrir, debajo de la fecha */
 .sobre__pista{
   margin:22px 0 0; text-align:center; pointer-events:none;
-  font-size:11px; letter-spacing:var(--tr-dato); text-transform:uppercase;
+  font-size:12px; letter-spacing:var(--tr-dato); text-transform:uppercase;
   color:var(--verde-medio); opacity:0;
 }
 
@@ -772,6 +787,16 @@ html.sobre-visible .sobre__pista{ animation:aparecer 1.2s var(--suave) 2.9s both
 html.sobre-visible .sobre__sello:active{ animation:none; transform:scale(.96); transition:transform .18s; }
 .sobre__sello:focus-visible{ outline:2px solid var(--dorado); outline-offset:6px; }
 
+/* celular acostado: rosas a los costados, sello más chico, nada se pisa */
+@media (max-height:480px) and (orientation:landscape){
+  .sobre__planta{ height:min(40vh,150px); }
+  .sobre__planta--rosa-a{ right:auto; left:5%; }
+  .sobre__planta--rosa-b{ left:auto; right:5%; }
+  .sobre__sello-caja{ width:88px; height:88px; }
+  .sobre__nombres{ margin-bottom:14px; } .sobre__fecha{ margin-top:18px; } .sobre__pista{ margin-top:10px; }
+  .barra nav{ padding-block:4px; }
+}
+
 /* ── al abrir ── */
 html.abierto #sobre{ pointer-events:none; }
 html.abierto .sobre__pista{ animation:none; opacity:0; transition:opacity .25s; }
@@ -793,25 +818,36 @@ html.sobre:not(.abierto).animar .portada__contenido{ transform:scale(1.06); tran
 
 /* ── Botón principal de la portada ───────────────────────────── */
 .portada__acciones{
-  display:flex; flex-direction:column; align-items:center; gap:14px;
+  display:flex; flex-direction:column; align-items:center; gap:4px;
   margin-top:28px;
 }
 @media (max-width:480px){ .portada__acciones .boton-principal{ width:100%; max-width:360px; text-align:center; } }
+/* un solo criterio para todos los botones: mayúsculas chicas espaciadas, texto
+   centrado en altura (con o sin ícono) y el mismo alto mínimo */
 .boton-principal{
-  display:inline-block;
-  font-size:16px; font-weight:400; letter-spacing:.08em;
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:58px; line-height:1.2;
+  font-size:14px; font-weight:400; letter-spacing:.14em; text-transform:uppercase;
   text-decoration:none;
   color:var(--crema); background:var(--verde);
   border:1px solid var(--verde); border-radius:3px;
-  padding:16px 38px;
-  transition:background .25s;
+  padding:0 40px;
+  transition:background .25s, transform .15s;
 }
-.boton-principal:hover,.boton-principal:focus-visible{ background:var(--verde-medio); border-color:var(--verde-medio); }
+.boton-copiar, .boton-mapa{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  min-height:52px; line-height:1.2;
+}
+.boton-principal:focus-visible{ background:var(--verde-medio); border-color:var(--verde-medio); }
+@media (hover:hover){ .boton-principal:hover{ background:var(--verde-medio); border-color:var(--verde-medio); } }
 .boton-principal[hidden]{ display:none; }
 .enlace-suave{
+  display:inline-block; padding:10px 4px;
   font-size:15px; color:var(--verde);
   text-decoration:underline; text-underline-offset:4px;
+  text-decoration-color:var(--verde-claro); transition:text-decoration-color .25s;
 }
+.enlace-suave:hover, .enlace-suave:focus-visible{ text-decoration-color:var(--verde); }
 
 /* ── Láminas de fondo en las secciones (reusan las imágenes de la
       escena; solo se ven con WebP). Se mecen y acompañan el scroll. ── */
@@ -853,6 +889,10 @@ html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-o
   .lamina-caja--izq .lamina, .lamina-caja--der .lamina{ width:auto; height:100%; }
   .lamina-caja--arriba-izq{ opacity:.1; }
   footer .lamina-caja--izq, footer .lamina-caja--der{ height:110px; }
+  html.con-escena footer{ padding-bottom:calc(clamp(56px,8vw,80px) + 100px); }
+}
+@media (min-width:1600px){
+  .lamina-caja--izq, .lamina-caja--der{ height:min(clamp(150px,28vh,320px), 70%); }
 }
 /* "Nosotros": jazmín a la izquierda */
 .seccion-nosotros{ position:relative; overflow:hidden; }
@@ -869,9 +909,9 @@ html.animar .lamina-caja--arriba-der .lamina{ animation:susurrar-der 13s ease-in
 }
 /* mariposa que cruza la sección de vez en cuando */
 /* cruzan por la franja de arriba de la sección (el título), nunca por detrás de las tarjetas */
-.cruce{ position:absolute; top:clamp(24px,5%,60px); left:0; width:34px; height:34px; pointer-events:none; opacity:0; }
+.cruce{ position:absolute; top:clamp(8px,2%,24px); left:0; width:34px; height:34px; pointer-events:none; opacity:0; }
 html.animar .cruce{ animation:cruzar 34s linear infinite; }
-html.animar .cruce--2{ top:clamp(40px,8%,90px); animation-duration:41s; animation-delay:-19s; }
+html.animar .cruce--2{ top:clamp(16px,3%,36px); animation-duration:41s; animation-delay:-19s; }
 html.animar .cruce .vaiven{ animation:vaiven 4.2s ease-in-out infinite; }
 html.animar .cruce .ala{ transform-box:fill-box; animation:aletear .95s ease-in-out infinite alternate; }
 html.animar .cruce .ala--izq{ transform-origin:100% 50%; }
@@ -880,15 +920,16 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 @keyframes vaiven{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-22px); } }
 
 /* ── Nosotros ────────────────────────────────────────────────── */
-.seccion-nosotros{ padding-block:clamp(48px,7vw,72px); background:var(--crema-hondo); }
-@media (min-width:860px){ .seccion-nosotros{ padding-top:clamp(72px,8vw,96px); } }
+.seccion-nosotros{ padding-block:clamp(56px,8vw,104px); background:var(--crema-hondo); }
 .nosotros{ max-width:620px; margin-inline:auto; text-align:center; }
-.nosotros .divisor{ margin:0 auto 22px; }
+.nosotros .divisor{ margin:0 auto 28px; }
 .nosotros__texto{
   margin:0; font-family:var(--serif); font-style:italic;
   font-size:clamp(21px,3.2vw,26px); line-height:1.5; color:var(--verde);
-  text-wrap:balance;
+  text-wrap:pretty;
 }
+/* el & recto y dorado, como en la portada */
+.nosotros__firma .amp{ display:inline-block; margin:0 .3em; font-family:var(--serif); font-size:1.35em; line-height:0; letter-spacing:0; color:var(--dorado); }
 .nosotros__firma{
   margin:18px 0 0; font-size:13px; letter-spacing:var(--tr-etiqueta); text-transform:uppercase;
   color:var(--verde-medio);
@@ -902,13 +943,13 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 /* ── Tarjetas de lugar ───────────────────────────────────────── */
 .grilla-lugares{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr));
   gap:28px;
   max-width:800px; margin-inline:auto;
 }
 
 .grilla-lugares--una{ max-width:580px; }
-.tarjeta__nota{ font-size:16px; margin-top:14px !important; }
+.tarjeta .tarjeta__nota{ font-size:16px; margin-top:14px !important; text-wrap:balance; }
 
 /* dress code: recuadro propio al pie de la tarjeta, para que no pase desapercibido */
 .tarjeta__dress{
@@ -960,12 +1001,13 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
   font-family:var(--serif);
   font-size:clamp(34px,7vw,42px); line-height:1.1;
   color:var(--dorado); margin:0 0 4px;
+  font-variant-numeric:lining-nums;
 }
 .tarjeta .dia{
   font-size:13px; letter-spacing:var(--tr-dato); text-transform:uppercase;
   color:var(--tinta-suave); margin:0 0 20px;
 }
-.tarjeta p{ margin:0 0 6px; color:var(--tinta-suave); }
+.tarjeta p{ margin:0 0 6px; color:var(--tinta-suave); text-wrap:pretty; }
 .tarjeta .lugar{ color:var(--tinta); font-size:18px; }
 .tarjeta .direccion a{
   color:var(--tinta);
@@ -975,7 +1017,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 .tarjeta .direccion a:hover,.tarjeta .direccion a:focus-visible{ text-decoration-color:var(--verde); }
 
 .boton-mapa{
-  display:inline-block; margin-top:22px;
+  display:inline-flex; margin-top:22px;
   font-size:14px; letter-spacing:.12em; text-transform:uppercase;
   text-decoration:none; color:var(--verde);
   border:1px solid var(--verde-medio);
@@ -983,7 +1025,10 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
   padding:13px 26px;
   transition:background .25s, color .25s;
 }
-.boton-mapa:hover,.boton-mapa:focus-visible{ background:var(--verde); color:var(--crema); border-color:var(--verde); }
+.boton-mapa:focus-visible{ background:rgba(61,81,64,.07); color:var(--verde); border-color:var(--verde); }
+@media (hover:hover){ .boton-mapa:hover{ background:rgba(61,81,64,.07); color:var(--verde); border-color:var(--verde); } }
+/* al tocar, todos los botones se hunden apenas */
+.boton-principal:active, .boton-copiar:not([disabled]):active, .boton-mapa:active{ transform:translateY(1px); }
 
 /* ── Regalos ─────────────────────────────────────────────────── */
 .bloque-regalo{
@@ -995,7 +1040,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
   background:var(--blanco);
   border:1px solid var(--linea);
   border-radius:3px;
-  padding:clamp(28px,4.5vw,40px) 24px clamp(34px,5vw,44px);
+  padding:clamp(28px,4.5vw,40px) 24px clamp(22px,3.5vw,30px);
 }
 .caja-alias .rot{
   font-size:13px; letter-spacing:var(--tr-dato); text-transform:uppercase;
@@ -1024,7 +1069,8 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
   padding:14px 30px; cursor:pointer;
   transition:background .25s, color .25s;
 }
-.boton-copiar:hover,.boton-copiar:focus-visible{ background:var(--verde-medio); border-color:var(--verde-medio); }
+.boton-copiar:focus-visible{ background:var(--verde-medio); border-color:var(--verde-medio); }
+@media (hover:hover){ .boton-copiar:not(.listo):hover{ background:var(--verde-medio); border-color:var(--verde-medio); } }
 .boton-copiar.listo{ background:var(--verde-claro); border-color:var(--verde-claro); color:var(--tinta); }
 
 /* botones de la caja del alias: copiar + mandarlo por WhatsApp */
@@ -1032,8 +1078,9 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 .caja-alias__acciones .boton-copiar{ margin-top:0; }
 .caja-alias__acciones .boton-mapa{ margin-top:0; }
 /* el aviso aparece en el aire de abajo de la tarjeta (posición absoluta: nada salta) */
-.ayuda-copiado{ position:absolute; left:16px; right:16px; bottom:13px; margin:0; font-size:14px; color:var(--verde-medio); text-align:center; }
-.ayuda-copiado[hidden]{ display:none; }
+/* el aviso tiene su renglón reservado: aparece sin mover nada ni pisar el titular */
+.ayuda-copiado{ margin:14px 0 0; min-height:1.6em; font-size:14px; color:var(--verde-medio); text-align:center; text-wrap:balance; }
+.ayuda-copiado[hidden]{ display:block; visibility:hidden; }
 
 /* alias y CBU en la misma tarjeta, separados por una rayita */
 .dato + .dato{ margin-top:30px; padding-top:30px; position:relative; }
@@ -1045,9 +1092,9 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 .caja-alias > .titular{ margin-top:28px; }
 
 /* botones con ícono (WhatsApp, agendar) */
-.boton-mapa svg{ width:17px; height:17px; vertical-align:-3px; margin-right:8px; }
+.boton-mapa svg{ flex:none; width:17px; height:17px; }
 .contacto{ text-align:center; margin-top:36px; }
-.contacto p{ margin:0 0 14px; color:var(--tinta-suave); }
+.contacto p{ margin:0 0 14px; color:var(--tinta-suave); text-wrap:pretty; }
 .tarjeta__acciones{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:22px; }
 .tarjeta__acciones .boton-mapa{ margin-top:0; }
 /* en celular, un botón por línea y bien ancho */
@@ -1055,7 +1102,8 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
   .tarjeta__acciones > *, .caja-alias__acciones > *, .despues__enlaces > *{ flex:1 1 100%; }
 }
 
-.nota-chica, .bloque-regalo > .nota-chica{ font-size:15px; color:var(--tinta-suave); margin:30px 0 0; font-style:italic; text-wrap:balance; }
+/* en la serif: Jost no tiene itálica cargada y el navegador la inclinaba a la fuerza */
+.nota-chica, .bloque-regalo > .nota-chica{ font-family:var(--serif); font-size:19px; color:var(--tinta-suave); margin:30px 0 0; font-style:italic; text-wrap:balance; }
 .bloque-regalo .contacto{ margin-top:14px; }
 
 /* ── Confirmación (formulario propio) ─────────────────────────── */
@@ -1070,7 +1118,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 .formulario[hidden], .solo-si[hidden], .formulario__gracias[hidden], .formulario__respaldo[hidden]{ display:none; }
 .campo{ display:flex; flex-direction:column; gap:6px; margin:0; padding:0; border:0; min-width:0; }
 .campo label, .campo legend{
-  font-size:12px; letter-spacing:var(--tr-dato); text-transform:uppercase;
+  font-size:13px; letter-spacing:var(--tr-dato); text-transform:uppercase;
   color:var(--verde-medio); padding:0;
 }
 .campo .opcional{ text-transform:none; letter-spacing:0; color:var(--tinta-suave); }
@@ -1078,7 +1126,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 .campo input[type="text"], .campo select, .campo textarea{
   width:100%; box-sizing:border-box;
   font:inherit; font-size:18px; color:var(--tinta);
-  background:transparent; border:0; border-bottom:1px solid #cdc5b3; border-radius:0;
+  background:transparent; border:0; border-bottom:1px solid #a39c8c; border-radius:0;
   padding:10px 2px 9px;
   transition:border-color .25s, box-shadow .25s;
   -webkit-appearance:none; appearance:none;
@@ -1089,14 +1137,16 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 }
 .campo textarea{
   resize:vertical; min-height:96px; line-height:1.5;
-  border:1px solid var(--linea); border-radius:3px; padding:12px 14px; background:var(--crema);
+  border:1px solid #a39c8c; border-radius:3px; padding:12px 14px; background:transparent;
 }
-.campo input::placeholder, .campo textarea::placeholder{ color:#b3ada2; font-style:italic; }
+.campo input::placeholder, .campo textarea::placeholder{ color:#857f73; opacity:1; }
 .campo input:focus, .campo select:focus{ outline:none; border-bottom-color:var(--verde-medio); box-shadow:0 1px 0 var(--verde-medio); }
 .campo textarea:focus{ outline:none; border-color:var(--verde-medio); box-shadow:0 0 0 3px rgba(90,112,88,.12); }
 .campo.invalido input, .campo.invalido select{ border-bottom-color:#b0603f; box-shadow:0 1px 0 #b0603f; }
 .campo--mitad{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.6fr); gap:28px; }
 .campo--mitad > div{ display:flex; flex-direction:column; gap:6px; min-width:0; }
+.campo--mitad > div[hidden]{ display:none; }
+.campo--mitad:has(> div[hidden]){ grid-template-columns:minmax(0,1fr); }
 @media (max-width:560px){ .campo--mitad{ grid-template-columns:1fr; gap:26px; } }
 .solo-si{ display:flex; flex-direction:column; gap:26px; }
 /* "¿Vas a venir?": dos tarjetitas lado a lado; la elegida se pinta de verde */
@@ -1117,7 +1167,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
   border:1px solid var(--verde-medio); border-radius:50%; box-sizing:border-box;
   transition:background .25s, box-shadow .25s, border-color .25s;
 }
-.campo--opciones .opcion:hover{ border-color:var(--verde-medio); }
+@media (hover:hover){ .campo--opciones .opcion:hover{ border-color:var(--verde-medio); } }
 .campo--opciones .opcion:has(input:checked){ background:var(--verde); border-color:var(--verde); color:var(--crema); }
 .campo--opciones .opcion:has(input:checked) span::before{ border-color:var(--crema); background:var(--crema); box-shadow:inset 0 0 0 3px var(--verde); }
 .campo--opciones .opcion:has(input:focus-visible){ outline:2px solid var(--verde-medio); outline-offset:3px; }
@@ -1129,13 +1179,15 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 }
 .campo--sitio{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
 .formulario__acciones{ display:flex; justify-content:center; margin-top:4px; }
-.formulario__acciones .boton-copiar{ margin-top:0; min-width:240px; }
+.formulario__acciones .boton-copiar{ margin-top:0; min-width:min(240px,100%); }
 .formulario__acciones .boton-copiar[disabled]{ opacity:.6; cursor:default; }
 @media (max-width:480px){ .formulario__acciones .boton-copiar{ width:100%; } }
-.formulario__error{ margin:-8px 0 0; text-align:center; font-size:15px; color:#b0603f; }
+@media (max-width:360px){ .boton-copiar, .boton-mapa{ letter-spacing:.08em; padding-inline:18px; } }
+@media (max-width:340px){ .campo--opciones .opcion{ font-size:17px; } }
+.formulario__error{ margin:-8px 0 0; text-align:center; font-size:15px; color:#b0603f; text-wrap:balance; }
 .formulario__gracias, .formulario__respaldo{ text-align:center; position:relative; }
 .formulario__gracias .divisor{ margin:0 auto 18px; }
-.formulario__gracias-titulo{ margin:0; font-family:var(--serif); font-style:italic; font-size:clamp(24px,4vw,30px); color:var(--verde); }
+.formulario__gracias-titulo{ margin:0; font-family:var(--serif); font-style:italic; font-size:clamp(24px,4vw,30px); line-height:1.3; color:var(--verde); text-wrap:balance; }
 .formulario__gracias-texto{ margin:12px 0 0; color:var(--tinta-suave); }
 .formulario__respaldo p{ margin:0 0 18px; color:var(--tinta-suave); text-wrap:balance; }
 .formulario__respaldo p strong{ font-weight:400; color:var(--tinta); }
@@ -1175,10 +1227,13 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 .pregunta summary::after{
   content:"+"; position:absolute; right:4px; top:50%;
   transform:translateY(-50%);
-  font-family:var(--sans); font-weight:400; font-size:28px;
+  font-family:var(--serif); font-weight:300; font-size:32px; line-height:1;
   color:var(--verde-medio);
-  transition:transform .25s;
+  transition:transform .35s var(--suave);
 }
+.pregunta summary{ transition:color .25s; }
+.pregunta summary:hover{ color:var(--verde-medio); }
+.pregunta summary:focus-visible{ outline-offset:6px; }
 .pregunta[open] summary::after{ transform:translateY(-50%) rotate(45deg); }
 .pregunta p{ margin:0 0 22px; color:var(--tinta-suave); font-size:16px; }
 
@@ -1201,8 +1256,10 @@ footer .pie__firma{
 }
 /* el & recto y dorado, igual que en la portada y el sobre */
 footer .pie__firma .amp{ display:inline-block; margin:0 .16em; font-style:normal; font-weight:300; font-size:.8em; color:#d9c29a; }   /* dorado aclarado: sobre el verde oscuro el de siempre no se lee */
-footer p{ margin:16px 0 0; font-size:13px; letter-spacing:var(--tr-dato); text-transform:uppercase; color:rgba(250,247,241,.8); }
+footer p{ margin:16px 0 0; font-size:13px; letter-spacing:var(--tr-dato); text-transform:uppercase; color:rgba(250,247,241,.8); line-height:2; }
 footer :focus-visible{ outline-color:var(--crema); }
+
+.quieta, .quieta *{ animation-play-state:paused !important; }
 
 /* ── Aparición suave al hacer scroll ─────────────────────────── */
 .revelar{ opacity:0; transform:translateY(20px); transition:opacity .8s ease, transform .8s ease; }
@@ -1245,7 +1302,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- La invitación cerrada (ver CSS "La invitación cerrada"). Se abre al
      tocar el sello o sola a los 8 s. ✏️ EDITAR: nombres, fecha y pista. -->
-<div class="sobre" id="sobre" aria-label="Invitación">
+<div class="sobre" id="sobre" role="dialog" aria-modal="true" aria-label="Invitación">
   <div class="sobre__hoja sobre__hoja--izq">
     <!-- el jardín de la tapa (solo con WebP; si no, queda la corona dibujada) -->
     <img class="sobre__copa sobre__copa--izq" data-src="escena/ombu-der.webp" alt="" decoding="async">
@@ -1358,7 +1415,7 @@ footer :focus-visible{ outline-color:var(--crema); }
       <div class="arco">
         <picture>
           <source srcset="foto-portada.webp" type="image/webp">
-          <img src="foto-portada.jpg" width="800" height="1013" alt="Jess y Guille" decoding="async">
+          <img src="foto-portada.jpg" width="800" height="1013" alt="Jess y Guille" fetchpriority="high">
         </picture>
       </div>
     </div>
@@ -1393,7 +1450,7 @@ footer :focus-visible{ outline-color:var(--crema); }
             data-lugar="Estilo Coghlan, Dr. Pedro Ignacio Rivera 3804, Coghlan, CABA"
             data-gracias="Gracias por acompañarnos"
             data-album="">Sábado 9 de enero de 2027</time></strong><br>
-      Estilo Coghlan · Buenos Aires
+      Estilo Coghlan · <span class="junto">Buenos Aires</span>
     </p>
 
     <!-- Cuenta regresiva: la completa el código, no hace falta tocarla -->
@@ -1428,7 +1485,7 @@ footer :focus-visible{ outline-color:var(--crema); }
       <!-- ✏️ EDITAR: escriban acá su historia, en primera persona, 3 o 4 líneas.
            Cómo se conocieron, cuánto hace, por qué quieren a esta gente ahí. -->
       <p class="nosotros__texto">Nos conocimos hace unos años y desde entonces no paramos de armar planes. Este es el más grande de todos, y queremos vivirlo con la gente que más queremos.</p>
-      <p class="nosotros__firma">Jess &amp; Guille</p>
+      <p class="nosotros__firma">Jess<span class="amp">&amp;</span>Guille</p>
     </div>
   </div>
 </section>
@@ -1457,15 +1514,15 @@ footer :focus-visible{ outline-color:var(--crema); }
           <circle cx="25" cy="23" r="10" mask="url(#anillo-b)"/>
           <path d="M15 13l2.4-2.7L15 7.6l-2.4 2.7Z M12.6 10.3h4.8" stroke-linejoin="round"/>
         </svg>
-        <h3>Ceremonia y celebracion</h3>
-        <p class="hora">18:00 hs</p>
+        <h3>Ceremonia y celebración</h3>
+        <p class="hora">18:00&nbsp;h</p>
         <p class="dia">Sábado 9 de enero</p>
         <p class="lugar">Estilo Coghlan</p>
         <!-- la dirección y el botón llevan al MISMO link de Maps: cambiá los dos -->
-        <p class="direccion"><a href="https://maps.google.com/?q=Estilo+Coghlan+Dr.+Pedro+Ignacio+Rivera+3804+Coghlan+CABA" target="_blank" rel="noopener">Dr. Pedro Ignacio Rivera 3804, Coghlan, CABA</a></p>
-        <p class="tarjeta__nota">Todo en el mismo lugar. Te esperamos a las 18:00; la ceremonia empieza a las 18:30.</p>
+        <p class="direccion"><a href="https://www.google.com/maps/search/?api=1&amp;query=Estilo+Coghlan+Dr.+Pedro+Ignacio+Rivera+3804+Coghlan+CABA" target="_blank" rel="noopener">Dr. Pedro Ignacio Rivera&nbsp;3804, Coghlan, CABA</a></p>
+        <p class="tarjeta__nota">Todo en el mismo lugar. Te esperamos a las 18:00; la ceremonia empieza a las&nbsp;18:30.</p>
         <div class="tarjeta__acciones">
-          <a class="boton-mapa" href="https://maps.google.com/?q=Estilo+Coghlan+Dr.+Pedro+Ignacio+Rivera+3804+Coghlan+CABA" target="_blank" rel="noopener">Cómo llegar</a>
+          <a class="boton-mapa" href="https://www.google.com/maps/search/?api=1&amp;query=Estilo+Coghlan+Dr.+Pedro+Ignacio+Rivera+3804+Coghlan+CABA" target="_blank" rel="noopener">Cómo llegar</a>
           <!-- "Agendar": el código arma el evento con la fecha del <time> de la
                portada y este lugar; en iPhone baja un .ics, en el resto abre
                Google Calendar. No hace falta tocar nada acá. -->
@@ -1508,7 +1565,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
       <div class="campo">
         <label for="f-nombre">Nombre y apellido</label>
-        <input id="f-nombre" name="nombre" type="text" required maxlength="80" autocomplete="name" placeholder="Como te conocemos">
+        <input id="f-nombre" name="nombre" type="text" required maxlength="80" autocomplete="name" autocapitalize="words" enterkeyhint="next" spellcheck="false" placeholder="Como te conocemos">
       </div>
 
       <fieldset class="campo campo--opciones">
@@ -1527,14 +1584,14 @@ footer :focus-visible{ outline-color:var(--crema); }
               <option value="1">1 (solo yo)</option><option value="2">2</option><option value="3">3</option>
             </select>
           </div>
-          <div>
+          <div id="con-quien">
             <label for="f-acompanantes">¿Con quién venís?</label>
-            <input id="f-acompanantes" name="acompanantes" type="text" maxlength="200" placeholder="Nombres, si venís acompañado">
+            <input id="f-acompanantes" name="acompanantes" type="text" maxlength="200" autocomplete="off" autocapitalize="words" enterkeyhint="next" placeholder="Nombre de cada uno">
           </div>
         </div>
         <div class="campo">
           <label for="f-restricciones">Restricciones alimentarias <span class="opcional">(opcional)</span></label>
-          <input id="f-restricciones" name="restricciones" type="text" maxlength="200" placeholder="Vegetariano, celíaco, alergias…">
+          <input id="f-restricciones" name="restricciones" type="text" maxlength="200" enterkeyhint="next" placeholder="Ej.: celíaco, vegano">
         </div>
       </div>
 
@@ -1615,7 +1672,7 @@ footer :focus-visible{ outline-color:var(--crema); }
             <button class="boton-copiar" type="button" data-copiar="cbu">Copiar CBU</button>
           </div>
         </div>
-        <p class="titular">Guillermo Eduardo Santillan · Mercado Pago</p>
+        <p class="titular">Guillermo Eduardo Santillan<br>Mercado Pago</p>
         <p class="ayuda-copiado" id="ayuda-copiado" aria-live="polite" hidden></p>
       </div>
 
@@ -1679,7 +1736,7 @@ footer :focus-visible{ outline-color:var(--crema); }
   <!-- ✏️ EDITAR -->
   <h2>Te esperamos</h2>
   <p class="pie__firma">Con amor, Jess<span class="amp">&amp;</span>Guille</p>
-  <p>Sábado 9 de enero de 2027 · Estilo Coghlan</p>
+  <p>Sábado 9 de enero de 2027<br>Estilo Coghlan</p>
 </footer>
 
 <script>
@@ -1761,6 +1818,9 @@ var ESCENA = (function(){
   }
 
   if(boton) boton.addEventListener('click', abrir);
+  sobre.addEventListener('click', abrir);   /* tocar al costado del sello también abre */
+  sobre.addEventListener('touchmove', abrir, { passive:true });   /* y querer deslizar */
+  sobre.addEventListener('wheel', abrir, { passive:true });
   window.addEventListener('keydown', onKey);
   var solo = setTimeout(abrir, 8000);   /* si nadie toca nada, se abre sola */
 
@@ -1768,6 +1828,9 @@ var ESCENA = (function(){
     clearTimeout(solo);
     window.removeEventListener('keydown', onKey);
     if(boton) boton.removeEventListener('click', abrir);
+    sobre.removeEventListener('click', abrir);
+    sobre.removeEventListener('touchmove', abrir);
+    sobre.removeEventListener('wheel', abrir);
   }
 })();
 
@@ -1787,17 +1850,30 @@ var ESCENA = (function(){
   var pedido = false;
   function pintar(){
     pedido = false;
-    var vh = window.innerHeight || 800;
-    cajas.forEach(function(c){
-      var r = c.getBoundingClientRect();
+    var vh = window.innerHeight || 800, k = vh > window.innerWidth ? -0.04 : -0.05;
+    /* primero se miden todas y después se escriben (así no se fuerza el layout una por una) */
+    var medidas = [];
+    cajas.forEach(function(c){ medidas.push(c.getBoundingClientRect()); });
+    cajas.forEach(function(c, i){
+      var r = medidas[i];
       if(r.bottom < -200 || r.top > vh + 200) return;
-      var vy = (r.top + r.height / 2 - vh / 2) * (vh > window.innerWidth ? -0.04 : -0.05);
-      c.style.setProperty('--vy', vy.toFixed(1) + 'px');
+      c.style.setProperty('--vy', ((r.top + r.height / 2 - vh / 2) * k).toFixed(1) + 'px');
     });
   }
   window.addEventListener('scroll', function(){ if(!pedido){ pedido = true; (window.requestAnimationFrame || setTimeout)(pintar); } }, { passive:true });
   window.addEventListener('resize', pintar);
   pintar();
+})();
+
+
+/* ── Lo que está fuera de pantalla deja de animarse (ahorra batería
+      y fluidez en celulares modestos; a la vista nada cambia) ──────── */
+(function(){
+  if(!('IntersectionObserver' in window) || !/\banimar\b/.test(document.documentElement.className)) return;
+  var obs = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(e){ e.target.classList.toggle('quieta', !e.isIntersecting); });
+  }, { rootMargin:'100px 0px' });
+  document.querySelectorAll('#escena, .cruce, .lamina-caja').forEach(function(el){ obs.observe(el); });
 })();
 
 
@@ -2051,6 +2127,11 @@ function parametro(nombre){
     var v = form.querySelector('[name="asiste"]:checked');
     soloSi.hidden = !(v && v.value === 'si');
   }
+  /* "¿Con quién venís?" solo si son más de uno */
+  var personas = form.querySelector('[name="personas"]');
+  var conQuien = document.getElementById('con-quien');
+  function mostrarConQuien(){ if(personas && conQuien) conQuien.hidden = personas.value === '1'; }
+  if(personas){ personas.addEventListener('change', mostrarConQuien); mostrarConQuien(); }
   var radios = form.querySelectorAll('[name="asiste"]');
   for(var i = 0; i < radios.length; i++) radios[i].addEventListener('change', mostrarSoloSi);
   mostrarSoloSi();
@@ -2079,6 +2160,12 @@ function parametro(nombre){
     marcar(nombreInput, d.nombre.length < 2); if(d.nombre.length < 2) ok = false;
     var fs = form.querySelector('.campo--opciones'); fs.classList.toggle('invalido', !d.asiste); if(!d.asiste) ok = false;
     error.hidden = ok; error.textContent = ok ? '' : 'Completá tu nombre y decinos si venís.';
+    nombreInput.setAttribute('aria-invalid', d.nombre.length < 2 ? 'true' : 'false');
+    /* en celular el campo que falta puede estar muy arriba: lo traemos a la vista */
+    if(!ok){
+      if(d.nombre.length < 2) nombreInput.focus();
+      else fs.scrollIntoView({ block:'center', behavior:(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) ? 'auto' : 'smooth' });
+    }
     return ok;
   }
 
@@ -2099,7 +2186,7 @@ function parametro(nombre){
     form.hidden = cual !== 'form';
     gracias.hidden = cual !== 'gracias';
     respaldo.hidden = cual !== 'respaldo';
-    (cual === 'form' ? form : (cual === 'gracias' ? gracias : respaldo)).scrollIntoView({ block:'center', behavior:'smooth' });
+    (cual === 'form' ? form : (cual === 'gracias' ? gracias : respaldo)).scrollIntoView({ block:'center', behavior:(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) ? 'auto' : 'smooth' });
   }
 
   function agradecer(d){
