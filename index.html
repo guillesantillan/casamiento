@@ -314,6 +314,46 @@ html.animar.lista .pista-scroll__hilo::after{ animation:hilo-gota calc(2.6s * va
 }
 @media (prefers-reduced-motion:reduce){ .pista-scroll__hilo::before, .pista-scroll__hilo::after, .pista-hilo__linea::after{ animation:none !important; } }
 
+/* ── "seguí bajando" al pie de cada sección: acompaña de punta a punta.
+      Va dentro de la página (no flota), centrado en la franja de las
+      láminas; aparece al llegar y lleva a la sección siguiente. ───── */
+.pista-seccion{
+  position:absolute; left:50%; bottom:clamp(14px,2vw,24px); z-index:1;
+  transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  padding:12px 26px 0;
+  color:var(--verde-medio); text-decoration:none;
+  background:radial-gradient(ellipse 50% 50% at 50% 38%, rgba(250,247,241,.7) 0%, rgba(250,247,241,0) 100%);
+  opacity:0; transition:opacity 1.6s ease .2s;
+}
+.seccion-alterna .pista-seccion, .seccion-nosotros .pista-seccion{ background:radial-gradient(ellipse 50% 50% at 50% 38%, rgba(242,237,226,.75) 0%, rgba(242,237,226,0) 100%); }
+.pista-seccion.visible, html:not(.animar) .pista-seccion{ opacity:1; }
+.pista-seccion__txt{ font-family:var(--serif); font-style:italic; font-size:17px; line-height:1; letter-spacing:.02em; }
+.pista-seccion__hilo{ position:relative; width:7px; height:40px; }
+.pista-seccion__hilo::before{
+  content:""; position:absolute; left:3px; top:0; bottom:0; width:1px;
+  background:linear-gradient(to bottom, rgba(90,112,88,.55), rgba(90,112,88,.05));
+  transform-origin:50% 0;
+}
+.pista-seccion__hilo::after{
+  content:""; position:absolute; left:1px; bottom:0; width:5px; height:5px; border-radius:50%;
+  background:var(--dorado);
+}
+html.animar .pista-seccion.visible .pista-seccion__hilo::before{ animation:hilo-dibujar calc(1.3s * var(--ritmo,1)) var(--suave) .4s both; }
+html.animar .pista-seccion.visible .pista-seccion__hilo::after{ animation:hilo-gota-corta calc(2.6s * var(--ritmo,1)) cubic-bezier(.45,0,.4,1) calc(1.3s * var(--ritmo,1)) infinite both; }
+@keyframes hilo-gota-corta{
+  0%  { transform:translateY(-35px); opacity:0; }
+  18% { opacity:1; }
+  70% { opacity:.9; }
+  100%{ transform:translateY(0);     opacity:0; }
+}
+@media (prefers-reduced-motion:reduce){ .pista-seccion__hilo::before, .pista-seccion__hilo::after{ animation:none !important; } }
+/* celulares muy angostos: pista y láminas un poco más chicas, para que no se rocen */
+@media (max-width:360px){ .pista-seccion{ padding-inline:14px; } .pista-seccion__txt{ font-size:15.5px; } }
+@media (max-width:340px){ html section .lamina-caja--izq, html section .lamina-caja--der{ height:108px; } }
+/* en PC, un poco más de aire al pie de cada sección para que la pista no roce el contenido */
+@media (min-width:860px){ section.con-pista{ padding-bottom:calc(clamp(64px,9vw,88px) + 64px); } }
+
 /* ── Escena ilustrada de fondo ──────────────────────────────────── */
 .escena{
   position:absolute; top:0; left:0; right:0; bottom:0; overflow:hidden;
@@ -444,19 +484,19 @@ html.animar .escena.meciendo .escena__ombu--der{ transform-origin:65% 0; animati
 /* ── La intro de la escena (al abrirse la invitación) ─────────────
    La cámara arranca dentro del ombú y se aleja; las capas entran en
    orden. Con esto, la portada espera --retraso (ver más abajo). */
-html.sobre.escena-intro{ --retraso:3s; }   /* la portada arranca cuando la cámara ya casi llegó */
-html.escena-intro .escena{ animation:alejar-escena 4.2s cubic-bezier(.2,.65,.2,1) both; }
-html.escena-intro .escena__cielo{ opacity:0; animation:aparecer 1.2s ease-out .3s both; }
-html.escena-intro .escena__ombu{ opacity:.55; animation:deriva 4.2s cubic-bezier(.2,.65,.2,1) both; }
-html.escena-intro .escena__casa{ opacity:0; animation:llegar 1.6s var(--suave) 1.7s both; }   /* la casa llega cuando la cámara ya se alejó un poco */
-html.escena-intro .escena__pasto{ opacity:1; animation:subir-pasto 1.2s var(--suave) 1.9s both; }
-html.escena-intro .escena__flor{ animation:brotar-flor 1.3s var(--suave) both; }   /* sin opacity acá: al pasar a la brisa, quedaría en 0 */
-html.escena-intro .escena__rosa-1{ animation-delay:2.2s; }
-html.escena-intro .escena__rosa-2{ animation-delay:2.45s; }
-html.escena-intro .escena__rosa-3{ animation-delay:2.7s; }
-html.escena-intro .escena__rosa-4{ animation-delay:2.95s; }
-html.escena-intro .escena__vida{ opacity:0; animation:aparecer 1.4s ease-out 3.2s both; }
-html.escena-intro .escena__velo{ opacity:0; animation:aparecer 1.4s ease-out 3.3s both; }
+html.sobre.escena-intro{ --retraso:3.7s; }   /* la portada arranca cuando la cámara ya casi llegó */
+html.escena-intro .escena{ animation:alejar-escena 5.2s cubic-bezier(.2,.65,.2,1) both; }
+html.escena-intro .escena__cielo{ opacity:0; animation:aparecer 1.4s ease-out .4s both; }
+html.escena-intro .escena__ombu{ opacity:.55; animation:deriva 5.2s cubic-bezier(.2,.65,.2,1) both; }
+html.escena-intro .escena__casa{ opacity:0; animation:llegar 1.9s var(--suave) 2.1s both; }   /* la casa llega cuando la cámara ya se alejó un poco */
+html.escena-intro .escena__pasto{ opacity:1; animation:subir-pasto 1.4s var(--suave) 2.35s both; }
+html.escena-intro .escena__flor{ animation:brotar-flor 1.5s var(--suave) both; }   /* sin opacity acá: al pasar a la brisa, quedaría en 0 */
+html.escena-intro .escena__rosa-1{ animation-delay:2.7s; }
+html.escena-intro .escena__rosa-2{ animation-delay:3s; }
+html.escena-intro .escena__rosa-3{ animation-delay:3.35s; }
+html.escena-intro .escena__rosa-4{ animation-delay:3.65s; }
+html.escena-intro .escena__vida{ opacity:0; animation:aparecer 1.6s ease-out 4s both; }
+html.escena-intro .escena__velo{ opacity:0; animation:aparecer 1.6s ease-out 4.1s both; }
 @keyframes alejar-escena{ from{ transform:scale(2.7); } to{ transform:none; } }
 @keyframes deriva{ from{ transform:translateY(-2.5%); } to{ transform:none; } }
 @keyframes llegar{ from{ opacity:0; transform:translateY(7%); } to{ opacity:var(--op-casa,1); transform:none; } }
@@ -685,14 +725,14 @@ html.animar .corona .flor{ animation-delay:calc(var(--retraso,0s) + 1.55s * var(
 
 /* ── La invitación cerrada ─────────────────────────────────────────
    Solo con la clase "sobre" en <html> (la pone el script del principio
-   del <body>, la primera vez en la sesión). Dos hojas de papel con la
+   del <body>, en cada visita). Dos hojas de papel con la
    corona repartida entre las dos, el sello de lacre J&G, los nombres y la
    fecha, y la pista "Tocá el sello para abrir". Se abre tocando el sello
    (o con Enter); si nadie hace nada, se abre sola a los 8 s. Con WebP, en
    vez de la corona dibujada hay dos rosas de Redouté y las copas de ombú.
    Estados: html.sobre → cerrada; .sobre-visible → contenido a la vista;
    .abierto → abriéndose; después el overlay se saca. ─────────────── */
-html.sobre{ --retraso:.8s; }
+html.sobre{ --retraso:1.2s; }
 html.sobre:not(.abierto), html.sobre:not(.abierto) body{ overflow:hidden; }
 #sobre{ display:none; }
 html.sobre #sobre{
@@ -850,11 +890,11 @@ html.sobre-visible .sobre__sello:active{ animation:none; transform:scale(.96); t
 /* ── al abrir ── */
 html.abierto #sobre{ pointer-events:none; }
 html.abierto .sobre__pista{ animation:none; opacity:0; transition:opacity .25s; }
-html.abierto .sobre__centro{ animation:levantar .9s ease-in both; }
-html.abierto .sobre__velo{ animation:aparecer .9s ease-out .3s both reverse; }
-html.abierto .sobre__hoja--izq{ animation:abrir-izq 2.4s var(--suave) .6s both; }
-html.abierto .sobre__hoja--der{ animation:abrir-der 2.4s var(--suave) .6s both; }
-html.abierto.animar .portada__contenido{ animation:alejar 3.4s var(--suave) .4s both; transform-origin:50% 40%; }
+html.abierto .sobre__centro{ animation:levantar 1.3s ease-in both; }
+html.abierto .sobre__velo{ animation:aparecer 1.3s ease-out .4s both reverse; }
+html.abierto .sobre__hoja--izq{ animation:abrir-izq 3.4s var(--suave) .6s both; }
+html.abierto .sobre__hoja--der{ animation:abrir-der 3.4s var(--suave) .6s both; }
+html.abierto.animar .portada__contenido{ animation:alejar 4.4s var(--suave) .4s both; transform-origin:50% 40%; }
 /* mientras está cerrada, la portada espera un poco más cerca */
 html.sobre:not(.abierto).animar .portada__contenido{ transform:scale(1.06); transform-origin:50% 40%; }
 
@@ -1330,13 +1370,8 @@ footer :focus-visible{ outline-color:var(--crema); }
     if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var raiz = document.documentElement;
     raiz.className += ' animar';
-    /* la invitación cerrada se abre solo la primera vez en la sesión */
-    try{
-      if(!sessionStorage.getItem('invitacion-abierta')){
-        raiz.className += ' sobre';
-        sessionStorage.setItem('invitacion-abierta', '1');
-      }
-    }catch(e){ raiz.className += ' sobre'; }
+    /* la invitación cerrada se muestra en cada visita */
+    raiz.className += ' sobre';
     var listo = false;
     function soltar(){
       if(listo) return; listo = true;
@@ -1527,7 +1562,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 </div>
 
 <!-- ═══════════════ NOSOTROS ═══════════════ -->
-<section id="nosotros" class="seccion-nosotros">
+<section id="nosotros" class="seccion-nosotros con-pista">
   <span class="lamina-caja lamina-caja--izq"><img class="lamina lamina--jazmin" src="escena/jazmin.webp" alt="" loading="lazy" decoding="async"></span>
   <div class="envoltorio">
     <div class="nosotros revelar">
@@ -1538,11 +1573,12 @@ footer :focus-visible{ outline-color:var(--crema); }
       <p class="nosotros__firma">Jess<span class="amp">&amp;</span>Guille</p>
     </div>
   </div>
+  <a class="pista-seccion" href="#evento" aria-label="Seguir bajando"><span class="pista-seccion__txt">seguí bajando</span><span class="pista-seccion__hilo" aria-hidden="true"></span></a>
 </section>
 
 
 <!-- ═══════════════ EL EVENTO ═══════════════ -->
-<section id="evento">
+<section id="evento" class="con-pista">
   <span class="lamina-caja lamina-caja--der"><img class="lamina lamina--jacaranda" src="escena/jacaranda.webp" alt="" loading="lazy" decoding="async"></span>
   <svg class="cruce cruce--1" viewBox="-18 -18 36 36" aria-hidden="true"><g class="vaiven"><g class="mariposa"><image class="ala ala--izq" href="escena/mariposa-izq.webp" x="-14" y="-8.1" width="14" height="16.3"/><image class="ala ala--der" href="escena/mariposa-der.webp" x="0" y="-8.3" width="14" height="16.6"/></g></g></svg>
   <div class="envoltorio">
@@ -1584,10 +1620,11 @@ footer :focus-visible{ outline-color:var(--crema); }
 
     </div>
   </div>
+  <a class="pista-seccion" href="#confirmar" aria-label="Seguir bajando"><span class="pista-seccion__txt">seguí bajando</span><span class="pista-seccion__hilo" aria-hidden="true"></span></a>
 </section>
 
 <!-- ═══════════════ CONFIRMACIÓN ═══════════════ -->
-<section id="confirmar" class="seccion-alterna">
+<section id="confirmar" class="seccion-alterna con-pista">
   <!-- amancay (Alstroemeria aurea, Witte 1868): la flor de la Patagonia, discreta -->
   <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--amancay" src="escena/amancay.webp" alt="" loading="lazy" decoding="async"></span>
   <div class="envoltorio">
@@ -1685,10 +1722,11 @@ footer :focus-visible{ outline-color:var(--crema); }
       </div>
     </div>
   </div>
+  <a class="pista-seccion" href="#regalos" aria-label="Seguir bajando"><span class="pista-seccion__txt">seguí bajando</span><span class="pista-seccion__hilo" aria-hidden="true"></span></a>
 </section>
 
 <!-- ═══════════════ REGALOS ═══════════════ -->
-<section id="regalos">
+<section id="regalos" class="con-pista">
   <span class="lamina-caja lamina-caja--der"><img class="lamina lamina--rosas" src="escena/rosas.webp" alt="" loading="lazy" decoding="async"></span>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
@@ -1732,10 +1770,11 @@ footer :focus-visible{ outline-color:var(--crema); }
       <p class="contacto"><a class="boton-mapa" href="https://wa.me/5491137737433?text=Hola%21%20Quer%C3%ADa%20consultarles%20por%20el%20casamiento." target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-whatsapp"/></svg>Escribinos por WhatsApp</a></p>
     </div>
   </div>
+  <a class="pista-seccion" href="#preguntas" aria-label="Seguir bajando"><span class="pista-seccion__txt">seguí bajando</span><span class="pista-seccion__hilo" aria-hidden="true"></span></a>
 </section>
 
 <!-- ═══════════════ PREGUNTAS ═══════════════ -->
-<section id="preguntas" class="seccion-alterna">
+<section id="preguntas" class="seccion-alterna con-pista">
   <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--pasionaria" src="escena/pasionaria.webp" alt="" loading="lazy" decoding="async"></span>
   <svg class="cruce cruce--2" viewBox="-18 -18 36 36" aria-hidden="true"><g class="vaiven"><g class="mariposa"><image class="ala ala--izq" href="escena/mariposa-izq.webp" x="-14" y="-8.1" width="14" height="16.3"/><image class="ala ala--der" href="escena/mariposa-der.webp" x="0" y="-8.3" width="14" height="16.6"/></g></g></svg>
   <div class="envoltorio">
@@ -1776,10 +1815,11 @@ footer :focus-visible{ outline-color:var(--crema); }
       <a class="boton-mapa" href="https://wa.me/5491137737433?text=Hola%21%20Tengo%20una%20duda%20sobre%20el%20casamiento." target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-whatsapp"/></svg>Escribinos por WhatsApp</a>
     </div>
   </div>
+  <a class="pista-seccion" href="#pie" aria-label="Seguir bajando"><span class="pista-seccion__txt">seguí bajando</span><span class="pista-seccion__hilo" aria-hidden="true"></span></a>
 </section>
 
 <!-- ═══════════════ PIE ═══════════════ -->
-<footer>
+<footer id="pie">
   <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--cortadera" src="escena/cortadera.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--der lamina-caja--tenue"><img class="lamina lamina--cortadera-der" src="escena/cortadera.webp" alt="" loading="lazy" decoding="async"></span>
   <svg class="monograma" aria-hidden="true" viewBox="0 0 64 64"><use href="#monograma"/></svg>
@@ -1851,16 +1891,16 @@ var ESCENA = (function(){
     if(ESCENA.caja && /\bcon-escena\b/.test(raiz.className) && ESCENA.claveLista()){
       raiz.className += ' escena-intro';
       ESCENA.caja.classList.add('viva');
-      setTimeout(function(){ ESCENA.caja.classList.add('meciendo'); }, 4600);   /* al terminar la intro, la brisa */
+      setTimeout(function(){ ESCENA.caja.classList.add('meciendo'); }, 5700);   /* al terminar la intro, la brisa */
     }else if(ESCENA.caja){
-      setTimeout(function(){ ESCENA.caja.classList.add('viva'); ESCENA.caja.classList.add('meciendo'); }, 1500);
+      setTimeout(function(){ ESCENA.caja.classList.add('viva'); ESCENA.caja.classList.add('meciendo'); }, 2000);
     }
     raiz.className += ' abierto lista';
     window.scrollTo(0, 0);
     var der = sobre.querySelector('.sobre__hoja--der');
     function sacar(){ sobre.hidden = true; }
     if(der) der.addEventListener('animationend', sacar);
-    setTimeout(sacar, 4500);   /* red de seguridad */
+    setTimeout(sacar, 5500);   /* red de seguridad */
     quitar();
   }
   function onKey(e){
@@ -1885,7 +1925,7 @@ var ESCENA = (function(){
 })();
 
 
-/* ── Escena sin intro (segunda visita, o sin sobre): aparece suave ── */
+/* ── Escena sin intro (sin sobre: reducir movimiento): aparece suave ── */
 (function(){
   var raiz = document.documentElement;
   if(!ESCENA.caja || /\bsobre\b/.test(raiz.className)) return;
@@ -1923,7 +1963,7 @@ var ESCENA = (function(){
   var obs = new IntersectionObserver(function(entradas){
     entradas.forEach(function(e){ e.target.classList.toggle('quieta', !e.isIntersecting); });
   }, { rootMargin:'100px 0px' });
-  document.querySelectorAll('#escena, .cruce, .lamina-caja').forEach(function(el){ obs.observe(el); });
+  document.querySelectorAll('#escena, .cruce, .lamina-caja, .pista-seccion').forEach(function(el){ obs.observe(el); });
 })();
 
 
@@ -2296,6 +2336,24 @@ function parametro(nombre){
   window.addEventListener('scroll', mirar, { passive:true });
   pista.addEventListener('click', irse);
   mirar();
+})();
+
+
+/* ── "seguí bajando" de cada sección ─────────────────────────────── */
+(function(){
+  var pistas = document.querySelectorAll('.pista-seccion');
+  if(!pistas.length) return;
+  /* el destino es la siguiente sección que se esté mostrando */
+  pistas.forEach(function(a){
+    var sig = a.parentNode.nextElementSibling;
+    while(sig && (!/^(SECTION|FOOTER)$/.test(sig.tagName) || !sig.offsetHeight)) sig = sig.nextElementSibling;
+    if(sig && sig.id) a.href = '#' + sig.id;
+  });
+  if(!('IntersectionObserver' in window)){ pistas.forEach(function(a){ a.classList.add('visible'); }); return; }
+  var obs = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { rootMargin:'0px 0px -40px 0px', threshold:.6 });
+  pistas.forEach(function(a){ obs.observe(a); });
 })();
 
 

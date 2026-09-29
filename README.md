@@ -102,10 +102,10 @@ con `?v=2` al final para que la vuelva a leer.
   titular que estén en la página.
 - Sin `localStorage`, sin cookies, sin scripts de terceros. Los únicos pedidos
   externos son las fuentes de Google y el envío de la confirmación al script.
-- **Entrada animada**: la primera vez en cada sesión, la página aparece como
+- **Entrada animada**: en cada visita, la página aparece como
   una invitación cerrada (dos hojas con un jardín de láminas —o la corona
   dibujada, sin WebP—, el sello J&G, nombres y fecha, y la pista "Tocá el
-  sello para abrir"). Se abre tocando el sello (o con Enter) y, si nadie hace nada, sola a los 8 s;
+  sello para abrir"). Se abre tocando el sello o en cualquier lado (o con Enter) y, si nadie hace nada, sola a los 8 s;
   después los elementos de la portada entran en secuencia. Es CSS puro (opacity,
   transform, clip-path) decidido por un script de pocas líneas al principio
   del `<body>`. Con "reducir movimiento" o sin JavaScript no hay animación.
