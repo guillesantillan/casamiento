@@ -1048,6 +1048,25 @@ html.animar .lamina-caja--arriba-der .lamina{ animation:susurrar-der 13s ease-in
   .seccion-nosotros .lamina-caja--izq, .seccion-nosotros .lamina-caja--der{ height:124px; bottom:-4px; }
   .seccion-nosotros .lamina-caja--arriba-der{ opacity:.09; }
 }
+/* ── Mariposas que vuelan libres por "El evento" y "Regalos" ──────
+      Monarca del sur y limoncito (Cramer & Stoll), más chicas que las de
+      la portada. Vuelan por encima de todo lo de la sección; el JS las
+      pasea con rumbo suave y gira el cuerpo hacia donde van. Solo con
+      animación (con "reducir movimiento" no aparecen). ───────────── */
+.vuelo-libre{ display:none; position:absolute; inset:0; z-index:4; pointer-events:none; }
+html.animar.con-escena .vuelo-libre{ display:block; }
+.libre{ position:absolute; left:0; top:0; overflow:visible; opacity:0; transition:opacity 1.6s ease; will-change:transform; }
+.libre.volando{ opacity:.95; }
+.libre--monarca{ width:30px; height:15px; margin:-7.5px 0 0 -15px; }
+.libre--limoncito{ width:30px; height:19px; margin:-9.5px 0 0 -15px; }
+html.animar .libre .ala{ animation-duration:.42s; }
+html.animar .libre .ala--izq{ transform-origin:100% 50%; }
+html.animar .libre .ala--der{ transform-origin:0% 50%; animation-delay:.03s; }
+html.animar .libre .mariposa{ animation:none; }
+@media (max-width:859px){
+  .libre--monarca{ width:26px; height:13px; margin:-6.5px 0 0 -13px; }
+  .libre--limoncito{ width:26px; height:16.5px; margin:-8.25px 0 0 -13px; }
+}
 /* mariposa que cruza la sección de vez en cuando */
 /* cruzan por la franja de arriba de la sección (el título), nunca por detrás de las tarjetas */
 .cruce{ position:absolute; top:clamp(8px,2%,24px); left:0; width:34px; height:34px; pointer-events:none; opacity:0; }
@@ -1633,7 +1652,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 <section id="evento" class="con-pista">
   <span class="lamina-caja lamina-caja--izq"><img class="lamina lamina--cardo" src="escena/cardo.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--der"><img class="lamina lamina--jacaranda" src="escena/jacaranda.webp" alt="" loading="lazy" decoding="async"></span>
-  <svg class="cruce cruce--1" viewBox="-18 -18 36 36" aria-hidden="true"><g class="vaiven"><g class="mariposa"><image class="ala ala--izq" href="escena/mariposa-izq.webp" x="-14" y="-8.1" width="14" height="16.3"/><image class="ala ala--der" href="escena/mariposa-der.webp" x="0" y="-8.3" width="14" height="16.6"/></g></g></svg>
+  <div class="vuelo-libre" aria-hidden="true"><svg class="libre libre--monarca" viewBox="-15 -7.5 30 15"><g class="mariposa"><image class="ala ala--izq" href="escena/mariposa-monarca-izq.webp" x="-14" y="-6.23" width="14" height="12.46"/><image class="ala ala--der" href="escena/mariposa-monarca-der.webp" x="0" y="-6.23" width="14" height="12.46"/></g></svg></div>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
       <p class="sobretitulo">Cuándo y dónde</p>
@@ -1780,6 +1799,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
 <!-- ═══════════════ REGALOS ═══════════════ -->
 <section id="regalos" class="con-pista">
+  <div class="vuelo-libre" aria-hidden="true"><svg class="libre libre--limoncito" viewBox="-15 -9.5 30 19"><g class="mariposa"><image class="ala ala--izq" href="escena/mariposa-limoncito-izq.webp" x="-14" y="-8.47" width="14" height="16.94"/><image class="ala ala--der" href="escena/mariposa-limoncito-der.webp" x="0" y="-8.54" width="14" height="17.08"/></g></svg></div>
   <span class="lamina-caja lamina-caja--der"><img class="lamina lamina--rosas" src="escena/rosas.webp" alt="" loading="lazy" decoding="async"></span>
   <div class="envoltorio">
     <div class="encabezado-seccion revelar">
@@ -2388,6 +2408,58 @@ function parametro(nombre){
   window.addEventListener('scroll', mirar, { passive:true });
   pista.addEventListener('click', irse);
   mirar();
+})();
+
+
+/* ── Vuelo libre de las mariposas de "El evento" y "Regalos" ──────
+      Van hacia puntos al azar de la sección con un giro suave, cambian
+      de velocidad, suben y bajan con el aleteo y apuntan la cabeza hacia
+      donde vuelan. Solo se mueven mientras la sección está a la vista. ── */
+(function(){
+  if(!/\banimar\b/.test(document.documentElement.className) || !('IntersectionObserver' in window)) return;
+  document.querySelectorAll('.vuelo-libre').forEach(function(zona){
+    var bicho = zona.querySelector('.libre');
+    if(!bicho) return;
+    var W = 0, H = 0, x = 0, y = 0, vx = 0, vy = 0, tx = 0, ty = 0, ang = 0;
+    var t = Math.random() * 100, ult = 0, raf = 0, primera = true;
+    function medir(){ W = zona.clientWidth; H = zona.clientHeight; }
+    function destino(){
+      var mx = Math.min(60, W * .12), my = Math.min(70, H * .1);
+      tx = mx + Math.random() * (W - 2 * mx);
+      ty = my + Math.random() * (H - 2 * my);
+    }
+    function paso(ahora){
+      raf = requestAnimationFrame(paso);
+      var dt = ult ? Math.min(.05, (ahora - ult) / 1000) : 0;
+      ult = ahora; t += dt;
+      var dx = tx - x, dy = ty - y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+      if(d < 36) destino();
+      var vel = 38 + 16 * Math.sin(t * .63) + 8 * Math.sin(t * 1.7);
+      var k = Math.min(1, dt * 1.1);
+      vx += (dx / d * vel - vx) * k;
+      vy += (dy / d * vel - vy) * k;
+      x += vx * dt; y += vy * dt;
+      var sube = Math.sin(t * 6.1) * 2.4 + Math.sin(t * 1.9) * 3.2;
+      var rumbo = Math.atan2(vy, vx) * 180 / Math.PI + 90;
+      ang += (((rumbo - ang) % 360 + 540) % 360 - 180) * Math.min(1, dt * 2.6);
+      bicho.style.transform = 'translate(' + x.toFixed(1) + 'px,' + (y + sube).toFixed(1) + 'px) rotate(' + ang.toFixed(1) + 'deg)';
+    }
+    var obs = new IntersectionObserver(function(e){
+      if(e[0].isIntersecting){
+        if(raf) return;
+        medir();
+        if(primera){ x = W * (.15 + .7 * Math.random()); y = H * (.2 + .5 * Math.random()); destino(); primera = false; }
+        ult = 0; raf = requestAnimationFrame(paso);
+        bicho.classList.add('volando');
+      } else if(raf){ cancelAnimationFrame(raf); raf = 0; }
+    }, { rootMargin:'60px 0px' });
+    obs.observe(zona);
+    window.addEventListener('resize', function(){
+      medir();
+      x = Math.max(0, Math.min(W, x)); y = Math.max(0, Math.min(H, y));
+      destino();
+    });
+  });
 })();
 
 

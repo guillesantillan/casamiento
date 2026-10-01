@@ -67,6 +67,8 @@ viejos) no se muestra.
 | `jazmin.webp` | *Jasminum officinale*, *The Botanical Magazine* pl. 31 (1787) |
 | `rosa-pontiana.webp`, `rosa-burgundiaca.webp`, `rosa-regalis.webp`, `rosa-centifolia.webp`, `rosa-purpurea.webp`, `rosa-sertulata.webp` | Pierre-Joseph Redouté, *Les Roses* (1817–1824) |
 | `mariposa-izq.webp`, `mariposa-der.webp` | *Aporia crataegi*, W. F. Kirby, *British and European Butterflies and Moths* (1882), en dos mitades para aletear |
+| `mariposa-monarca-izq.webp`, `mariposa-monarca-der.webp` | monarca del sur, *Danaus erippus*, Cramer & Stoll, *De uitlandsche kapellen* vol. 1, lám. 3 (1775); vuela libre en "El evento" |
+| `mariposa-limoncito-izq.webp`, `mariposa-limoncito-der.webp` | limoncito, *Phoebis sennae*, Cramer & Stoll, *De uitlandsche kapellen* vol. 2, lám. 120 (1777); vuela libre en "Regalos" |
 
 Las mismas láminas reaparecen, tenues y meciéndose, en las demás secciones
 (`.lamina-caja` en el HTML de cada sección; no pesan más porque ya están
