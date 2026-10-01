@@ -242,21 +242,31 @@ section{ padding-block:clamp(64px,9vw,88px); position:relative; overflow:hidden;
 }
 
 /* ── Pista de scroll ───────────────────────────────────────────────
-   En PC: "seguí bajando" en itálica y un hilo de tinta que se dibuja hacia
-   abajo, con una gota dorada que baja por él. En celular: el mismo hilo,
-   finito, en el margen derecho (nunca tapa el botón), con "Deslizá" en
-   vertical. Aparecen al terminar la entrada y se van con el primer scroll.
-   Con "reducir movimiento" se ven quietos, con la gota abajo. ───────── */
+   Sin texto: un hilo de tinta que se dibuja hacia abajo y termina en una
+   flechita de tinta; una gota dorada baja por el hilo y, al llegar, la
+   flecha da un empujoncito hacia abajo. En PC va centrada; en celular, el
+   mismo hilo finito en el margen derecho (nunca tapa el botón). Aparecen al
+   terminar la entrada y se van con el primer scroll. Con "reducir
+   movimiento" se ven quietos, con la gota abajo. ───────────────────── */
+.flecha-tinta{
+  display:block; width:9px; height:9px; margin-top:-5px;
+  border-right:1px solid currentColor; border-bottom:1px solid currentColor;
+  transform:rotate(45deg); opacity:.7;
+}
+/* el empujoncito: coincide con la llegada de la gota (~75 % del ciclo) */
+@keyframes flecha-latido{
+  0%,60%,100%{ transform:translateY(0) rotate(45deg); opacity:.6; }
+  76%        { transform:translateY(4px) rotate(45deg); opacity:1; }
+}
 .pista-scroll{
   position:fixed; left:50%; bottom:max(18px, env(safe-area-inset-bottom, 0px) + 12px); z-index:40;
   transform:translateX(-50%);
-  display:flex; flex-direction:column; align-items:center; gap:10px;
+  display:flex; flex-direction:column; align-items:center; gap:0;
   color:var(--verde-medio); text-decoration:none;
-  padding:16px 34px 0;   /* halo de papel detrás: se lee limpio aunque abajo haya grabados */
+  padding:16px 34px 4px;   /* halo de papel detrás: se lee limpio aunque abajo haya grabados */
   background:radial-gradient(ellipse 50% 50% at 50% 42%, rgba(250,247,241,.92) 0%, rgba(250,247,241,.6) 55%, rgba(250,247,241,0) 100%);
   opacity:0; visibility:hidden; transition:opacity .9s ease, visibility 0s .9s;
 }
-.pista-scroll__txt{ font-family:var(--serif); font-style:italic; font-size:18px; line-height:1; letter-spacing:.02em; }
 .pista-scroll__hilo{ position:relative; width:7px; height:58px; }
 .pista-scroll__hilo::before{   /* el trazo */
   content:""; position:absolute; left:3px; top:0; bottom:0; width:1px;
@@ -271,6 +281,8 @@ html.lista:not(.scrolleado) .pista-scroll{ opacity:1; visibility:visible; transi
 html:not(.animar):not(.scrolleado) .pista-scroll{ opacity:1; visibility:visible; }
 html.animar.lista .pista-scroll__hilo::before{ animation:hilo-dibujar calc(1.3s * var(--ritmo,1)) var(--suave) calc(var(--retraso,0s) + 2.4s * var(--ritmo,1)) both; }
 html.animar.lista .pista-scroll__hilo::after{ animation:hilo-gota calc(2.6s * var(--ritmo,1)) cubic-bezier(.45,0,.4,1) calc(var(--retraso,0s) + 3.2s * var(--ritmo,1)) infinite both; }
+html.animar.lista .pista-scroll .flecha-tinta{ animation:flecha-latido calc(2.6s * var(--ritmo,1)) ease-in-out calc(var(--retraso,0s) + 3.2s * var(--ritmo,1)) infinite both; }
+.pista-scroll:hover .flecha-tinta, .pista-scroll:focus-visible .flecha-tinta{ opacity:1; }
 @keyframes hilo-dibujar{ from{ transform:scaleY(0); } }
 @keyframes hilo-gota{
   0%  { transform:translateY(-53px); opacity:0; }
@@ -286,14 +298,11 @@ html.animar.lista .pista-scroll__hilo::after{ animation:hilo-gota calc(2.6s * va
     position:fixed; z-index:40; pointer-events:none;
     right:max(7px, env(safe-area-inset-right, 0px) + 4px);
     bottom:calc(env(safe-area-inset-bottom, 0px) + 20px);
-    display:flex; flex-direction:column; align-items:center; gap:12px;
+    display:flex; flex-direction:column; align-items:center; gap:0;
     color:var(--verde-medio);
     opacity:0; visibility:hidden; transition:opacity .9s ease, visibility 0s .9s;
   }
-  .pista-hilo__txt{
-    writing-mode:vertical-rl;
-    font-family:var(--sans); font-size:9.5px; letter-spacing:.32em; text-transform:uppercase;
-  }
+  .pista-hilo .flecha-tinta{ width:7px; height:7px; margin-top:-4px; }
   .pista-hilo__linea{ position:relative; width:1px; height:64px; background:rgba(90,112,88,.30); }
   .pista-hilo__linea::after{
     content:""; position:absolute; left:-2px; top:0; width:5px; height:5px; border-radius:50%;
@@ -305,6 +314,7 @@ html.animar.lista .pista-scroll__hilo::after{ animation:hilo-gota calc(2.6s * va
   }
   html:not(.animar):not(.scrolleado) .pista-hilo{ opacity:1; visibility:visible; }
   html.animar .pista-hilo__linea::after{ animation:pista-gota calc(1.6s * var(--ritmo,1)) cubic-bezier(.45,0,.35,1) infinite; }
+  html.animar .pista-hilo .flecha-tinta{ animation:flecha-latido calc(1.6s * var(--ritmo,1)) ease-in-out infinite; }
 }
 @keyframes pista-gota{
   0%  { transform:translateY(0);    opacity:0; }
@@ -312,23 +322,23 @@ html.animar.lista .pista-scroll__hilo::after{ animation:hilo-gota calc(2.6s * va
   80% { opacity:1; }
   100%{ transform:translateY(59px); opacity:0; }
 }
-@media (prefers-reduced-motion:reduce){ .pista-scroll__hilo::before, .pista-scroll__hilo::after, .pista-hilo__linea::after{ animation:none !important; } }
+@media (prefers-reduced-motion:reduce){ .pista-scroll__hilo::before, .pista-scroll__hilo::after, .pista-hilo__linea::after, .flecha-tinta{ animation:none !important; } }
 
-/* ── "seguí bajando" al pie de cada sección: acompaña de punta a punta.
-      Va dentro de la página (no flota), centrado en la franja de las
-      láminas; aparece al llegar y lleva a la sección siguiente. ───── */
+/* ── Pista al pie de cada sección (hilo, gota y flechita, sin texto).
+      Va dentro de la página (no flota), centrada en la franja de las
+      láminas; aparece al llegar y lleva a la sección siguiente. La última
+      sección no la tiene. ──────────────────────────────────────────── */
 .pista-seccion{
   position:absolute; left:50%; bottom:clamp(14px,2vw,24px); z-index:1;
   transform:translateX(-50%);
-  display:flex; flex-direction:column; align-items:center; gap:8px;
-  padding:12px 26px 0;
+  display:flex; flex-direction:column; align-items:center; gap:0;
+  padding:12px 26px 4px;
   color:var(--verde-medio); text-decoration:none;
   background:radial-gradient(ellipse 50% 50% at 50% 38%, rgba(250,247,241,.7) 0%, rgba(250,247,241,0) 100%);
   opacity:0; transition:opacity 1.6s ease .2s;
 }
 .seccion-alterna .pista-seccion, .seccion-nosotros .pista-seccion{ background:radial-gradient(ellipse 50% 50% at 50% 38%, rgba(242,237,226,.75) 0%, rgba(242,237,226,0) 100%); }
 .pista-seccion.visible, html:not(.animar) .pista-seccion{ opacity:1; }
-.pista-seccion__txt{ font-family:var(--serif); font-style:italic; font-size:17px; line-height:1; letter-spacing:.02em; }
 .pista-seccion__hilo{ position:relative; width:7px; height:40px; }
 .pista-seccion__hilo::before{
   content:""; position:absolute; left:3px; top:0; bottom:0; width:1px;
@@ -341,15 +351,17 @@ html.animar.lista .pista-scroll__hilo::after{ animation:hilo-gota calc(2.6s * va
 }
 html.animar .pista-seccion.visible .pista-seccion__hilo::before{ animation:hilo-dibujar calc(1.3s * var(--ritmo,1)) var(--suave) .4s both; }
 html.animar .pista-seccion.visible .pista-seccion__hilo::after{ animation:hilo-gota-corta calc(2.6s * var(--ritmo,1)) cubic-bezier(.45,0,.4,1) calc(1.3s * var(--ritmo,1)) infinite both; }
+html.animar .pista-seccion.visible .flecha-tinta{ animation:flecha-latido calc(2.6s * var(--ritmo,1)) ease-in-out calc(1.3s * var(--ritmo,1)) infinite both; }
+.pista-seccion:hover .flecha-tinta, .pista-seccion:focus-visible .flecha-tinta{ opacity:1; }
 @keyframes hilo-gota-corta{
   0%  { transform:translateY(-35px); opacity:0; }
   18% { opacity:1; }
   70% { opacity:.9; }
   100%{ transform:translateY(0);     opacity:0; }
 }
-@media (prefers-reduced-motion:reduce){ .pista-seccion__hilo::before, .pista-seccion__hilo::after{ animation:none !important; } }
+@media (prefers-reduced-motion:reduce){ .pista-seccion__hilo::before, .pista-seccion__hilo::after, .pista-seccion .flecha-tinta{ animation:none !important; } }
 /* celulares muy angostos: pista y láminas un poco más chicas, para que no se rocen */
-@media (max-width:360px){ .pista-seccion{ padding-inline:14px; } .pista-seccion__txt{ font-size:15.5px; } }
+@media (max-width:360px){ .pista-seccion{ padding-inline:14px; } }
 @media (max-width:340px){ html section .lamina-caja--izq, html section .lamina-caja--der{ height:108px; } }
 /* en PC, un poco más de aire al pie de cada sección para que la pista no roce el contenido */
 @media (min-width:860px){ section.con-pista{ padding-bottom:calc(clamp(64px,9vw,88px) + 64px); } }
@@ -952,6 +964,13 @@ html.animar .lamina{ animation:mecer 8s ease-in-out infinite; }
 html.animar .lamina-caja--der .lamina{ animation-duration:9.5s; animation-delay:-3s; }
 html.animar .lamina--ombu{ animation:susurrar 12s ease-in-out infinite; transform-origin:30% 0; }
 html.animar .lamina--amancay{ animation-duration:10s; animation-delay:-5s; }
+html.animar .lamina--cardo{ animation-duration:8.8s; animation-delay:-6s; }
+/* el cardo de "El evento", un poco más chico que las demás láminas */
+#evento .lamina-caja--izq{ width:min(30vw,190px); }
+@media (min-width:860px){ #evento .lamina-caja--izq{ width:auto; height:min(clamp(120px,21vh,195px), 56%); } }
+@media (min-width:1600px){ #evento .lamina-caja--izq{ height:min(clamp(120px,22vh,255px), 56%); } }
+@media (max-width:859px){ #evento .lamina-caja--izq{ width:auto; height:100px; } }
+@media (max-width:340px){ #evento .lamina-caja--izq{ height:88px; } }
 html.animar .lamina--cortadera{ animation:mecer-cortadera 6s ease-in-out infinite; }
 html.animar .lamina--cortadera-der{ animation:mecer-cortadera-der 6.8s ease-in-out -2s infinite; }
 .lamina--cortadera-der{ transform:scaleX(-1); }
@@ -1557,8 +1576,8 @@ footer :focus-visible{ outline-color:var(--crema); }
     </div>
   </div>
   <!-- pista para bajar: aparece al terminar la entrada y se va con el primer scroll. ✏️ EDITAR: texto -->
-  <a class="pista-scroll" href="#nosotros" aria-label="Seguir bajando"><span class="pista-scroll__txt">seguí bajando</span><span class="pista-scroll__hilo" aria-hidden="true"></span></a>
-  <div class="pista-hilo" aria-hidden="true"><span class="pista-hilo__txt">Deslizá</span><span class="pista-hilo__linea"></span></div>
+  <a class="pista-scroll" href="#nosotros" aria-label="Seguir bajando"><span class="pista-scroll__hilo" aria-hidden="true"></span><span class="flecha-tinta" aria-hidden="true"></span></a>
+  <div class="pista-hilo" aria-hidden="true"><span class="pista-hilo__linea"></span><span class="flecha-tinta"></span></div>
 </div>
 
 <!-- ═══════════════ NOSOTROS ═══════════════ -->
@@ -1573,12 +1592,13 @@ footer :focus-visible{ outline-color:var(--crema); }
       <p class="nosotros__firma">Jess<span class="amp">&amp;</span>Guille</p>
     </div>
   </div>
-  <a class="pista-seccion" href="#evento" aria-label="Seguir bajando"><span class="pista-seccion__txt">seguí bajando</span><span class="pista-seccion__hilo" aria-hidden="true"></span></a>
+  <a class="pista-seccion" href="#evento" aria-label="Seguir bajando"><span class="pista-seccion__hilo" aria-hidden="true"></span><span class="flecha-tinta" aria-hidden="true"></span></a>
 </section>
 
 
 <!-- ═══════════════ EL EVENTO ═══════════════ -->
 <section id="evento" class="con-pista">
+  <span class="lamina-caja lamina-caja--izq"><img class="lamina lamina--cardo" src="escena/cardo.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--der"><img class="lamina lamina--jacaranda" src="escena/jacaranda.webp" alt="" loading="lazy" decoding="async"></span>
   <svg class="cruce cruce--1" viewBox="-18 -18 36 36" aria-hidden="true"><g class="vaiven"><g class="mariposa"><image class="ala ala--izq" href="escena/mariposa-izq.webp" x="-14" y="-8.1" width="14" height="16.3"/><image class="ala ala--der" href="escena/mariposa-der.webp" x="0" y="-8.3" width="14" height="16.6"/></g></g></svg>
   <div class="envoltorio">
@@ -1620,7 +1640,7 @@ footer :focus-visible{ outline-color:var(--crema); }
 
     </div>
   </div>
-  <a class="pista-seccion" href="#confirmar" aria-label="Seguir bajando"><span class="pista-seccion__txt">seguí bajando</span><span class="pista-seccion__hilo" aria-hidden="true"></span></a>
+  <a class="pista-seccion" href="#confirmar" aria-label="Seguir bajando"><span class="pista-seccion__hilo" aria-hidden="true"></span><span class="flecha-tinta" aria-hidden="true"></span></a>
 </section>
 
 <!-- ═══════════════ CONFIRMACIÓN ═══════════════ -->
@@ -1722,7 +1742,7 @@ footer :focus-visible{ outline-color:var(--crema); }
       </div>
     </div>
   </div>
-  <a class="pista-seccion" href="#regalos" aria-label="Seguir bajando"><span class="pista-seccion__txt">seguí bajando</span><span class="pista-seccion__hilo" aria-hidden="true"></span></a>
+  <a class="pista-seccion" href="#regalos" aria-label="Seguir bajando"><span class="pista-seccion__hilo" aria-hidden="true"></span><span class="flecha-tinta" aria-hidden="true"></span></a>
 </section>
 
 <!-- ═══════════════ REGALOS ═══════════════ -->
@@ -1770,7 +1790,7 @@ footer :focus-visible{ outline-color:var(--crema); }
       <p class="contacto"><a class="boton-mapa" href="https://wa.me/5491137737433?text=Hola%21%20Quer%C3%ADa%20consultarles%20por%20el%20casamiento." target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-whatsapp"/></svg>Escribinos por WhatsApp</a></p>
     </div>
   </div>
-  <a class="pista-seccion" href="#preguntas" aria-label="Seguir bajando"><span class="pista-seccion__txt">seguí bajando</span><span class="pista-seccion__hilo" aria-hidden="true"></span></a>
+  <a class="pista-seccion" href="#preguntas" aria-label="Seguir bajando"><span class="pista-seccion__hilo" aria-hidden="true"></span><span class="flecha-tinta" aria-hidden="true"></span></a>
 </section>
 
 <!-- ═══════════════ PREGUNTAS ═══════════════ -->
@@ -1815,7 +1835,6 @@ footer :focus-visible{ outline-color:var(--crema); }
       <a class="boton-mapa" href="https://wa.me/5491137737433?text=Hola%21%20Tengo%20una%20duda%20sobre%20el%20casamiento." target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-whatsapp"/></svg>Escribinos por WhatsApp</a>
     </div>
   </div>
-  <a class="pista-seccion" href="#pie" aria-label="Seguir bajando"><span class="pista-seccion__txt">seguí bajando</span><span class="pista-seccion__hilo" aria-hidden="true"></span></a>
 </section>
 
 <!-- ═══════════════ PIE ═══════════════ -->
@@ -2339,7 +2358,7 @@ function parametro(nombre){
 })();
 
 
-/* ── "seguí bajando" de cada sección ─────────────────────────────── */
+/* ── Pista al pie de cada sección ───────────────────────────────── */
 (function(){
   var pistas = document.querySelectorAll('.pista-seccion');
   if(!pistas.length) return;
@@ -2347,8 +2366,12 @@ function parametro(nombre){
   pistas.forEach(function(a){
     var sig = a.parentNode.nextElementSibling;
     while(sig && (!/^(SECTION|FOOTER)$/.test(sig.tagName) || !sig.offsetHeight)) sig = sig.nextElementSibling;
-    if(sig && sig.id) a.href = '#' + sig.id;
+    /* si después solo queda el pie (o nada), no hay a dónde bajar */
+    if(!sig || sig.tagName === 'FOOTER'){ a.parentNode.removeChild(a); return; }
+    if(sig.id) a.href = '#' + sig.id;
   });
+  pistas = document.querySelectorAll('.pista-seccion');
+  if(!pistas.length) return;
   if(!('IntersectionObserver' in window)){ pistas.forEach(function(a){ a.classList.add('visible'); }); return; }
   var obs = new IntersectionObserver(function(entradas){
     entradas.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });

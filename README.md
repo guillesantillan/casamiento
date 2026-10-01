@@ -63,6 +63,7 @@ viejos) no se muestra.
 | `cortadera.webp` | *Cortaderia selloana*, dibujo a línea (dominio público) |
 | `pasto.webp` | *Trisetum flavescens*, *Flora Londinensis* (1777) |
 | `amancay.webp` | *Alstroemeria aurea*, Heinrich Witte, *Flora* (1868) |
+| `cardo.webp` | *Carduus acanthoides* (cardo), lámina de M. Spuler en L. Klein, *Unsere Unkräuter* (1926), t. 84, vía plantillustrations.org / BioLib.de; recortada del fondo oscuro pintado, solo la flor, el capullo y los tallos; abajo a la izquierda en "El evento" |
 | `jazmin.webp` | *Jasminum officinale*, *The Botanical Magazine* pl. 31 (1787) |
 | `rosa-pontiana.webp`, `rosa-burgundiaca.webp`, `rosa-regalis.webp`, `rosa-centifolia.webp`, `rosa-purpurea.webp`, `rosa-sertulata.webp` | Pierre-Joseph Redouté, *Les Roses* (1817–1824) |
 | `mariposa-izq.webp`, `mariposa-der.webp` | *Aporia crataegi*, W. F. Kirby, *British and European Butterflies and Moths* (1882), en dos mitades para aletear |
