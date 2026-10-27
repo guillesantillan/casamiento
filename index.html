@@ -2238,7 +2238,8 @@ var ESCENA = (function(){
 
   /* al tocar: un toquecito de vibración donde se puede (Android) */
   function tocar(){
-    if(!abierto && navigator.vibrate) try{ navigator.vibrate(12); }catch(e){}
+    var real = !navigator.userActivation || navigator.userActivation.isActive;   /* solo con un toque de verdad */
+    if(!abierto && real && navigator.vibrate) try{ navigator.vibrate(12); }catch(e){}
     abrir();
   }
   /* la luz del lacre sigue el giro del celular (Android; en iPhone no llega el evento) */
