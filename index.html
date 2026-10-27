@@ -1633,18 +1633,7 @@ html.animar .pregunta[open] p{ animation:aparecer .6s ease .12s both; }
 /* ── El pie: el lacre se estampa y la firma se escribe ── */
 footer .pie__sello{ display:block; width:76px; height:76px; margin:0 auto 26px; }
 footer .pie__sello .sobre__sello{ cursor:default; }
-footer .pie__sello .sobre__sello::after{ top:-7px; left:-7px; right:-7px; bottom:-7px; opacity:1; }
-/* sobre el verde del pie, la cera va en un verde salvia más claro, con más luz */
-footer .pie__sello .sello__cera{
-  background:radial-gradient(circle at 36% 30%, #b3c4aa 0%, #8fa686 34%, #758f6e 62%, #5a7058 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.4),
-    inset 0 -3px 8px rgba(0,0,0,.22),
-    0 12px 26px -10px rgba(0,0,0,.45),
-    0 2px 4px rgba(0,0,0,.2);
-}
-footer .pie__sello .sobre__sello{ color:var(--verde); }   /* iniciales en verde hondo: sobre la salvia se leen */
-footer .pie__sello .sobre__sello svg{ filter:drop-shadow(0 1px 0 rgba(255,255,255,.35)) drop-shadow(0 -1px 0 rgba(0,0,0,.18)); }
+footer .pie__sello .sobre__sello::after{ top:-7px; left:-7px; right:-7px; bottom:-7px; }
 html.animar footer .revelar{ opacity:1; transform:none; transition:none; }
 html.animar footer .pie__sello:not(.visible), html.animar footer .pie__firma:not(.visible){ opacity:0; }
 html.animar footer .pie__sello.visible{ animation:sellar 1.3s var(--suave) .2s both; }
