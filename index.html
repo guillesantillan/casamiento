@@ -1409,6 +1409,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 .campo--mitad{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.6fr); gap:28px; }
 .campo--mitad > div{ display:flex; flex-direction:column; gap:6px; min-width:0; }
 .campo--mitad > div[hidden]{ display:none; }
+.campo--mitad[hidden]{ display:none; }
 .campo--mitad:has(> div[hidden]){ grid-template-columns:minmax(0,1fr); }
 @media (max-width:560px){ .campo--mitad{ grid-template-columns:1fr; gap:26px; } }
 .solo-si{ display:flex; flex-direction:column; gap:26px; }
@@ -2698,6 +2699,35 @@ function parametro(nombre){
   /* "¿Con quién venís?" solo si son más de uno */
   var personas = form.querySelector('[name="personas"]');
   var conQuien = document.getElementById('con-quien');
+
+  /* Lugares de la invitación: el link trae ?ref=código, que lleva la cantidad
+     de lugares atada al nombre de ?para= (lo arma armar-links.html). Con 1
+     lugar no se pregunta cuántos son; con más, se puede elegir hasta ese
+     número. Si el código no corresponde al nombre (alguien lo tocó), vale 1.
+     Sin ?ref= la pregunta queda como siempre. */
+  function huella(nombre){
+    var s = 'jg-6dic|' + nombre.toLowerCase().replace(/\s+/g, ' ').trim(), h = 5381;
+    for(var i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0;
+    return h % 50000;
+  }
+  function lugares(){
+    var codigo = parametro('ref').trim().toLowerCase();
+    if(!codigo) return 0;
+    if(!invitacion || !/^[A-Za-zÀ-ſ' .\-]{2,40}$/.test(invitacion) || !/^[0-9a-z]{1,12}$/.test(codigo)) return 1;
+    var x = parseInt(codigo, 36);
+    if((x - 3) % 7) return 1;
+    var y = (x - 3) / 7, n = y % 10;
+    return (n >= 1 && Math.floor(y / 10) === huella(invitacion)) ? n : 1;
+  }
+  var tope = lugares();
+  if(tope && personas){
+    var opciones = '';
+    for(var p = 1; p <= tope; p++) opciones += '<option value="' + p + '">' + (p === 1 ? '1 (solo yo)' : p) + '</option>';
+    personas.innerHTML = opciones;
+    /* para una sola persona, el renglón entero (cuántos y con quién) no hace falta */
+    var renglon = personas.closest ? personas.closest('.campo--mitad') : null;
+    if(tope === 1 && renglon) renglon.hidden = true;
+  }
   function mostrarConQuien(){ if(personas && conQuien) conQuien.hidden = personas.value === '1'; }
   if(personas){ personas.addEventListener('change', mostrarConQuien); mostrarConQuien(); }
   var radios = form.querySelectorAll('[name="asiste"]');

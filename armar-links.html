@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Armar links · Jess &amp; Guille</title>
+<!-- Herramienta para los novios (no está enlazada desde el sitio).
+     Arma el link de cada invitado con su nombre (?para=) y un código (?ref=)
+     que lleva la cantidad de lugares, atado al nombre: si alguien cambia el
+     código o el nombre, la invitación vale para 1. La cuenta tiene que ser
+     la misma que la de index.html (función huella). -->
+<style>
+  :root{
+    --crema:#faf7f1; --blanco:#fffefb; --verde:#3d5140; --verde-medio:#5a7058;
+    --tinta:#2c3229; --tinta-suave:#5d655a; --linea:#ddd5c5; --dorado:#9c7a45;
+  }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--crema); color:var(--tinta); font:16px/1.6 "Helvetica Neue", Arial, sans-serif; }
+  main{ max-width:880px; margin:0 auto; padding:32px 16px 64px; }
+  h1{ font:italic 400 34px/1.2 Georgia, serif; color:var(--verde); margin:0 0 8px; }
+  p{ color:var(--tinta-suave); margin:0 0 16px; }
+  textarea{ width:100%; min-height:180px; padding:12px 14px; font:15px/1.5 ui-monospace, Consolas, monospace; border:1px solid var(--linea); border-radius:3px; background:var(--blanco); color:var(--tinta); }
+  button{ font:inherit; font-size:13px; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; border-radius:3px; padding:10px 18px; border:1px solid var(--verde); background:var(--verde); color:var(--crema); }
+  button.suave, a.suave{ display:inline-block; font-size:13px; letter-spacing:.1em; text-transform:uppercase; text-decoration:none; border-radius:3px; border:1px solid var(--verde-medio); background:transparent; color:var(--verde); padding:6px 12px; }
+  .acciones{ display:flex; gap:10px; flex-wrap:wrap; margin:12px 0 28px; }
+  table{ width:100%; border-collapse:collapse; background:var(--blanco); border:1px solid var(--linea); }
+  th, td{ text-align:left; padding:10px 12px; border-bottom:1px solid var(--linea); vertical-align:top; }
+  th{ font-size:12px; letter-spacing:.15em; text-transform:uppercase; color:var(--verde-medio); font-weight:400; }
+  td.link{ word-break:break-all; font-size:13px; }
+  td.link a{ color:var(--verde); }
+  .error{ color:#b0603f; }
+  .botones{ display:flex; gap:6px; flex-wrap:wrap; }
+  @media (max-width:640px){ th:nth-child(3), td.link{ display:none; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Links de la invitación</h1>
+  <p>Un invitado por renglón: <strong>nombre, lugares</strong>. Por ejemplo <code>Tía Marta, 2</code>. Si no ponés lugares, vale 1. El nombre es el que aparece en el sobre (solo letras, espacios, punto, apóstrofo y guion; hasta 40). Lugares: de 1 a 9.</p>
+  <textarea id="lista" spellcheck="false" placeholder="Tía Marta, 2&#10;Pedro Gómez, 1&#10;Familia Pérez, 4"></textarea>
+  <div class="acciones">
+    <button type="button" id="armar">Armar links</button>
+    <button type="button" class="suave" id="copiar-todo" hidden>Copiar todos</button>
+  </div>
+  <table id="tabla" hidden>
+    <thead><tr><th>Invitado</th><th>Lugares</th><th>Link</th><th></th></tr></thead>
+    <tbody></tbody>
+  </table>
+</main>
+<script>
+var SITIO = 'https://guillesantillan.github.io/casamiento/';
+
+/* la misma cuenta que index.html: si cambia allá, cambia acá */
+function huella(nombre){
+  var s = 'jg-6dic|' + nombre.toLowerCase().replace(/\s+/g, ' ').trim(), h = 5381;
+  for(var i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0;
+  return h % 50000;
+}
+function codigo(nombre, n){ return ((huella(nombre) * 10 + n) * 7 + 3).toString(36); }
+function link(nombre, n){
+  return SITIO + '?para=' + encodeURIComponent(nombre).replace(/%20/g, '+') + '&ref=' + codigo(nombre, n);
+}
+
+var cuerpo = document.querySelector('#tabla tbody'), todos = [];
+
+function copiar(texto, boton){
+  var antes = boton.textContent;
+  (navigator.clipboard ? navigator.clipboard.writeText(texto) : Promise.reject()).then(function(){
+    boton.textContent = '¡Copiado!';
+  }, function(){ prompt('Copialo de acá:', texto); }).then(function(){ setTimeout(function(){ boton.textContent = antes; }, 1800); });
+}
+
+document.getElementById('armar').addEventListener('click', function(){
+  cuerpo.innerHTML = ''; todos = [];
+  document.getElementById('lista').value.split(/\r?\n/).forEach(function(renglon){
+    if(!renglon.trim()) return;
+    var partes = renglon.split(/[,;\t]/);
+    var nombre = partes[0].trim().replace(/\s+/g, ' ');
+    var n = partes[1] ? parseInt(partes[1], 10) : 1;
+    var tr = document.createElement('tr');
+    var celdaNombre = document.createElement('td'); celdaNombre.textContent = nombre;
+    var celdaN = document.createElement('td');
+    var celdaLink = document.createElement('td'); celdaLink.className = 'link';
+    var celdaBotones = document.createElement('td');
+    tr.appendChild(celdaNombre); tr.appendChild(celdaN); tr.appendChild(celdaLink); tr.appendChild(celdaBotones);
+    if(!/^[A-Za-zÀ-ſ' .\-]{2,40}$/.test(nombre)){
+      celdaN.textContent = '—'; celdaLink.innerHTML = '<span class="error">Nombre no válido (solo letras, espacios, punto, apóstrofo y guion; 2 a 40).</span>';
+    }else if(isNaN(n) || n < 1 || n > 9){
+      celdaN.textContent = '—'; celdaLink.innerHTML = '<span class="error">Lugares: de 1 a 9.</span>';
+    }else{
+      var url = link(nombre, n);
+      todos.push(nombre + ' (' + n + '): ' + url);
+      celdaN.textContent = n;
+      var a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = url;
+      celdaLink.appendChild(a);
+      var caja = document.createElement('div'); caja.className = 'botones';
+      var b1 = document.createElement('button'); b1.type = 'button'; b1.className = 'suave'; b1.textContent = 'Copiar';
+      b1.addEventListener('click', function(){ copiar(url, b1); });
+      var b2 = document.createElement('a'); b2.className = 'suave'; b2.target = '_blank'; b2.rel = 'noopener';
+      b2.href = 'https://wa.me/?text=' + encodeURIComponent('¡Hola, ' + nombre + '! Nos casamos y queremos que estés. Acá está la invitación: ' + url);
+      b2.textContent = 'WhatsApp';
+      caja.appendChild(b1); caja.appendChild(b2); celdaBotones.appendChild(caja);
+    }
+    cuerpo.appendChild(tr);
+  });
+  document.getElementById('tabla').hidden = !cuerpo.children.length;
+  document.getElementById('copiar-todo').hidden = !todos.length;
+});
+document.getElementById('copiar-todo').addEventListener('click', function(){ copiar(todos.join('\n'), this); });
+</script>
+</body>
+</html>

@@ -22,6 +22,22 @@ Los espacios van como `+` (o `%20`). Solo acepta letras, espacios, punto,
 apóstrofo y guion, hasta 40 caracteres; cualquier otra cosa se ignora y el
 sitio se ve normal. Sin el parámetro no pasa nada.
 
+### Lugares por invitación
+
+Los links se arman con `armar-links.html` (abrila en el navegador: no está
+enlazada desde el sitio). Pegás un invitado por renglón, `nombre, lugares`
+(de 1 a 9), y te da cada link con un `&ref=código` que lleva la cantidad de
+lugares atada al nombre. En el formulario:
+
+- **1 lugar**: no se pregunta cuántos son ni con quién.
+- **Más de 1**: "¿Cuántos son en total?" deja elegir de 1 hasta esa cantidad.
+- Si alguien cambia el código o el nombre del link, vale para 1.
+- Sin `&ref=` (link genérico) la pregunta queda como siempre (1 a 3).
+
+El script de Apps Script acepta hasta 9 personas: si lo cambiaste, volvé a
+desplegarlo (Implementar → Administrar implementaciones → editar → Nueva
+versión) para que tome el cambio.
+
 ## Después del casamiento
 
 Pasadas unas horas del fin del evento (`data-fin`), el sitio cambia solo:
