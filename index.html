@@ -186,6 +186,18 @@ html.sobre.abierto .barra{ animation:aparecer 1.4s ease calc(var(--retraso,0s) +
   width:40px; height:40px; color:var(--verde); display:none;
 }
 .barra__logo svg{ width:100%; height:100%; }
+/* el monograma aparece recién cuando la portada (que ya lo tiene todo) sale de pantalla */
+.barra__logo{ transition:opacity .8s ease, transform .8s var(--suave); }
+html.animar .barra__logo{ opacity:0; transform:translateY(-50%) scale(.85); pointer-events:none; }
+html.animar.pasada-portada .barra__logo{ opacity:1; transform:translateY(-50%); pointer-events:auto; }
+/* un trazo dorado bajo la sección en la que estás, que se desliza al cambiar */
+.barra nav{ position:relative; }
+.barra__marca{
+  position:absolute; left:0; top:0; width:0; height:1px; background:var(--dorado);
+  opacity:0; pointer-events:none;
+  transition:left .7s var(--suave), width .7s var(--suave), opacity .5s ease;
+}
+.barra a.activa{ color:var(--verde); }
 @media (min-width:760px){ .barra__logo{ display:block; } }
 
 .barra nav{
@@ -197,8 +209,8 @@ html.sobre.abierto .barra{ animation:aparecer 1.4s ease calc(var(--retraso,0s) +
 .barra nav::-webkit-scrollbar{ display:none; }
 /* centrado con márgenes automáticos: si entra, queda centrado; si no entra,
    se puede scrollear hasta el primer ítem (con justify-content:center no se podía) */
-.barra a:first-child{ margin-left:auto; }
-.barra a:last-child{ margin-right:auto; }
+.barra a:first-of-type{ margin-left:auto; }
+.barra a:last-of-type{ margin-right:auto; }
 
 .barra a{
   font-size:13px;
@@ -607,11 +619,22 @@ html.escena-intro .escena__ombu--der{ animation-name:deriva-der; }
 .arco::after{
   content:""; position:absolute; top:3px; left:3px; right:3px; bottom:3px; pointer-events:none;
   background-image:
-    radial-gradient(circle, var(--dorado) 1.7px, transparent 2.4px),
-    radial-gradient(circle, var(--dorado) 1.7px, transparent 2.4px);
+    radial-gradient(circle at 42% 40%, #f0dcaa 0, #c09a5e .9px, var(--dorado) 1.7px, transparent 2.4px),
+    radial-gradient(circle at 42% 40%, #f0dcaa 0, #c09a5e .9px, var(--dorado) 1.7px, transparent 2.4px);
   background-size:10px 10px; background-repeat:no-repeat;
   background-position:-5px calc(100% + 5px), calc(100% + 5px) calc(100% + 5px);
 }
+/* la foto se revela como una copia en la cubeta y después se acerca, muy lento */
+.arco picture{ display:block; overflow:hidden; border-radius:999px 999px 3px 3px; }
+html.animar .arco img{
+  transform-origin:50% 38%;
+  animation:revelar-foto 4.2s cubic-bezier(.4,0,.3,1) calc(var(--retraso,0s) + .15s) both, ken-burns 26s ease-in-out calc(var(--retraso,0s) + 3s) infinite alternate;
+  animation-play-state:paused;
+}
+html.animar.lista .arco img{ animation-play-state:running; }
+/* las mismas funciones en las dos puntas: si no, el navegador no interpola y salta de golpe */
+@keyframes revelar-foto{ from{ filter:sepia(.55) saturate(.6) brightness(1.1) contrast(.82) blur(1.2px); } to{ filter:sepia(0) saturate(.92) brightness(1) contrast(1) blur(0); } }
+@keyframes ken-burns{ from{ transform:scale(1); } to{ transform:scale(1.035); } }
 .arco img{
   display:block; width:100%; height:auto;
   border-radius:999px 999px 3px 3px;
@@ -656,6 +679,13 @@ html.escena-intro .escena__ombu--der{ animation-name:deriva-der; }
   font-size:.62em; vertical-align:.08em;
   color:var(--dorado);
 }
+/* el & de la portada y del sobre, en dorado de imprenta (hot-foil): un brillo
+   lo recorre una vez al terminar la entrada */
+.portada h1 .amp, .sobre__nombres .amp{
+  background:linear-gradient(100deg, #8d6c3c 0%, #a9864f 30%, #f4e3b5 46%, #b18d55 56%, #8d6c3c 100%) 0 0 / 300% 100%;
+  -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent;
+}
+@keyframes destello{ from{ background-position:100% 0; } to{ background-position:0 0; } }
 
 .portada__fecha{
   margin-top:22px;
@@ -696,8 +726,8 @@ html.escena-intro .escena__ombu--der{ animation-name:deriva-der; }
   font-variant-numeric:lining-nums tabular-nums;
 }
 @media (prefers-reduced-motion:no-preference){
-  .regresiva__num.tic{ animation:tic .9s ease-out; }
-  @keyframes tic{ from{ opacity:.7; } to{ opacity:1; } }
+  .regresiva__num.tic{ animation:tic .55s cubic-bezier(.2,.7,.3,1); }
+  @keyframes tic{ from{ opacity:.3; transform:translateY(-7px); } to{ opacity:1; transform:none; } }
 }
 .regresiva__rot{
   display:block; margin-top:8px;
@@ -742,7 +772,7 @@ html.animar .arco{ animation-name:posar; animation-duration:1.5s; animation-dela
 html.animar .portada__saludo{ animation-name:subir; animation-delay:calc(var(--retraso,0s) + .45s * var(--ritmo,1)); }
 html.animar .portada__intro{ animation-name:aparecer; animation-delay:calc(var(--retraso,0s) + .5s * var(--ritmo,1)); animation-duration:.7s; }
 html.animar .portada h1{ animation-name:barrer; animation-delay:calc(var(--retraso,0s) + .6s * var(--ritmo,1)); animation-duration:1.5s; }
-html.animar .portada h1 .amp{ display:inline-block; animation-name:caer; animation-delay:calc(var(--retraso,0s) + 1s * var(--ritmo,1)); animation-duration:.7s; }
+html.animar .portada h1 .amp{ display:inline-block; animation-name:caer, destello; animation-delay:calc(var(--retraso,0s) + 1s * var(--ritmo,1)), calc(var(--retraso,0s) + 1.7s * var(--ritmo,1)); animation-duration:.7s, 2.2s; animation-timing-function:var(--suave), cubic-bezier(.45,0,.25,1); }
 html.animar .portada__fecha{ animation-name:subir; animation-delay:calc(var(--retraso,0s) + .85s * var(--ritmo,1)); }
 html.animar .regresiva__intro{ animation-name:subir; animation-delay:calc(var(--retraso,0s) + .95s * var(--ritmo,1)); }
 html.animar .regresiva__celda{ animation-name:subir; animation-delay:calc(var(--retraso,0s) + 1s * var(--ritmo,1)); }
@@ -910,25 +940,38 @@ html.sobre-visible .sobre__para::after{ animation:extender 1s var(--suave) 2s bo
 .sobre__sello{
   width:100%; height:100%; border-radius:50%; position:relative;
   border:0; padding:0; margin:0; cursor:pointer; font:inherit; -webkit-appearance:none; appearance:none;
-  background:radial-gradient(circle at 36% 30%, #66805f 0%, #4a6149 38%, #3d5140 62%, #2c3b2e 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.28),
-    inset 0 -3px 8px rgba(0,0,0,.28),
-    0 14px 30px -12px rgba(44,50,41,.65),
-    0 2px 4px rgba(44,50,41,.25);
+  background:none;
   display:flex; align-items:center; justify-content:center;
   color:var(--crema);
 }
+/* la cera: un disco con el borde irregular de lacre derramado (filtro #cera)
+   y la luz arriba a la izquierda; en Android la luz sigue el giro del celular */
+.sello__cera{
+  position:absolute; top:-3px; left:-3px; right:-3px; bottom:-3px; border-radius:50%;
+  background:radial-gradient(circle at var(--luz-x,36%) var(--luz-y,30%), #6d8866 0%, #4a6149 36%, #3d5140 62%, #2a382c 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.28),
+    inset 0 -3px 8px rgba(0,0,0,.3),
+    0 14px 30px -12px rgba(44,50,41,.65),
+    0 2px 4px rgba(44,50,41,.25);
+  filter:url(#cera);
+  transition:box-shadow .35s ease;
+}
 .sobre__sello::before{
-  content:""; position:absolute; top:7px; left:7px; right:7px; bottom:7px;
+  content:""; position:absolute; top:7px; left:7px; right:7px; bottom:7px; z-index:1;
   border-radius:50%; border:1px solid rgba(250,247,241,.42);
   box-shadow:inset 0 1px 2px rgba(0,0,0,.25);
 }
 .sobre__sello::after{
   content:""; position:absolute; top:-9px; left:-9px; right:-9px; bottom:-9px;
-  border-radius:50%; border:1px solid var(--dorado); opacity:.85;
+  border-radius:50%; opacity:.9;
+  /* dorado de imprenta: un aro de 1,3 px con brillo que gira alrededor */
+  background:conic-gradient(from 210deg, #8d6c3c, #c9a466 18%, #f2dfae 27%, #b18d55 38%, #8d6c3c 55%, #c2a06a 75%, #8d6c3c);
+  -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 1.4px), #000 calc(100% - 1.3px));
+  mask:radial-gradient(farthest-side, transparent calc(100% - 1.4px), #000 calc(100% - 1.3px));
 }
-.sobre__sello svg{ width:64%; height:64%; filter:drop-shadow(0 1px 0 rgba(0,0,0,.35)); }
+/* las iniciales en bajorrelieve: luz arriba, sombra abajo */
+.sobre__sello svg{ position:relative; z-index:1; width:64%; height:64%; filter:drop-shadow(0 -1px 0 rgba(255,255,255,.22)) drop-shadow(0 1px 1px rgba(0,0,0,.45)); }
 
 /* pista para abrir, debajo de la fecha */
 .sobre__pista{
@@ -950,10 +993,13 @@ html.sobre-visible .sobre__sello::after{ animation:latir 2.2s ease-out 1.9s 3; }
 @media (hover:hover){
   html.sobre-visible .sobre__sello:hover{
     animation:none; transform:translateY(-2px) scale(1.04); filter:brightness(1.06);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.34), inset 0 -3px 8px rgba(0,0,0,.28), 0 20px 36px -12px rgba(44,50,41,.7), 0 3px 6px rgba(44,50,41,.25);
+  }
+  html.sobre-visible .sobre__sello:hover .sello__cera{
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.34), inset 0 -3px 8px rgba(0,0,0,.3), 0 20px 36px -12px rgba(44,50,41,.7), 0 3px 6px rgba(44,50,41,.25);
   }
 }
 html.sobre-visible .sobre__nombres{ animation:subir 1.4s var(--suave) .5s both; }
+html.sobre-visible .sobre__nombres .amp{ animation:destello 2.2s cubic-bezier(.45,0,.25,1) 1.6s both; }
 @media (min-width:860px){ .sobre__nombres{ font-size:44px; margin-bottom:30px; } .sobre__fecha{ font-size:12px; } }
 html.sobre-visible .sobre__fecha{ animation:subir 1.4s var(--suave) .65s both; }
 html.sobre-visible .sobre__pista{ animation:aparecer 1.2s var(--suave) 2.2s both; }
@@ -1045,6 +1091,11 @@ html.con-escena .lamina-caja{ display:block; }
 .lamina-caja{ opacity:.62; }
 .lamina-caja--tenue{ opacity:.5; }
 html.animar .lamina{ animation:mecer 8s ease-in-out infinite; }
+/* la primera vez que se ven, crecen desde la base (el código pone "brotada") */
+.lamina-caja{ transform-origin:50% 100%; }
+html.laminas-brotan .lamina-caja:not(.brotada){ opacity:0; }
+html.laminas-brotan .lamina-caja.brotada{ animation:brotar-lamina 2.2s var(--suave) both; }
+@keyframes brotar-lamina{ from{ opacity:0; scale:.88; translate:0 18px; } }
 html.animar .lamina-caja--der .lamina{ animation-duration:9.5s; animation-delay:-3s; }
 html.animar .lamina--ombu{ animation:susurrar 12s ease-in-out infinite; transform-origin:30% 0; }
 html.animar .lamina--amancay{ animation-duration:10s; animation-delay:-5s; }
@@ -1147,6 +1198,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 }
 
 /* ── Después del casamiento (lo activa el código pasada la fecha) ── */
+.es-hoy #confirmar, .es-hoy .barra a[href="#confirmar"], .es-hoy .despues,
 .ya-paso #confirmar, .ya-paso .barra a[href="#confirmar"],
 .ya-paso .regresiva, .ya-paso .regresiva__intro, .ya-paso .enlace-suave,
 .ya-paso .despues{ display:none; }
@@ -1192,10 +1244,10 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 .tarjeta::after,.caja-alias::after,.caja-form::after{
   content:""; position:absolute; top:7px; left:7px; right:7px; bottom:7px; pointer-events:none;
   background-image:
-    radial-gradient(circle, var(--dorado) 1.7px, transparent 2.4px),
-    radial-gradient(circle, var(--dorado) 1.7px, transparent 2.4px),
-    radial-gradient(circle, var(--dorado) 1.7px, transparent 2.4px),
-    radial-gradient(circle, var(--dorado) 1.7px, transparent 2.4px);
+    radial-gradient(circle at 42% 40%, #f0dcaa 0, #c09a5e .9px, var(--dorado) 1.7px, transparent 2.4px),
+    radial-gradient(circle at 42% 40%, #f0dcaa 0, #c09a5e .9px, var(--dorado) 1.7px, transparent 2.4px),
+    radial-gradient(circle at 42% 40%, #f0dcaa 0, #c09a5e .9px, var(--dorado) 1.7px, transparent 2.4px),
+    radial-gradient(circle at 42% 40%, #f0dcaa 0, #c09a5e .9px, var(--dorado) 1.7px, transparent 2.4px);
   background-size:10px 10px; background-repeat:no-repeat;
   background-position:-5px -5px, calc(100% + 5px) -5px, -5px calc(100% + 5px), calc(100% + 5px) calc(100% + 5px);
 }
@@ -1459,7 +1511,6 @@ footer{
 footer > *{ position:relative; }
 footer .rama-fondo{ position:absolute; bottom:auto; top:-6%; right:-70px; height:112%; width:auto; color:var(--crema); opacity:.2; }
 footer .lamina-caja{ position:absolute; opacity:.45; }
-footer .monograma{ display:block; width:68px; height:68px; margin:0 auto 22px; color:rgba(250,247,241,.9); }
 footer h2{ font-size:clamp(30px,6vw,42px); font-style:italic; font-weight:400; }
 footer .pie__firma{
   margin:14px 0 0; font-family:var(--serif); font-style:italic; font-size:22px;
@@ -1471,6 +1522,12 @@ footer p{ margin:16px 0 0; font-size:13px; letter-spacing:var(--tr-dato); text-t
 footer :focus-visible{ outline-color:var(--crema); }
 
 .quieta, .quieta *{ animation-play-state:paused !important; }
+
+/* la luz de la tarde: al bajar, todo se entibia apenas (el código sube la opacidad) */
+.luz-tarde{
+  position:fixed; top:0; left:0; right:0; bottom:0; z-index:45; pointer-events:none; opacity:0;
+  background:linear-gradient(180deg, rgba(226,176,108,.35) 0%, rgba(222,166,96,1) 100%);
+}
 
 /* ── Aparición suave al hacer scroll ─────────────────────────── */
 .revelar{ opacity:0; transform:translateY(20px); transition:opacity .8s ease, transform .8s ease; }
@@ -1500,25 +1557,6 @@ html.animar .tarjeta.visible .anillo-piedra{ animation:dibujar .8s ease-out 1.7s
 @keyframes anillo-a{ from{ transform:translateX(-4px); } to{ transform:none; } }
 @keyframes anillo-b{ from{ transform:translateX(4px); } to{ transform:none; } }
 
-/* ── Nosotros: tres momentos unidos por un hilo de tinta ─────────── */
-.hitos{ list-style:none; margin:34px auto 6px; padding:0; position:relative; display:grid; gap:26px; max-width:560px; }
-.hitos[hidden]{ display:none; }
-.hito{ position:relative; display:flex; flex-direction:column; align-items:center; gap:4px; padding-top:18px; }
-.hito::before{ content:""; position:absolute; top:0; left:50%; width:7px; height:7px; margin-left:-3.5px; border-radius:50%; background:var(--dorado); }
-.hito__cuando{ font-size:13px; letter-spacing:var(--tr-dato); text-transform:uppercase; color:var(--verde-medio); font-variant-numeric:lining-nums; }
-.hito__que{ font-family:var(--serif); font-style:italic; font-size:19px; line-height:1.35; color:var(--tinta); text-wrap:balance; }
-/* el hilo: vertical en celular (de punto a punto), horizontal en PC */
-.hitos::after{ content:""; position:absolute; left:50%; top:3px; bottom:0; width:1px; background:var(--verde-claro); z-index:-1; transform-origin:50% 0; }
-.hito{ background:var(--crema-hondo); }   /* tapa el hilo detrás del texto */
-@media (min-width:640px){
-  .hitos{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; max-width:680px; }
-  .hito{ background:none; }
-  .hitos::after{ left:16.6%; right:16.6%; top:3px; bottom:auto; width:auto; height:1px; transform-origin:0 50%; }
-}
-html.animar .hitos::after{ transform:scaleY(0); transition:transform 2.2s cubic-bezier(.45,.1,.3,1) .3s; }
-@media (min-width:640px){ html.animar .hitos::after{ transform:scaleX(0); } }
-html.animar .visible .hitos::after{ transform:none; }
-
 /* ── Al confirmar ─────────────────────────────────────────────────
       El formulario se pliega y aparece el agradecimiento. Si viene: el
       lacre de la invitación se estampa y caen unas hojitas doradas; si
@@ -1541,6 +1579,81 @@ html.animar .formulario__gracias:not([hidden]) .formulario__gracias-texto{ anima
 .lluvia__hoja svg{ display:block; width:100%; height:auto; animation:lluvia-mecer var(--vaiven,1.3s) ease-in-out var(--d,0s) infinite alternate; }
 @keyframes lluvia-caer{ 0%{ opacity:0; transform:translateY(-6vh); } 10%{ opacity:.95; } 75%{ opacity:.85; } 100%{ opacity:0; transform:translateY(var(--hasta,80vh)); } }
 @keyframes lluvia-mecer{ from{ transform:translateX(-14px) rotate(var(--g0,-35deg)); } to{ transform:translateX(14px) rotate(var(--g1,25deg)); } }
+
+/* ── Papel de algodón: la tarjeta es una capa propia con el borde apenas
+      irregular (filtro #papel); el marco y los puntitos quedan nítidos ── */
+.tarjeta, .caja-alias, .caja-form{ background:transparent; border-color:transparent; box-shadow:none; isolation:isolate; }
+.papel{
+  position:absolute; top:0; left:0; right:0; bottom:0; z-index:-1; pointer-events:none;
+  background:var(--blanco); border:1px solid var(--linea); border-radius:3px;
+  box-shadow:0 1px 2px rgba(44,50,41,.04), 0 14px 34px -20px rgba(44,50,41,.22);
+  filter:url(#papel);
+}
+html.animar .coreo > .papel{ opacity:1; transform:none; transition:none; }
+
+/* ── Elegir "Sí, voy": el círculo se vuelve una hojita y la tarjetita sube ── */
+.campo--opciones .opcion{ transition:border-color .25s, background .25s, color .25s, transform .4s var(--suave), box-shadow .4s ease, opacity .4s ease; }
+.campo--opciones .opcion:has(input:checked){ transform:translateY(-2px); box-shadow:0 12px 22px -14px rgba(44,50,41,.55); }
+.campo--opciones .opciones:has(input:checked) .opcion:not(:has(input:checked)){ opacity:.62; }
+.campo--opciones .opcion:has(input:checked) span::before{
+  border-color:transparent; background:var(--crema); box-shadow:none;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 20'%3E%3Cpath d='M7 1c3.6 2.6 5 5.3 5 8s-1.4 5.4-5 8c-3.6-2.6-5-5.3-5-8S3.4 3.6 7 1Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 20'%3E%3Cpath d='M7 1c3.6 2.6 5 5.3 5 8s-1.4 5.4-5 8c-3.6-2.6-5-5.3-5-8S3.4 3.6 7 1Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+html.animar .campo--opciones .opcion:has(input:checked) span::before{ animation:brote .55s var(--suave) both; }
+@keyframes brote{ from{ transform:scale(.2) rotate(-35deg); } to{ transform:none; } }
+
+/* ── Enviar: un hilo de tinta recorre el pie del botón mientras se envía ── */
+.formulario__acciones .boton-copiar{ position:relative; overflow:hidden; }
+.formulario__acciones .boton-copiar.enviando[disabled]{ opacity:1; cursor:progress; }
+.boton-copiar.enviando::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#e3cf9f;
+  transform-origin:0 50%; animation:hilo-envio 1.4s cubic-bezier(.5,0,.3,1) infinite;
+}
+@keyframes hilo-envio{ 0%{ transform:scaleX(0); opacity:1; } 70%{ transform:scaleX(1); opacity:1; } 100%{ transform:scaleX(1); opacity:0; } }
+
+/* ── Copiar: tilde que se dibuja y subrayado dorado bajo el dato ── */
+.boton-copiar .tilde{ width:16px; height:16px; margin-right:8px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+html.animar .boton-copiar .tilde path{ stroke-dasharray:1; stroke-dashoffset:1; animation:dibujar .5s ease-out .05s forwards; }
+.caja-alias .valor{
+  width:fit-content; max-width:100%; margin-inline:auto; padding-bottom:3px;
+  background:linear-gradient(var(--dorado), var(--dorado)) 0 100% / 0 1px no-repeat;
+  transition:background-size .9s var(--suave);
+}
+.caja-alias .valor.copiado{ background-size:100% 1px; }
+
+/* ── Preguntas que se abren suaves (donde el navegador lo permite) ── */
+@supports selector(::details-content){
+  html.animar .preguntas{ interpolate-size:allow-keywords; }
+  html.animar .pregunta::details-content{ block-size:0; overflow-y:clip; transition:block-size .55s var(--suave), content-visibility .55s allow-discrete; }
+  html.animar .pregunta[open]::details-content{ block-size:auto; }
+}
+html.animar .pregunta[open] p{ animation:aparecer .6s ease .12s both; }
+
+/* ── El pie: el lacre se estampa y la firma se escribe ── */
+footer .pie__sello{ display:block; width:76px; height:76px; margin:0 auto 26px; }
+footer .pie__sello .sobre__sello{ cursor:default; }
+footer .pie__sello .sobre__sello::after{ top:-7px; left:-7px; right:-7px; bottom:-7px; }
+html.animar footer .revelar{ opacity:1; transform:none; transition:none; }
+html.animar footer .pie__sello:not(.visible), html.animar footer .pie__firma:not(.visible){ opacity:0; }
+html.animar footer .pie__sello.visible{ animation:sellar 1.3s var(--suave) .2s both; }
+html.animar footer .pie__sello.visible .sobre__sello::after{ animation:latir 2.2s ease-out 1.4s 1; }
+html.animar footer .pie__firma.visible{ animation:barrer 2s cubic-bezier(.45,.1,.3,1) .9s both; }
+.pie__otra-vez{ margin:26px 0 0 !important; text-transform:none !important; letter-spacing:0 !important; }
+.pie__otra-vez a{
+  font-family:var(--serif); font-style:italic; font-size:18px; color:rgba(250,247,241,.82);
+  text-decoration:underline; text-decoration-color:rgba(250,247,241,.35); text-underline-offset:4px;
+}
+.pie__otra-vez a:hover, .pie__otra-vez a:focus-visible{ text-decoration-color:rgba(250,247,241,.85); }
+.pie__otra-vez[hidden]{ display:none; }
+/* para repetir la apertura: un instante sin animaciones */
+html.reiniciando *, html.reiniciando *::before, html.reiniciando *::after{ animation:none !important; transition:none !important; }
+
+/* ── "¡Es hoy!" ── */
+.portada__hoy{
+  margin:14px 0 0; font-family:var(--serif); font-style:italic;
+  font-size:clamp(24px,5vw,30px); color:var(--verde);
+}
 
 @media (prefers-reduced-motion:reduce){
   html{ scroll-behavior:auto; }
@@ -1600,7 +1713,7 @@ html.animar .formulario__gracias:not([hidden]) .formulario__gracias-texto{ anima
     })();
     </script>
     <p class="sobre__nombres">Jess<span class="amp">&amp;</span>Guille</p>
-    <span class="sobre__sello-caja"><button class="sobre__sello" type="button" aria-label="Abrir la invitación"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#monograma"/></svg></button></span>
+    <span class="sobre__sello-caja"><button class="sobre__sello" type="button" aria-label="Abrir la invitación"><span class="sello__cera"></span><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#monograma"/></svg></button></span>
     <p class="sobre__fecha">Domingo 6 de diciembre de 2026</p>
     <p class="sobre__pista">Tocá el sello para abrir</p>
   </div>
@@ -1615,6 +1728,9 @@ html.animar .formulario__gracias:not([hidden]) .formulario__gracias-texto{ anima
     <path pathLength="1" d="M20 4c3.6 2.6 5 5.3 5 8s-1.4 5.4-5 8c-3.6-2.6-5-5.3-5-8s1.4-5.4 5-8Z"/>
     <path pathLength="1" d="M20 4v16"/>
   </symbol>
+  <!-- borde de lacre derramado (el sello) y borde de papel de algodón (las tarjetas) -->
+  <filter id="cera" x="-40%" y="-40%" width="180%" height="180%"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="1" seed="7"/><feDisplacementMap in="SourceGraphic" scale="8" xChannelSelector="R" yChannelSelector="G"/></filter>
+  <filter id="papel" x="-3%" y="-3%" width="106%" height="106%"><feTurbulence type="fractalNoise" baseFrequency=".09" numOctaves="3" seed="3"/><feDisplacementMap in="SourceGraphic" scale="3.5" xChannelSelector="R" yChannelSelector="G"/></filter>
   <!-- la hojita sola, sin las rayas: la que cae al confirmar -->
   <symbol id="hoja-sola" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" viewBox="13 2 14 20">
     <path d="M20 4c3.6 2.6 5 5.3 5 8s-1.4 5.4-5 8c-3.6-2.6-5-5.3-5-8s1.4-5.4 5-8Z" fill="currentColor" fill-opacity=".14"/>
@@ -1772,16 +1888,6 @@ html.animar .formulario__gracias:not([hidden]) .formulario__gracias-texto{ anima
       <!-- ✏️ EDITAR: escriban acá su historia, en primera persona, 3 o 4 líneas.
            Cómo se conocieron, cuánto hace, por qué quieren a esta gente ahí. -->
       <p class="nosotros__texto">Nos casamos. Vení a festejar con nosotros.</p>
-      <!-- ✏️ EDITAR: tres momentos de la historia, unidos por un hilo de tinta.
-           "cuando" va en mayúsculas chicas (un año, un lugar); "que" es una
-           frase corta. Ejemplo: <span class="hito__cuando">2019</span>
-           <span class="hito__que">Nos conocimos en un asado de amigos</span>.
-           Mientras alguno esté vacío, el bloque entero no se muestra. -->
-      <ol class="hitos coreo" id="hitos" hidden>
-        <li class="hito"><span class="hito__cuando"></span><span class="hito__que"></span></li>
-        <li class="hito"><span class="hito__cuando"></span><span class="hito__que"></span></li>
-        <li class="hito"><span class="hito__cuando"></span><span class="hito__que"></span></li>
-      </ol>
       <p class="nosotros__firma">Jess<span class="amp">&amp;</span>Guille</p>
     </div>
   </div>
@@ -1805,6 +1911,7 @@ html.animar .formulario__gracias:not([hidden]) .formulario__gracias-texto{ anima
 
       <!-- ✏️ EDITAR: el lugar (ceremonia y fiesta en el mismo salón) -->
       <article class="tarjeta revelar coreo">
+        <span class="papel" aria-hidden="true"></span>
         <!-- dos anillos entrelazados: cada uno se corta donde pasa "por debajo" del otro -->
         <svg class="icono" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
           <mask id="anillo-a" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40"><rect width="40" height="40" fill="#fff"/><circle cx="20" cy="31.66" r="2.3" fill="#000"/></mask>
@@ -1862,6 +1969,7 @@ html.animar .formulario__gracias:not([hidden]) .formulario__gracias-texto{ anima
     <form class="caja-form formulario revelar coreo" id="formulario" novalidate
           data-endpoint="https://script.google.com/macros/s/AKfycby0poNY3-PCrXdncACs2zMyN5lXnwIfhwTjFj_sQWqZJIXauVemYRtUzKRryz33mLde/exec"
           data-clave="jess-guille-2027">
+      <span class="papel" aria-hidden="true"></span>
 
       <div class="campo">
         <label for="f-nombre">Nombre y apellido</label>
@@ -1911,8 +2019,9 @@ html.animar .formulario__gracias:not([hidden]) .formulario__gracias-texto{ anima
 
     <!-- lo que se ve después de enviar -->
     <div class="caja-form formulario__gracias" id="form-gracias" hidden aria-live="polite">
+      <span class="papel" aria-hidden="true"></span>
       <!-- si viene: el mismo lacre de la invitación se estampa; si no, la hojita -->
-      <span class="gracias__sello" aria-hidden="true"><span class="sobre__sello"><svg viewBox="0 0 64 64"><use href="#monograma"/></svg></span></span>
+      <span class="gracias__sello" aria-hidden="true"><span class="sobre__sello"><span class="sello__cera"></span><svg viewBox="0 0 64 64"><use href="#monograma"/></svg></span></span>
       <svg class="divisor" aria-hidden="true" viewBox="0 0 40 24"><use href="#hojita"/></svg>
       <!-- ✏️ EDITAR: los dos mensajes de cierre ({nombre} = el nombre del invitado) -->
       <p class="formulario__gracias-titulo" data-si="¡Listo, {nombre}! Te esperamos el domingo 6 de diciembre." data-no="Gracias por avisarnos, {nombre}. ¡Una lástima no verte ese día!"></p>
@@ -1921,6 +2030,7 @@ html.animar .formulario__gracias:not([hidden]) .formulario__gracias-texto{ anima
 
     <!-- si el envío falla (sin señal, o el script no responde), la confirmación va por WhatsApp -->
     <div class="caja-form formulario__respaldo" id="form-respaldo" hidden aria-live="polite">
+      <span class="papel" aria-hidden="true"></span>
       <p><strong>No pudimos enviar tu confirmación.</strong> Tocá el botón y nos llega por WhatsApp, ya armada:</p>
       <!-- ✏️ EDITAR: número de WhatsApp (549 + área + número) -->
       <a class="boton-mapa" id="form-whatsapp" href="https://wa.me/5491137737433" target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24"><use href="#ic-whatsapp"/></svg>Confirmar por WhatsApp</a>
@@ -1955,7 +2065,7 @@ html.animar .formulario__gracias:not([hidden]) .formulario__gracias-texto{ anima
       <!-- ✏️ EDITAR: el texto de esta introducción -->
       <p>El mejor regalo es que nos acompañes ese día. Pero si además querés darnos un presente, te dejamos los datos acá abajo.</p>
 
-      <div class="caja-alias coreo">
+      <div class="caja-alias coreo"><span class="papel" aria-hidden="true"></span>
         <!-- ✏️ EDITAR: alias, CBU/CVU y titular.
              El titular tiene que decir EXACTAMENTE el nombre y la entidad que
              ve el invitado en la pantalla de confirmación de su banco
@@ -2037,11 +2147,14 @@ html.animar .formulario__gracias:not([hidden]) .formulario__gracias-texto{ anima
 <footer id="pie">
   <span class="lamina-caja lamina-caja--izq lamina-caja--tenue"><img class="lamina lamina--cortadera" src="escena/cortadera.webp" alt="" loading="lazy" decoding="async"></span>
   <span class="lamina-caja lamina-caja--der lamina-caja--tenue"><img class="lamina lamina--cortadera-der" src="escena/cortadera.webp" alt="" loading="lazy" decoding="async"></span>
-  <svg class="monograma" aria-hidden="true" viewBox="0 0 64 64"><use href="#monograma"/></svg>
+  <!-- el mismo lacre de la invitación, que se estampa al llegar al pie -->
+  <span class="pie__sello revelar" aria-hidden="true"><span class="sobre__sello"><span class="sello__cera"></span><svg viewBox="0 0 64 64"><use href="#monograma"/></svg></span></span>
   <!-- ✏️ EDITAR -->
   <h2>Te esperamos</h2>
-  <p class="pie__firma">Con amor, Jess<span class="amp">&amp;</span>Guille</p>
+  <p class="pie__firma revelar">Con amor, Jess<span class="amp">&amp;</span>Guille</p>
   <p>Domingo 6 de diciembre de 2026<br>Estilo Coghlan</p>
+  <!-- vuelve arriba y repite la apertura (solo se muestra cuando hubo sobre) -->
+  <p class="pie__otra-vez" id="pie-otra-vez" hidden><a href="#" id="ver-invitacion">Ver la invitación de nuevo</a></p>
 </footer>
 
 <script>
@@ -2098,7 +2211,7 @@ var ESCENA = (function(){
   if(!sobre || !/\bsobre\b/.test(raiz.className)) return;
 
   var boton = sobre.querySelector('.sobre__sello');
-  var abierto = false;
+  var abierto = false, solo = 0;
 
   function abrir(){
     if(abierto) return; abierto = true;
@@ -2123,18 +2236,55 @@ var ESCENA = (function(){
     if(e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32){ e.preventDefault(); abrir(); }
   }
 
-  if(boton) boton.addEventListener('click', abrir);
-  sobre.addEventListener('click', abrir);   /* tocar al costado del sello también abre */
-  sobre.addEventListener('touchmove', abrir, { passive:true });   /* y querer deslizar */
-  sobre.addEventListener('wheel', abrir, { passive:true });
-  window.addEventListener('keydown', onKey);
-  var solo = setTimeout(abrir, 8000);   /* si nadie toca nada, se abre sola */
+  /* al tocar: un toquecito de vibración donde se puede (Android) */
+  function tocar(){
+    if(!abierto && navigator.vibrate) try{ navigator.vibrate(12); }catch(e){}
+    abrir();
+  }
+  /* la luz del lacre sigue el giro del celular (Android; en iPhone no llega el evento) */
+  function girar(e){
+    if(e.gamma == null) return;
+    var x = Math.max(18, Math.min(58, 36 + e.gamma * .45)), y = Math.max(14, Math.min(50, 30 + (e.beta - 45) * .3));
+    sobre.style.setProperty('--luz-x', x.toFixed(1) + '%'); sobre.style.setProperty('--luz-y', y.toFixed(1) + '%');
+  }
+  function armar(){
+    window.addEventListener('deviceorientation', girar);
+    if(boton) boton.addEventListener('click', tocar);
+    sobre.addEventListener('click', tocar);   /* tocar al costado del sello también abre */
+    sobre.addEventListener('touchmove', abrir, { passive:true });   /* y querer deslizar */
+    sobre.addEventListener('wheel', abrir, { passive:true });
+    window.addEventListener('keydown', onKey);
+    solo = setTimeout(abrir, 8000);   /* si nadie toca nada, se abre sola */
+  }
+  armar();
+
+  /* desde el pie: arriba de todo, la invitación se vuelve a cerrar y llega de nuevo */
+  var otraVez = document.getElementById('pie-otra-vez'), enlace = document.getElementById('ver-invitacion');
+  if(otraVez && enlace){
+    otraVez.hidden = false;
+    enlace.addEventListener('click', function(e){
+      e.preventDefault();
+      if(!abierto) return;
+      raiz.classList.add('reiniciando');   /* corta las animaciones para poder repetirlas */
+      ['abierto', 'lista', 'escena-intro', 'sobre-visible'].forEach(function(c){ raiz.classList.remove(c); });
+      if(ESCENA.caja){ ESCENA.caja.classList.remove('viva'); ESCENA.caja.classList.remove('meciendo'); }
+      window.scrollTo({ top:0, behavior:'instant' });
+      sobre.hidden = false;
+      void raiz.offsetWidth;
+      raiz.classList.remove('reiniciando');
+      raiz.classList.add('sobre-visible');
+      abierto = false;
+      armar();
+      if(boton) boton.focus({ preventScroll:true });
+    });
+  }
 
   function quitar(){
     clearTimeout(solo);
     window.removeEventListener('keydown', onKey);
-    if(boton) boton.removeEventListener('click', abrir);
-    sobre.removeEventListener('click', abrir);
+    window.removeEventListener('deviceorientation', girar);
+    if(boton) boton.removeEventListener('click', tocar);
+    sobre.removeEventListener('click', tocar);
     sobre.removeEventListener('touchmove', abrir);
     sobre.removeEventListener('wheel', abrir);
   }
@@ -2180,6 +2330,74 @@ var ESCENA = (function(){
     entradas.forEach(function(e){ e.target.classList.toggle('quieta', !e.isIntersecting); });
   }, { rootMargin:'100px 0px' });
   document.querySelectorAll('#escena, .cruce, .lamina-caja, .pista-seccion').forEach(function(el){ obs.observe(el); });
+})();
+
+
+/* ── Láminas: brotan la primera vez que se ven ───────────────────── */
+(function(){
+  if(!('IntersectionObserver' in window) || !/\banimar\b/.test(document.documentElement.className)) return;
+  document.documentElement.className += ' laminas-brotan';
+  var obs = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('brotada'); obs.unobserve(e.target); } });
+  }, { threshold:.35 });
+  document.querySelectorAll('.lamina-caja').forEach(function(el){ obs.observe(el); });
+})();
+
+
+/* ── La luz de la tarde: el día avanza mientras bajás ─────────────
+      (de la luz de la mañana en la portada a una tarde dorada, como la
+      del 6 de diciembre a las 18:00; es un velo cálido casi invisible) ── */
+(function(){
+  if(!/\banimar\b/.test(document.documentElement.className)) return;
+  var capa = document.createElement('div');
+  capa.className = 'luz-tarde'; capa.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(capa);
+  var pedido = false;
+  function pintar(){
+    pedido = false;
+    var alto = document.documentElement.scrollHeight - window.innerHeight;
+    var p = alto > 0 ? (window.scrollY || window.pageYOffset || 0) / alto : 0;
+    var k = Math.max(0, Math.min(1, (p - .08) / .62));
+    capa.style.opacity = (k * k * (3 - 2 * k) * .09).toFixed(3);
+  }
+  window.addEventListener('scroll', function(){ if(!pedido){ pedido = true; requestAnimationFrame(pintar); } }, { passive:true });
+  window.addEventListener('resize', pintar);
+  pintar();
+})();
+
+
+/* ── Barra: la sección en la que estás y el monograma ──────────── */
+(function(){
+  var raiz = document.documentElement, nav = document.querySelector('.barra nav'), portada = document.querySelector('.portada');
+  if(!nav || !('IntersectionObserver' in window)) return;
+  if(portada){
+    new IntersectionObserver(function(e){ raiz.classList.toggle('pasada-portada', !e[0].isIntersecting); }, { rootMargin:'-64px 0px 0px 0px' }).observe(portada);
+  }
+  var marca = document.createElement('span');
+  marca.className = 'barra__marca'; marca.setAttribute('aria-hidden', 'true');
+  nav.appendChild(marca);
+  var enlaces = {}, orden = [], visibles = {}, actual = null;
+  nav.querySelectorAll('a[href^="#"]').forEach(function(a){ var id = a.getAttribute('href').slice(1); if(document.getElementById(id)){ enlaces[id] = a; orden.push(id); } });
+  function ubicar(){
+    if(!actual) return;
+    marca.style.left = actual.offsetLeft + 'px'; marca.style.width = actual.offsetWidth + 'px';
+    marca.style.top = (actual.offsetTop + actual.offsetHeight - 4) + 'px';
+  }
+  function marcar(a){
+    if(a === actual) return;
+    if(actual) actual.classList.remove('activa');
+    actual = a;
+    if(!a){ marca.style.opacity = 0; return; }
+    a.classList.add('activa'); ubicar(); marca.style.opacity = 1;
+  }
+  var obs = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(e){ visibles[e.target.id] = e.isIntersecting; });
+    var cual = null;
+    orden.forEach(function(id){ if(visibles[id]) cual = id; });
+    marcar(cual ? enlaces[cual] : null);
+  }, { rootMargin:'-40% 0px -55% 0px' });
+  orden.forEach(function(id){ obs.observe(document.getElementById(id)); });
+  window.addEventListener('resize', ubicar);
 })();
 
 
@@ -2233,7 +2451,30 @@ function parametro(nombre){
   var fin = new Date(t.getAttribute('data-fin') || FECHA_EVENTO);
   if(isNaN(fin.getTime())) fin = FECHA_EVENTO;
   var yaPaso = Date.now() > fin.getTime() + 6 * 3600000 || parametro('vista') === 'gracias';
-  if(!yaPaso) return;
+  if(!yaPaso){
+    /* el día del casamiento (desde las 0:00): "Hoy nos casamos", el botón
+       principal lleva a "Cómo llegar" y se destaca la hora. Para verlo antes:
+       ?vista=hoy */
+    var iso = t.getAttribute('datetime') || '';
+    var inicioDia = new Date(iso.slice(0, 10) + 'T00:00:00' + iso.slice(19));
+    if(Date.now() >= inicioDia.getTime() || parametro('vista') === 'hoy'){
+      document.body.classList.add('es-hoy');
+      var introHoy = document.getElementById('portada-intro');
+      if(introHoy) introHoy.textContent = 'Hoy nos casamos';
+      var principal = document.querySelector('.boton-principal');
+      var mapa = document.querySelector('#evento .boton-mapa[href*="maps"]');
+      if(principal && mapa){ principal.textContent = 'Cómo llegar'; principal.href = mapa.href; principal.target = '_blank'; principal.rel = 'noopener'; }
+      var fecha = document.querySelector('.portada__fecha');
+      if(fecha){
+        var hoy = document.createElement('p');
+        hoy.className = 'portada__hoy';
+        var h = FECHA_EVENTO.getHours(), m = FECHA_EVENTO.getMinutes();
+        hoy.textContent = 'Te esperamos a las ' + (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m + ' h';
+        fecha.parentNode.insertBefore(hoy, fecha.nextSibling);
+      }
+    }
+    return;
+  }
 
   document.body.classList.add('ya-paso');
   var intro = document.getElementById('portada-intro');
@@ -2278,7 +2519,7 @@ function parametro(nombre){
     }
 
     var s = Math.floor(falta / 1000);
-    dias.textContent  = Math.floor(s / 86400);
+    if(!contando) dias.textContent = Math.floor(s / 86400);
     horas.textContent = dosDigitos(Math.floor(s % 86400 / 3600));
     mins.textContent  = dosDigitos(Math.floor(s % 3600 / 60));
     segs.textContent  = dosDigitos(s % 60);
@@ -2287,6 +2528,23 @@ function parametro(nombre){
 
     /* se vuelve a correr justo al cambiar el segundo */
     setTimeout(actualizar, 1000 - (Date.now() % 1000));
+  }
+
+  /* al aparecer, los días suben de 0 hasta los que faltan */
+  var contando = false;
+  var celda = caja.querySelector('.regresiva__celda');
+  if(celda && /\banimar\b/.test(document.documentElement.className) && FECHA_EVENTO.getTime() > Date.now()){
+    contando = true; dias.textContent = '0';
+    setTimeout(function(){ contando = false; }, 25000);   /* red de seguridad */
+    celda.addEventListener('animationstart', function(){
+      var meta = Math.floor((FECHA_EVENTO.getTime() - Date.now()) / 86400000), t0 = 0;
+      requestAnimationFrame(function paso(ts){
+        if(!t0) t0 = ts;
+        var k = Math.min(1, (ts - t0) / 1300);
+        dias.textContent = Math.round(meta * (1 - Math.pow(1 - k, 3)));
+        if(k < 1) requestAnimationFrame(paso); else contando = false;
+      });
+    }, { once:true });
   }
 
   actualizar();
@@ -2321,11 +2579,12 @@ function parametro(nombre){
 
   document.querySelectorAll('[data-copiar]').forEach(function(boton){
     var original = boton.textContent;
-    var temporizador;
+    var temporizador, marcado;
 
     function restaurar(){
       boton.textContent = original;
       boton.classList.remove('listo');
+      if(marcado) marcado.classList.remove('copiado');
       if(ayuda) ayuda.hidden = true;
     }
 
@@ -2334,8 +2593,10 @@ function parametro(nombre){
       if(!destino) return;
 
       copiar(destino.textContent.trim()).then(function(){
-        boton.textContent = '¡Copiado!';
+        /* una tilde que se dibuja y un subrayado dorado que barre el dato */
+        boton.innerHTML = '<svg class="tilde" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M5 12.5l4.2 4.2L19 7"/></svg>¡Copiado!';
         boton.classList.add('listo');
+        marcado = destino; destino.classList.add('copiado');
         if(ayuda){ ayuda.textContent = 'Ahora pegalo en la app de tu banco.'; ayuda.hidden = false; }
       }, function(){
         boton.textContent = 'Copialo a mano';
@@ -2541,19 +2802,19 @@ function parametro(nombre){
     if(!validar(d)) return;
     if(!endpoint || !window.fetch){ fallar(d); return; }   /* sin script configurado (o navegador muy viejo): por WhatsApp */
 
-    boton.disabled = true; boton.textContent = 'Enviando…';
+    boton.disabled = true; boton.classList.add('enviando'); boton.setAttribute('aria-busy', 'true');
     var listo = false;
-    var reloj = setTimeout(function(){ if(!listo){ listo = true; boton.disabled = false; boton.textContent = 'Enviar confirmación'; fallar(d); } }, 15000);
+    var reloj = setTimeout(function(){ if(!listo){ listo = true; boton.disabled = false; boton.classList.remove('enviando'); boton.removeAttribute('aria-busy'); fallar(d); } }, 15000);
     fetch(endpoint, { method:'POST', body:JSON.stringify(d), headers:{ 'Content-Type':'text/plain;charset=utf-8' } })
       .then(function(r){ return r.json(); })
       .then(function(r){
         if(listo) return; listo = true; clearTimeout(reloj);
-        boton.disabled = false; boton.textContent = 'Enviar confirmación';
+        boton.disabled = false; boton.classList.remove('enviando'); boton.removeAttribute('aria-busy');
         if(r && r.ok) agradecer(d); else fallar(d);
       })
       .catch(function(){
         if(listo) return; listo = true; clearTimeout(reloj);
-        boton.disabled = false; boton.textContent = 'Enviar confirmación';
+        boton.disabled = false; boton.classList.remove('enviando'); boton.removeAttribute('aria-busy');
         fallar(d);
       });
   });
@@ -2588,7 +2849,9 @@ function parametro(nombre){
 /* ── Vuelo libre de las mariposas de "El evento" y "Regalos" ──────
       Van hacia puntos al azar de la sección con un giro suave, cambian
       de velocidad, suben y bajan con el aleteo y apuntan la cabeza hacia
-      donde vuelan. Solo se mueven mientras la sección está a la vista. ── */
+      donde vuelan. Esquivan los títulos y las tarjetas (no cruzan por
+      encima del texto) y, en PC, se apartan si el mouse se acerca. Solo se
+      mueven mientras la sección está a la vista. ── */
 (function(){
   if(!/\banimar\b/.test(document.documentElement.className) || !('IntersectionObserver' in window)) return;
   document.querySelectorAll('.vuelo-libre').forEach(function(zona){
@@ -2596,12 +2859,33 @@ function parametro(nombre){
     if(!bicho) return;
     var W = 0, H = 0, x = 0, y = 0, vx = 0, vy = 0, tx = 0, ty = 0, ang = 0;
     var t = Math.random() * 100, ult = 0, raf = 0, primera = true;
-    function medir(){ W = zona.clientWidth; H = zona.clientHeight; }
+    var seccion = zona.parentNode, obstaculos = [], mouse = null;
+    function medir(){
+      W = zona.clientWidth; H = zona.clientHeight;
+      var z = zona.getBoundingClientRect();
+      obstaculos = [].map.call(seccion.querySelectorAll('.encabezado-seccion h2, .encabezado-seccion .sobretitulo, .tarjeta, .caja-alias, .bloque-regalo > p, .contacto'), function(el){
+        var r = el.getBoundingClientRect(), m = 12;
+        return { l:r.left - z.left - m, r:r.right - z.left + m, t:r.top - z.top - m, b:r.bottom - z.top + m };
+      }).filter(function(o){ return o.r > o.l && o.b > o.t; });
+    }
+    function adentro(px, py){
+      for(var i = 0; i < obstaculos.length; i++){ var o = obstaculos[i]; if(px > o.l && px < o.r && py > o.t && py < o.b) return o; }
+      return null;
+    }
     function destino(){
       var mx = Math.min(60, W * .12), my = Math.min(70, H * .1);
-      tx = mx + Math.random() * (W - 2 * mx);
-      ty = my + Math.random() * (H - 2 * my);
+      for(var i = 0; i < 24; i++){
+        tx = mx + Math.random() * (W - 2 * mx);
+        ty = my + Math.random() * (H - 2 * my);
+        if(!adentro(tx, ty)) return;
+      }
     }
+    /* el mouse (solo en PC): si se acerca, la mariposa se aparta */
+    seccion.addEventListener('pointermove', function(e){
+      if(e.pointerType !== 'mouse') return;
+      var z = zona.getBoundingClientRect(); mouse = { x:e.clientX - z.left, y:e.clientY - z.top };
+    });
+    seccion.addEventListener('pointerleave', function(){ mouse = null; });
     function paso(ahora){
       raf = requestAnimationFrame(paso);
       var dt = ult ? Math.min(.05, (ahora - ult) / 1000) : 0;
@@ -2612,6 +2896,19 @@ function parametro(nombre){
       var k = Math.min(1, dt * 1.1);
       vx += (dx / d * vel - vx) * k;
       vy += (dy / d * vel - vy) * k;
+      /* si entró en un título o una tarjeta, sale por el borde más cercano */
+      var o = adentro(x, y);
+      if(o){
+        var sal = [x - o.l, o.r - x, y - o.t, o.b - y], min = Math.min.apply(Math, sal);
+        if(min === sal[0]) vx -= 420 * dt; else if(min === sal[1]) vx += 420 * dt; else if(min === sal[2]) vy -= 420 * dt; else vy += 420 * dt;
+      }
+      if(mouse){
+        var mxd = x - mouse.x, myd = y - mouse.y, dm = Math.sqrt(mxd * mxd + myd * myd) || 1;
+        if(dm < 110){
+          vx += mxd / dm * 520 * dt * (1 - dm / 110); vy += myd / dm * 520 * dt * (1 - dm / 110);
+          if(dm < 60) destino();
+        }
+      }
       x += vx * dt; y += vy * dt;
       var sube = Math.sin(t * 6.1) * 2.4 + Math.sin(t * 1.9) * 3.2;
       var rumbo = Math.atan2(vy, vx) * 180 / Math.PI + 90;
@@ -2706,14 +3003,6 @@ document.querySelectorAll('.coreo').forEach(function(caja){
   for(var i = 0; i < caja.children.length; i++) caja.children[i].style.setProperty('--i', i);
 });
 
-
-/* ── Nosotros: los tres momentos se muestran cuando están completos ── */
-(function(){
-  var hitos = document.getElementById('hitos');
-  if(!hitos) return;
-  var vacios = [].filter.call(hitos.querySelectorAll('.hito__que'), function(el){ return !el.textContent.trim(); });
-  hitos.hidden = vacios.length > 0;
-})();
 </script>
 
 </body>
