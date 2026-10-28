@@ -91,6 +91,13 @@ function codigo(nombre, n){ return ((huella(nombre) * 10 + n) * 7 + 3).toString(
 function link(nombre, n){
   return SITIO + '?para=' + encodeURIComponent(nombre).replace(/%20/g, '+') + '&ref=' + codigo(nombre, n);
 }
+/* En el celular, wa.me sin número a veces solo abre WhatsApp en el último chat;
+   whatsapp://send abre directamente "Enviar a…" con la lista de chats. En la
+   PC sigue wa.me (abre WhatsApp Web con la lista de contactos). */
+var CELULAR = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+function enlaceWhatsApp(texto){
+  return (CELULAR ? 'whatsapp://send?text=' : 'https://wa.me/?text=') + encodeURIComponent(texto);
+}
 function mensaje(nombre, url){
   return '¡Hola, ' + nombre + '! Nos casamos y queremos que estés. Acá está la invitación: ' + url;
 }
@@ -152,8 +159,9 @@ function armar(){
       celdaLink.appendChild(a);
       var caja = document.createElement('div'); caja.className = 'botones';
       /* Enviar: abre WhatsApp con el mensaje escrito; ahí se elige el chat */
-      var env = document.createElement('a'); env.className = 'boton enviar'; env.target = '_blank'; env.rel = 'noopener';
-      env.href = 'https://wa.me/?text=' + encodeURIComponent(mensaje(nombre, url));
+      var env = document.createElement('a'); env.className = 'boton enviar'; env.rel = 'noopener';
+      if(!CELULAR) env.target = '_blank';
+      env.href = enlaceWhatsApp(mensaje(nombre, url));
       env.textContent = 'Enviar';
       env.addEventListener('click', function(){ marcar(tr, nombre, true); });
       var mar = document.createElement('button'); mar.type = 'button'; mar.className = 'suave marca'; mar.textContent = 'Marcar';
