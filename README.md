@@ -35,11 +35,9 @@ lugares atada al nombre. En el formulario:
 - Sin `&ref=` (link genérico) la pregunta queda como siempre (1 a 3).
 
 **Mandalos desde el celular**: desde WhatsApp Web la vista previa sale con
-la foto chica; desde el teléfono, grande. En la PC armás la lista y tocás
-"Pasar al celular" (copia un link a esta misma página con la lista adentro);
-te lo mandás por WhatsApp, lo abrís en el celular y tocás "Enviar" en cada
-invitado: abre WhatsApp con el mensaje escrito y elegís el chat. Cada
-dispositivo recuerda la lista y a quién ya se la mandaste.
+la foto chica; desde el teléfono, grande. Copiá los links en la PC, pasátelos
+a tu chat y desde el celular copiá cada uno y pegalo en un mensaje nuevo en
+el chat del invitado (reenviado sale con la foto chica).
 
 El script de Apps Script acepta hasta 9 personas: si lo cambiaste, volvé a
 desplegarlo (Implementar → Administrar implementaciones → editar → Nueva

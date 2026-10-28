@@ -9,69 +9,43 @@
      Arma el link de cada invitado con su nombre (?para=) y un código (?ref=)
      que lleva la cantidad de lugares, atado al nombre: si alguien cambia el
      código o el nombre, la invitación vale para 1. La cuenta tiene que ser
-     la misma que la de index.html (función huella).
-     Pensada para armar la lista en la PC y mandar desde el celular (desde el
-     celular WhatsApp muestra la foto grande; desde WhatsApp Web, chica):
-     "Pasar al celular" arma un link a esta misma página con la lista adentro
-     (después del #, así no viaja a ningún servidor). La lista y quién ya la
-     recibió quedan guardados en cada dispositivo. -->
+     la misma que la de index.html (función huella). La lista queda guardada
+     en este navegador. -->
 <style>
   :root{
-    --crema:#faf7f1; --blanco:#fffefb; --verde:#3d5140; --verde-medio:#5a7058; --verde-claro:#a8bda4;
-    --tinta:#2c3229; --tinta-suave:#5d655a; --linea:#ddd5c5; --dorado:#9c7a45;
+    --crema:#faf7f1; --blanco:#fffefb; --verde:#3d5140; --verde-medio:#5a7058;
+    --tinta:#2c3229; --tinta-suave:#5d655a; --linea:#ddd5c5;
   }
   *{ box-sizing:border-box; }
   body{ margin:0; background:var(--crema); color:var(--tinta); font:16px/1.6 "Helvetica Neue", Arial, sans-serif; }
   main{ max-width:880px; margin:0 auto; padding:32px 16px 64px; }
   h1{ font:italic 400 34px/1.2 Georgia, serif; color:var(--verde); margin:0 0 8px; }
   p{ color:var(--tinta-suave); margin:0 0 16px; }
-  ol.pasos{ color:var(--tinta-suave); margin:0 0 20px; padding-left:22px; }
-  ol.pasos li{ margin-bottom:4px; }
   textarea{ width:100%; min-height:180px; padding:12px 14px; font:15px/1.5 ui-monospace, Consolas, monospace; border:1px solid var(--linea); border-radius:3px; background:var(--blanco); color:var(--tinta); }
-  button, a.boton{ display:inline-block; font:inherit; font-size:13px; letter-spacing:.1em; text-transform:uppercase; text-decoration:none; cursor:pointer; border-radius:3px; padding:10px 18px; border:1px solid var(--verde); background:var(--verde); color:var(--crema); }
-  .suave{ background:transparent !important; color:var(--verde) !important; border-color:var(--verde-medio) !important; }
+  button{ font:inherit; font-size:13px; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; border-radius:3px; padding:10px 18px; border:1px solid var(--verde); background:var(--verde); color:var(--crema); }
+  button.suave{ background:transparent; color:var(--verde); border-color:var(--verde-medio); padding:6px 12px; }
   .acciones{ display:flex; gap:10px; flex-wrap:wrap; margin:12px 0 18px; }
   .aviso{ min-height:1.6em; margin:0 0 18px; color:var(--verde-medio); }
-  .progreso{ margin:0 0 10px; font-size:14px; letter-spacing:.08em; text-transform:uppercase; color:var(--verde-medio); }
   table{ width:100%; border-collapse:collapse; background:var(--blanco); border:1px solid var(--linea); }
   th, td{ text-align:left; padding:10px 12px; border-bottom:1px solid var(--linea); vertical-align:middle; }
   th{ font-size:12px; letter-spacing:.15em; text-transform:uppercase; color:var(--verde-medio); font-weight:400; }
   td.link{ word-break:break-all; font-size:13px; }
   td.link a{ color:var(--verde); }
   .error{ color:#b0603f; }
-  .botones{ display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end; }
-  .botones a.boton, .botones button{ padding:8px 14px; }
-  tr.enviado td{ background:#f1f4ee; }
-  tr.enviado .nombre::after{ content:" ✓"; color:var(--verde-medio); }
-  .marca{ font-size:12px; padding:6px 10px !important; }
-  /* en el celular, con la lista recibida, arriba quedan solo los envíos */
-  body.recibida .pasos, body.recibida #lista, body.recibida .acciones{ display:none; }
-  .editar{ display:none; margin:0 0 14px; font-size:14px; color:var(--verde); }
-  body.recibida .editar{ display:inline-block; }
-  @media (max-width:640px){
-    th:nth-child(3), td.link{ display:none; }
-    td{ padding:12px 10px; }
-    .botones a.boton{ padding:12px 16px; }
-  }
+  @media (max-width:640px){ th:nth-child(3), td.link{ display:none; } }
 </style>
 </head>
 <body>
 <main>
   <h1>Links de la invitación</h1>
-  <ol class="pasos">
-    <li><strong>En la PC</strong>: pegá la lista, un invitado por renglón, <code>nombre, lugares</code> (por ejemplo <code>Tía Marta, 2</code>; sin número vale 1). El nombre es el del sobre: letras, espacios, punto, apóstrofo y guion, hasta 40. Lugares: de 1 a 9.</li>
-    <li>Tocá <strong>Pasar al celular</strong>: se copia un link. Mandátelo por WhatsApp a vos mismo y abrilo en el celular.</li>
-    <li><strong>En el celular</strong>: tocá <strong>Enviar</strong> en cada invitado, elegí <strong>WhatsApp</strong> en el menú Compartir, después su chat, y mandalo. Esperá a que aparezca la foto antes de enviar. Queda marcado como enviado.</li>
-  </ol>
+  <p>Un invitado por renglón: <strong>nombre, lugares</strong>. Por ejemplo <code>Tía Marta, 2</code>. Si no ponés lugares, vale 1. El nombre es el que aparece en el sobre (solo letras, espacios, punto, apóstrofo y guion; hasta 40). Lugares: de 1 a 9.</p>
+  <p>Para que la foto salga grande, mandá cada link <strong>desde el celular</strong>: copialo y pegalo en un mensaje nuevo en el chat del invitado (si lo reenviás, sale con la foto chica).</p>
   <textarea id="lista" spellcheck="false" placeholder="Tía Marta, 2&#10;Pedro Gómez, 1&#10;Familia Pérez, 4"></textarea>
   <div class="acciones">
     <button type="button" id="armar">Armar links</button>
-    <button type="button" class="suave" id="al-celular" hidden>Pasar al celular</button>
     <button type="button" class="suave" id="copiar-todo" hidden>Copiar todos</button>
   </div>
-  <a class="editar" href="#" id="editar">Ver o editar la lista</a>
   <p class="aviso" id="aviso" aria-live="polite"></p>
-  <p class="progreso" id="progreso" hidden></p>
   <table id="tabla" hidden>
     <thead><tr><th>Invitado</th><th>Lugares</th><th>Link</th><th></th></tr></thead>
     <tbody></tbody>
@@ -91,130 +65,59 @@ function codigo(nombre, n){ return ((huella(nombre) * 10 + n) * 7 + 3).toString(
 function link(nombre, n){
   return SITIO + '?para=' + encodeURIComponent(nombre).replace(/%20/g, '+') + '&ref=' + codigo(nombre, n);
 }
-/* En el celular, "Enviar" usa el menú Compartir del teléfono (ver más abajo);
-   si no existe, whatsapp://send. En la PC, wa.me (abre WhatsApp Web con la
-   lista de contactos). */
-var CELULAR = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
-function enlaceWhatsApp(texto){
-  return (CELULAR ? 'whatsapp://send?text=' : 'https://wa.me/?text=') + encodeURIComponent(texto);
-}
-function mensaje(nombre, url){
-  return '¡Hola, ' + nombre + '! Nos casamos y queremos que estés. Acá está la invitación: ' + url;
-}
 
-/* lo guardado en este dispositivo (si el navegador no deja, funciona igual sin recordar) */
-function leer(clave, porDefecto){ try{ var v = localStorage.getItem(clave); return v == null ? porDefecto : JSON.parse(v); }catch(e){ return porDefecto; } }
-function guardar(clave, valor){ try{ localStorage.setItem(clave, JSON.stringify(valor)); }catch(e){} }
-var enviados = leer('jg-enviados', {});
+/* la lista queda guardada en este navegador (si no deja, funciona igual) */
+function leer(){ try{ return localStorage.getItem('jg-lista') || ''; }catch(e){ return ''; } }
+function guardar(v){ try{ localStorage.setItem('jg-lista', v); }catch(e){} }
 
 var lista = document.getElementById('lista'), cuerpo = document.querySelector('#tabla tbody');
-var aviso = document.getElementById('aviso'), progreso = document.getElementById('progreso');
-var todos = [], validos = 0;
+var aviso = document.getElementById('aviso'), todos = [];
 
-function avisar(texto){ aviso.textContent = texto; }
 function copiar(texto, listo){
   (navigator.clipboard && window.isSecureContext ? navigator.clipboard.writeText(texto) : Promise.reject()).then(function(){
-    avisar(listo);
+    aviso.textContent = listo;
   }, function(){ prompt('Copialo de acá:', texto); });
 }
 
-function contar(){
-  var hechos = 0;
-  todos.forEach(function(t){ if(enviados[t.nombre]) hechos++; });
-  progreso.textContent = hechos + ' de ' + validos + ' enviadas';
-  progreso.hidden = !validos;
-}
-function marcar(tr, nombre, si){
-  if(si) enviados[nombre] = Date.now(); else delete enviados[nombre];
-  guardar('jg-enviados', enviados);
-  tr.classList.toggle('enviado', si);
-  var b = tr.querySelector('.marca'); if(b) b.textContent = si ? 'Desmarcar' : 'Marcar';
-  var e = tr.querySelector('.enviar'); if(e) e.textContent = si ? 'Reenviar' : 'Enviar';
-  contar();
-}
-
 function armar(){
-  guardar('jg-lista', lista.value);
-  cuerpo.innerHTML = ''; todos = []; validos = 0;
+  guardar(lista.value);
+  cuerpo.innerHTML = ''; todos = [];
   lista.value.split(/\r?\n/).forEach(function(renglon){
     if(!renglon.trim()) return;
     var partes = renglon.split(/[,;\t]/);
     var nombre = partes[0].trim().replace(/\s+/g, ' ');
     var n = partes[1] && partes[1].trim() ? parseInt(partes[1], 10) : 1;
     var tr = document.createElement('tr');
-    var celdaNombre = document.createElement('td'); celdaNombre.className = 'nombre'; celdaNombre.textContent = nombre;
+    var celdaNombre = document.createElement('td'); celdaNombre.textContent = nombre;
     var celdaN = document.createElement('td');
     var celdaLink = document.createElement('td'); celdaLink.className = 'link';
-    var celdaBotones = document.createElement('td');
-    tr.appendChild(celdaNombre); tr.appendChild(celdaN); tr.appendChild(celdaLink); tr.appendChild(celdaBotones);
+    var celdaBoton = document.createElement('td');
+    tr.appendChild(celdaNombre); tr.appendChild(celdaN); tr.appendChild(celdaLink); tr.appendChild(celdaBoton);
     if(!NOMBRE_VALIDO.test(nombre)){
-      celdaN.textContent = '—'; celdaBotones.innerHTML = '<span class="error">Nombre no válido</span>';
+      celdaN.textContent = '—'; celdaBoton.innerHTML = '<span class="error">Nombre no válido</span>';
     }else if(isNaN(n) || n < 1 || n > 9){
-      celdaN.textContent = '—'; celdaBotones.innerHTML = '<span class="error">Lugares: de 1 a 9</span>';
+      celdaN.textContent = '—'; celdaBoton.innerHTML = '<span class="error">Lugares: de 1 a 9</span>';
     }else{
       var url = link(nombre, n);
-      todos.push({ nombre:nombre, n:n, url:url }); validos++;
+      todos.push(nombre + ' (' + n + '): ' + url);
       celdaN.textContent = n;
       var a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = url;
       celdaLink.appendChild(a);
-      var caja = document.createElement('div'); caja.className = 'botones';
-      /* Enviar: abre WhatsApp con el mensaje escrito; ahí se elige el chat */
-      var env = document.createElement('a'); env.className = 'boton enviar'; env.rel = 'noopener';
-      if(!CELULAR) env.target = '_blank';
-      env.href = enlaceWhatsApp(mensaje(nombre, url));
-      env.textContent = 'Enviar';
-      env.addEventListener('click', function(e){
-        /* en el celular, el menú Compartir del teléfono: WhatsApp → elegís el chat
-           (en iPhone, el enlace directo solo vuelve al último chat abierto) */
-        if(CELULAR && navigator.share){
-          e.preventDefault();
-          navigator.share({ text:mensaje(nombre, url) }).then(function(){ marcar(tr, nombre, true); }, function(){});
-          return;
-        }
-        marcar(tr, nombre, true);
-      });
-      var mar = document.createElement('button'); mar.type = 'button'; mar.className = 'suave marca'; mar.textContent = 'Marcar';
-      mar.addEventListener('click', function(){ marcar(tr, nombre, !enviados[nombre]); });
-      caja.appendChild(env); caja.appendChild(mar); celdaBotones.appendChild(caja);
-      if(enviados[nombre]){ tr.classList.add('enviado'); env.textContent = 'Reenviar'; mar.textContent = 'Desmarcar'; }
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'suave'; b.textContent = 'Copiar';
+      b.addEventListener('click', function(){ copiar(url, 'Copiado el link de ' + nombre + '.'); });
+      celdaBoton.appendChild(b);
     }
     cuerpo.appendChild(tr);
   });
   document.getElementById('tabla').hidden = !cuerpo.children.length;
-  document.getElementById('copiar-todo').hidden = !validos;
-  document.getElementById('al-celular').hidden = !validos;
-  contar();
+  document.getElementById('copiar-todo').hidden = !todos.length;
 }
 
-document.getElementById('armar').addEventListener('click', function(){ armar(); avisar(''); });
-document.getElementById('copiar-todo').addEventListener('click', function(){
-  copiar(todos.map(function(t){ return t.nombre + ' (' + t.n + '): ' + t.url; }).join('\n'), 'Copiados todos los links.');
-});
-/* la lista viaja después del # (no llega a ningún servidor) */
-document.getElementById('al-celular').addEventListener('click', function(){
-  armar();
-  copiar(SITIO + 'armar-links.html#lista=' + encodeURIComponent(lista.value.trim()),
-    'Link copiado. Pegalo en tu chat de WhatsApp ("Mensaje a mí mismo") y abrilo desde el celular.');
-});
+document.getElementById('armar').addEventListener('click', function(){ armar(); aviso.textContent = ''; });
+document.getElementById('copiar-todo').addEventListener('click', function(){ copiar(todos.join('\n'), 'Copiados todos los links.'); });
 
-document.getElementById('editar').addEventListener('click', function(e){ e.preventDefault(); document.body.classList.remove('recibida'); });
-
-/* al abrir: la lista que vino en el link, o la que quedó guardada en este dispositivo */
-function recibir(){
-  var m = /[#&]lista=([^&]*)/.exec(location.hash);
-  if(!m) return false;
-  try{ lista.value = decodeURIComponent(m[1]); }catch(e){}
-  history.replaceState(null, '', location.pathname + location.search);
-  document.body.classList.add('recibida');
-  armar();
-  avisar('Lista recibida. Tocá Enviar en cada invitado.');
-  return true;
-}
-if(!recibir()){
-  lista.value = leer('jg-lista', '');
-  if(lista.value.trim()) armar();
-}
-window.addEventListener('hashchange', recibir);   /* por si la página ya estaba abierta */
+lista.value = leer();
+if(lista.value.trim()) armar();
 </script>
 </body>
 </html>
