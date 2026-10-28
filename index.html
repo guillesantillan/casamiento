@@ -2831,7 +2831,10 @@ function parametro(nombre){
         nombre: invitacion,
         asiste: todos ? (vienen ? 'si' : 'no') : '',
         personas: String(vienen),
-        acompanantes: '', restricciones: '',
+        /* resumen en los campos de siempre: el script viejo (una sola fila) los
+           guarda; el nuevo usa la lista "invitados", una fila por persona */
+        acompanantes: lista.filter(function(x){ return x.asiste === 'si'; }).map(function(x){ return x.nombre; }).join(', '),
+        restricciones: lista.filter(function(x){ return x.restricciones; }).map(function(x){ return x.nombre + ': ' + x.restricciones; }).join(' · '),
         mensaje: valor('mensaje'),
         sitio: valor('sitio'),
         invitacion: invitacion,
