@@ -1339,6 +1339,7 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 /* botones de la caja del alias: copiar + mandarlo por WhatsApp */
 .caja-alias__acciones{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:22px; }
 .caja-alias__acciones .boton-copiar{ margin-top:0; }
+.boton-copiar[hidden]{ display:none; }
 .caja-alias__acciones .boton-mapa{ margin-top:0; }
 /* el aviso aparece en el aire de abajo de la tarjeta (posición absoluta: nada salta) */
 /* el aviso tiene su renglón reservado: aparece sin mover nada ni pisar el titular */
@@ -1365,6 +1366,9 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 /* en celular, un botón por línea y bien ancho */
 @media (max-width:480px){
   .tarjeta__acciones > *, .caja-alias__acciones > *, .despues__enlaces > *{ flex:1 1 100%; }
+  /* copiar alias y copiar CBU, lado a lado aun en celular */
+  .caja-alias .caja-alias__acciones{ flex-wrap:nowrap; gap:8px; }
+  .caja-alias .caja-alias__acciones > .boton-copiar{ flex:1 1 0; min-width:0; padding-inline:8px; font-size:13px; letter-spacing:.08em; }
 }
 
 /* en la serif: Jost no tiene itálica cargada y el navegador la inclinaba a la fuerza */
@@ -2073,21 +2077,17 @@ html.reiniciando *, html.reiniciando *::before, html.reiniciando *::after{ anima
              El titular tiene que decir EXACTAMENTE el nombre y la entidad que
              ve el invitado en la pantalla de confirmación de su banco
              (es el nombre real de la cuenta, no "Jess y Guille").
-             El CBU/CVU va con los 22 números seguidos, sin espacios. Mientras
-             sea todo ceros, ese renglón no se muestra. -->
+             El CBU va con los 22 números seguidos, sin espacios. No se muestra:
+             solo se copia con su botón (mientras sea todo ceros, el botón no
+             aparece). -->
         <div class="dato">
           <p class="rot">Alias</p>
           <p class="valor" id="alias">jess.guille.boda</p>
           <div class="caja-alias__acciones">
             <button class="boton-copiar" id="btn-copiar" type="button" data-copiar="alias">Copiar alias</button>
+            <button class="boton-copiar" id="btn-cbu" type="button" data-copiar="cbu">Copiar CBU</button>
           </div>
-        </div>
-        <div class="dato dato--cbu" id="dato-cbu">
-          <p class="rot">CBU</p>
-          <p class="valor valor--numero" id="cbu">0070011530004026820847</p>
-          <div class="caja-alias__acciones">
-            <button class="boton-copiar" type="button" data-copiar="cbu">Copiar CBU</button>
-          </div>
+          <p id="cbu" hidden>0070011530004026820847</p>
         </div>
         <p class="titular">Jessica Kalousek<br>Banco Galicia</p>
         <!-- ✏️ EDITAR: el motivo que pedimos poner (así cada transferencia queda explicada) -->
@@ -2581,7 +2581,7 @@ function parametro(nombre){
   var ayuda = document.getElementById('ayuda-copiado');
 
   var cbu = document.getElementById('cbu');
-  if(cbu && /^0*$/.test(cbu.textContent.trim())) document.getElementById('dato-cbu').hidden = true;
+  if(cbu && /^0*$/.test(cbu.textContent.trim())) document.getElementById('btn-cbu').hidden = true;
 
   document.querySelectorAll('[data-copiar]').forEach(function(boton){
     var original = boton.textContent;
