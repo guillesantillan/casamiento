@@ -2,7 +2,8 @@
  * Backend del formulario de confirmación (Google Apps Script).
  *
  * Recibe cada confirmación desde el sitio (POST con un JSON) y la agrega
- * como una fila en una planilla de Google Sheets. No lee ni devuelve datos:
+ * a una planilla de Google Sheets: una fila por confirmación o, si la
+ * invitación es para varios (lista "invitados"), una fila por invitado. No lee ni devuelve datos:
  * lo único que puede hacer quien conozca la URL es agregar filas.
  *
  * Propiedades del script (Configuración del proyecto → Propiedades del script):
@@ -34,26 +35,42 @@ function doPost(e) {
     if (!hayLugar()) return responder({ ok: false, error: 'ocupado' });   // freno global: no más de 40 envíos por minuto
 
     /* validación: largos máximos y valores permitidos */
-    var nombre = limpiar(d.nombre, 80);
-    if (nombre.length < 2) return responder({ ok: false, error: 'nombre' });
-    var asiste = d.asiste === 'si' ? 'Sí' : (d.asiste === 'no' ? 'No' : '');
-    if (!asiste) return responder({ ok: false, error: 'asiste' });
-    var personas = 0;
-    if (asiste === 'Sí') {
-      personas = parseInt(d.personas, 10);
-      if (isNaN(personas)) personas = 1;
-      personas = Math.min(Math.max(personas, 1), 9);   /* el sitio deja elegir hasta los lugares de cada invitación (máx. 9) */
+    var ahora = new Date(), filas = [];
+    var invitacion = limpiar(d.invitacion, 120), mensaje = limpiar(d.mensaje, 500);
+    if (Object.prototype.toString.call(d.invitados) === '[object Array]' && d.invitados.length) {
+      /* invitación para varios: una fila por invitado (Personas = 1 si viene, 0 si no);
+         el mensaje va solo en la primera, para no repetirlo */
+      var lista = d.invitados.slice(0, 9);
+      for (var i = 0; i < lista.length; i++) {
+        var inv = lista[i] || {};
+        var n = limpiar(inv.nombre, 80);
+        var a = inv.asiste === 'si' ? 'Sí' : (inv.asiste === 'no' ? 'No' : '');
+        if (n.length < 2) return responder({ ok: false, error: 'nombre' });
+        if (!a) return responder({ ok: false, error: 'asiste' });
+        filas.push([ahora, n, a, a === 'Sí' ? 1 : 0, '', a === 'Sí' ? limpiar(inv.restricciones, 200) : '', i === 0 ? mensaje : '', invitacion]);
+      }
+    } else {
+      var nombre = limpiar(d.nombre, 80);
+      if (nombre.length < 2) return responder({ ok: false, error: 'nombre' });
+      var asiste = d.asiste === 'si' ? 'Sí' : (d.asiste === 'no' ? 'No' : '');
+      if (!asiste) return responder({ ok: false, error: 'asiste' });
+      var personas = 0;
+      if (asiste === 'Sí') {
+        personas = parseInt(d.personas, 10);
+        if (isNaN(personas)) personas = 1;
+        personas = Math.min(Math.max(personas, 1), 9);   /* el sitio deja elegir hasta los lugares de cada invitación (máx. 9) */
+      }
+      filas.push([
+        ahora,
+        nombre,
+        asiste,
+        personas,
+        asiste === 'Sí' ? limpiar(d.acompanantes, 200) : '',
+        asiste === 'Sí' ? limpiar(d.restricciones, 200) : '',
+        mensaje,
+        invitacion
+      ]);
     }
-    var fila = [
-      new Date(),
-      nombre,
-      asiste,
-      personas,
-      asiste === 'Sí' ? limpiar(d.acompanantes, 200) : '',
-      asiste === 'Sí' ? limpiar(d.restricciones, 200) : '',
-      limpiar(d.mensaje, 500),
-      limpiar(d.invitacion, 60)
-    ];
 
     /* una escritura por vez, por si confirman dos personas al mismo tiempo */
     var lock = LockService.getScriptLock();
@@ -66,12 +83,12 @@ function doPost(e) {
         hoja.getRange(1, 1, 1, COLUMNAS.length).setFontWeight('bold');
         hoja.setFrozenRows(1);
       }
-      hoja.appendRow(fila);
+      for (var f = 0; f < filas.length; f++) hoja.appendRow(filas[f]);
     } finally {
       lock.releaseLock();
     }
 
-    avisar(props.getProperty('AVISO_EMAIL'), fila);
+    avisar(props.getProperty('AVISO_EMAIL'), filas);
     return responder({ ok: true });
   } catch (err) {
     return responder({ ok: false, error: 'servidor' });
@@ -113,11 +130,16 @@ function limpiar(v, max) {
   return plano.slice(0, max);
 }
 
-function avisar(email, fila) {
+function avisar(email, filas) {
   if (!email) return;
   try {
-    var asunto = 'Confirmación: ' + fila[1] + ' — ' + (fila[2] === 'Sí' ? 'viene (' + fila[3] + ')' : 'no viene');
-    var cuerpo = COLUMNAS.map(function (c, i) { return c + ': ' + (i === 0 ? Utilities.formatDate(fila[0], Session.getScriptTimeZone(), 'dd/MM/yyyy HH:mm') : fila[i]); }).join(String.fromCharCode(10));
+    var salto = String.fromCharCode(10), vienen = 0;
+    filas.forEach(function (f) { vienen += Number(f[3]) || 0; });
+    var quien = filas.length > 1 ? (filas[0][7] || filas[0][1]) : filas[0][1];
+    var asunto = 'Confirmación: ' + quien + ' — ' + (vienen ? 'vienen ' + vienen : 'no viene' + (filas.length > 1 ? 'n' : ''));
+    var cuerpo = filas.map(function (fila) {
+      return COLUMNAS.map(function (c, i) { return c + ': ' + (i === 0 ? Utilities.formatDate(fila[0], Session.getScriptTimeZone(), 'dd/MM/yyyy HH:mm') : fila[i]); }).join(salto);
+    }).join(salto + salto);
     MailApp.sendEmail(email, asunto, cuerpo);
   } catch (err) { /* el aviso es secundario: la fila ya está guardada */ }
 }

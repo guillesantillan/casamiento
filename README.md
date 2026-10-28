@@ -25,12 +25,17 @@ sitio se ve normal. Sin el parámetro no pasa nada.
 ### Lugares por invitación
 
 Los links se arman con `armar-links.html` (abrila en el navegador: no está
-enlazada desde el sitio). Pegás un invitado por renglón, `nombre, lugares`
-(de 1 a 9), y te da cada link con un `&ref=código` que lleva la cantidad de
-lugares atada al nombre. En el formulario:
+enlazada desde el sitio). Una invitación por renglón: `Tía Marta`, o varios
+nombres separados por coma, "y" o "+" (`Marta, Pedro y Juan`), y opcional al
+final el total de lugares si hay alguno sin nombre (`Marta y Pedro, 3`, hasta
+9). Cada link lleva un `&ref=código` con la cantidad de lugares atada al
+nombre. En el formulario:
 
-- **1 lugar**: no se pregunta cuántos son ni con quién.
-- **Más de 1**: "¿Cuántos son en total?" deja elegir de 1 hasta esa cantidad.
+- **1 lugar**: nombre y "¿Vas a venir?", sin preguntar cuántos son.
+- **Más de 1**: una fila por invitado, con su nombre (los lugares sin nombre
+  quedan para completar), "Viene / No viene" y su restricción alimentaria.
+  En la planilla queda **una fila por invitado** (Personas = 1 si viene,
+  0 si no; el mensaje va en la primera; "Invitación" agrupa a todos).
 - Si alguien cambia el código o el nombre del link, vale para 1.
 - Sin `&ref=` (link genérico) la pregunta queda como siempre (1 a 3).
 

@@ -38,7 +38,7 @@
 <body>
 <main>
   <h1>Links de la invitación</h1>
-  <p>Un invitado por renglón: <strong>nombre, lugares</strong>. Por ejemplo <code>Tía Marta, 2</code>. Si no ponés lugares, vale 1. El nombre es el que aparece en el sobre (solo letras, espacios, punto, apóstrofo y guion; hasta 40). Lugares: de 1 a 9.</p>
+  <p>Una invitación por renglón. Para una persona: <code>Tía Marta</code>. Para varias, sus nombres separados por coma, "y" o "+": <code>Marta, Pedro y Juan</code>; cada uno confirma por separado. Si hay lugares de más sin nombre, agregá el total al final: <code>Marta y Pedro, 3</code>. Nombres: letras, espacios, punto, apóstrofo y guion. Hasta 9 por invitación.</p>
   <p>Para que la foto salga grande, mandá cada link <strong>desde el celular</strong>: copialo y pegalo en un mensaje nuevo en el chat del invitado (si lo reenviás, sale con la foto chica).</p>
   <textarea id="lista" spellcheck="false" placeholder="Tía Marta, 2&#10;Pedro Gómez, 1&#10;Familia Pérez, 4"></textarea>
   <div class="acciones">
@@ -53,7 +53,7 @@
 </main>
 <script>
 var SITIO = 'https://guillesantillan.github.io/casamiento/';
-var NOMBRE_VALIDO = /^[A-Za-zÀ-ſ' .\-]{2,40}$/;   /* lo mismo que acepta el sitio */
+var NOMBRE_VALIDO = /^[A-Za-zÀ-ſ' .\-]{2,40}$/;   /* cada nombre */
 
 /* la misma cuenta que index.html: si cambia allá, cambia acá */
 function huella(nombre){
@@ -84,19 +84,25 @@ function armar(){
   cuerpo.innerHTML = ''; todos = [];
   lista.value.split(/\r?\n/).forEach(function(renglon){
     if(!renglon.trim()) return;
-    var partes = renglon.split(/[,;\t]/);
-    var nombre = partes[0].trim().replace(/\s+/g, ' ');
-    var n = partes[1] && partes[1].trim() ? parseInt(partes[1], 10) : 1;
+    /* "Marta, Pedro y Juan" o "Marta y Pedro, 3": nombres separados por coma, "y" o "+",
+       y al final, opcional, el total de lugares */
+    var m = /^(.*?)(?:\s*[,;\t]\s*(\d+))?\s*$/.exec(renglon.trim());
+    var nombres = m[1].split(/\s*,\s*|\s*\+\s*|\s+y\s+/i).map(function(x){ return x.trim().replace(/\s+/g, ' '); }).filter(Boolean);
+    var n = m[2] ? parseInt(m[2], 10) : nombres.length;
+    /* lo que va en el sobre y en el link: "Marta, Pedro y Juan" */
+    var nombre = nombres.length > 1 ? nombres.slice(0, -1).join(', ') + ' y ' + nombres[nombres.length - 1] : (nombres[0] || '');
     var tr = document.createElement('tr');
     var celdaNombre = document.createElement('td'); celdaNombre.textContent = nombre;
     var celdaN = document.createElement('td');
     var celdaLink = document.createElement('td'); celdaLink.className = 'link';
     var celdaBoton = document.createElement('td');
     tr.appendChild(celdaNombre); tr.appendChild(celdaN); tr.appendChild(celdaLink); tr.appendChild(celdaBoton);
-    if(!NOMBRE_VALIDO.test(nombre)){
+    if(!nombres.length || !nombres.every(function(x){ return NOMBRE_VALIDO.test(x); }) || nombre.length > 120){
       celdaN.textContent = '—'; celdaBoton.innerHTML = '<span class="error">Nombre no válido</span>';
     }else if(isNaN(n) || n < 1 || n > 9){
       celdaN.textContent = '—'; celdaBoton.innerHTML = '<span class="error">Lugares: de 1 a 9</span>';
+    }else if(n < nombres.length){
+      celdaN.textContent = '—'; celdaBoton.innerHTML = '<span class="error">Hay más nombres que lugares</span>';
     }else{
       var url = link(nombre, n);
       todos.push(nombre + ' (' + n + '): ' + url);
