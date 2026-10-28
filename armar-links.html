@@ -61,7 +61,7 @@
   <ol class="pasos">
     <li><strong>En la PC</strong>: pegá la lista, un invitado por renglón, <code>nombre, lugares</code> (por ejemplo <code>Tía Marta, 2</code>; sin número vale 1). El nombre es el del sobre: letras, espacios, punto, apóstrofo y guion, hasta 40. Lugares: de 1 a 9.</li>
     <li>Tocá <strong>Pasar al celular</strong>: se copia un link. Mandátelo por WhatsApp a vos mismo y abrilo en el celular.</li>
-    <li><strong>En el celular</strong>: tocá <strong>Enviar</strong> en cada invitado, elegí su chat en WhatsApp y mandalo. Esperá a que aparezca la foto antes de enviar. Queda marcado como enviado.</li>
+    <li><strong>En el celular</strong>: tocá <strong>Enviar</strong> en cada invitado, elegí <strong>WhatsApp</strong> en el menú Compartir, después su chat, y mandalo. Esperá a que aparezca la foto antes de enviar. Queda marcado como enviado.</li>
   </ol>
   <textarea id="lista" spellcheck="false" placeholder="Tía Marta, 2&#10;Pedro Gómez, 1&#10;Familia Pérez, 4"></textarea>
   <div class="acciones">
@@ -91,9 +91,9 @@ function codigo(nombre, n){ return ((huella(nombre) * 10 + n) * 7 + 3).toString(
 function link(nombre, n){
   return SITIO + '?para=' + encodeURIComponent(nombre).replace(/%20/g, '+') + '&ref=' + codigo(nombre, n);
 }
-/* En el celular, wa.me sin número a veces solo abre WhatsApp en el último chat;
-   whatsapp://send abre directamente "Enviar a…" con la lista de chats. En la
-   PC sigue wa.me (abre WhatsApp Web con la lista de contactos). */
+/* En el celular, "Enviar" usa el menú Compartir del teléfono (ver más abajo);
+   si no existe, whatsapp://send. En la PC, wa.me (abre WhatsApp Web con la
+   lista de contactos). */
 var CELULAR = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
 function enlaceWhatsApp(texto){
   return (CELULAR ? 'whatsapp://send?text=' : 'https://wa.me/?text=') + encodeURIComponent(texto);
@@ -163,7 +163,16 @@ function armar(){
       if(!CELULAR) env.target = '_blank';
       env.href = enlaceWhatsApp(mensaje(nombre, url));
       env.textContent = 'Enviar';
-      env.addEventListener('click', function(){ marcar(tr, nombre, true); });
+      env.addEventListener('click', function(e){
+        /* en el celular, el menú Compartir del teléfono: WhatsApp → elegís el chat
+           (en iPhone, el enlace directo solo vuelve al último chat abierto) */
+        if(CELULAR && navigator.share){
+          e.preventDefault();
+          navigator.share({ text:mensaje(nombre, url) }).then(function(){ marcar(tr, nombre, true); }, function(){});
+          return;
+        }
+        marcar(tr, nombre, true);
+      });
       var mar = document.createElement('button'); mar.type = 'button'; mar.className = 'suave marca'; mar.textContent = 'Marcar';
       mar.addEventListener('click', function(){ marcar(tr, nombre, !enviados[nombre]); });
       caja.appendChild(env); caja.appendChild(mar); celdaBotones.appendChild(caja);
