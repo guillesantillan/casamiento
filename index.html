@@ -1453,10 +1453,19 @@ html.animar .cruce .ala--der{ transform-origin:0% 50%; animation-delay:.04s; }
 .invitados[hidden], .formulario .campo[hidden]{ display:none; }
 .invitados legend{ margin-bottom:2px; }
 .invitados__ayuda{ margin:0; font-size:15px; color:var(--tinta-suave); }
-.invitado{ display:flex; flex-direction:column; gap:12px; padding:18px 0; border-bottom:1px solid var(--linea); }
+/* una línea por invitado: el nombre a la izquierda y "Sí / No" a la derecha;
+   la restricción aparece debajo solo si viene */
+.invitado{
+  display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center;
+  column-gap:14px; row-gap:4px; padding:12px 0; border-bottom:1px solid var(--linea);
+}
 .invitado:last-child{ border-bottom:0; padding-bottom:0; }
-.invitado input.invitado__nombre{ font-family:var(--serif); font-size:22px; color:var(--verde); }
-.invitado input.invitado__restriccion{ font-size:16px; }
+.invitado input.invitado__nombre{ font-family:var(--serif); font-size:20px; color:var(--verde); border-bottom-color:transparent; padding:6px 0; }
+.invitado input.invitado__nombre:placeholder-shown, .invitado input.invitado__nombre:focus{ border-bottom-color:#a39c8c; }
+.invitado input.invitado__restriccion{ grid-column:1 / -1; font-size:15px; padding:6px 2px; }
+.invitado.campo--opciones .opciones{ display:flex; gap:6px; }
+.invitado.campo--opciones .opcion{ min-height:36px; padding:4px 14px; font-size:17px; gap:0; }
+.invitado.campo--opciones .opcion span::before{ width:11px; height:11px; margin-right:7px; }
 .invitado .invitado__restriccion[hidden]{ display:none; }
 .invitado.invalido .opcion{ border-color:#b0603f; }
 .invitado.invalido .invitado__nombre:placeholder-shown{ border-bottom-color:#b0603f; box-shadow:0 1px 0 #b0603f; }
@@ -2767,8 +2776,8 @@ function parametro(nombre){
       fila.innerHTML =
         '<input class="invitado__nombre" type="text" maxlength="80" autocapitalize="words" autocomplete="off" spellcheck="false" placeholder="Nombre y apellido" aria-label="Invitado ' + (i + 1) + ': nombre">'
         + '<div class="opciones" role="radiogroup" aria-label="¿Viene?">'
-        + '<label class="opcion"><input type="radio" name="inv-' + i + '" value="si"><span>Viene</span></label>'
-        + '<label class="opcion"><input type="radio" name="inv-' + i + '" value="no"><span>No viene</span></label>'
+        + '<label class="opcion"><input type="radio" name="inv-' + i + '" value="si"><span>Sí</span></label>'
+        + '<label class="opcion"><input type="radio" name="inv-' + i + '" value="no"><span>No</span></label>'
         + '</div>'
         + '<input class="invitado__restriccion" type="text" maxlength="120" placeholder="Restricción alimentaria (opcional)" aria-label="Invitado ' + (i + 1) + ': restricción alimentaria" hidden>';
       var f = { caja:fila, nombre:fila.querySelector('.invitado__nombre'), restriccion:fila.querySelector('.invitado__restriccion') };
